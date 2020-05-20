@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB
+from .models import Student, Question_DB , Question_Paper
 
 # Create your views here.
 def index(request):
@@ -32,3 +32,16 @@ def add_question(request):
     return render(request, 'prof/question.html',{
         'question_db': Question_DB.objects.all()
     })
+def make_paper(request) :
+    if request.method=='POST' :
+        add_question_in_paper(request)
+    return render(request, 'prof/qpaper.html',{
+        'qpaper_db' : Question_Paper.objects.all()
+    } )
+
+def add_question_in_paper(request) :
+    if request.method=='POST' :
+        paper_title =request.POST['qpaper']
+        question_paper=Question_Paper(qPaperTitle=paper_title)
+        question_paper.save()
+    return render(request,'prof/addquestopaper.html')

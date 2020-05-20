@@ -16,7 +16,7 @@
         <input type="text" placeholder="Answer (A,B,C,D)" name="answer"><br>
         <input type="submit">   
     </form>
-        <ol>
+    <ol>
         {% for ques in question_db %}
                 <ul>Question No. {{ques.qno}} : {{ ques.question }}
                     <li>A. {{ques.optionA}}</li>

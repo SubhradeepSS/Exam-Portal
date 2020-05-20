@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make question paper</title>
+</head>
+<body>
+    <form method="POST" action = "addquestion">
+    {% csrf_token %}
+        <input type="text" placeholder="Question Paper Title" name="qpaper"><br>
+        {% comment %} <input type="submit"> {% endcomment %}
+        <input type="submit">
+    </form>
+    <div>
+        {% for pap in qpaper_db %}
+            <ol>
+                paper title :- {{ pap.qPaperTitle}} 
+            </ol>
+        {% endfor %}
+    </div>
+</body>
+</html>
