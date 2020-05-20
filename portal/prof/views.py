@@ -21,8 +21,12 @@ def add_student(request):
 def add_question(request):
     if request.method == 'POST':
         question = request.POST['question']
+        optiona = request.POST['optiona']
+        optionb = request.POST['optionb']
+        optionc = request.POST['optionc']
+        optiond = request.POST['optiond']
         answer = request.POST['answer']
-        ques = Question_DB(question=question, answer=answer)
+        ques = Question_DB(question=question, optionA=optiona ,optionB=optionb,optionC=optionc,optionD=optiond,answer=answer)
         ques.save()
         
     return render(request, 'prof/question.html',{
