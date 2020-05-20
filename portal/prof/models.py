@@ -19,4 +19,12 @@ class Question_DB(models.Model):
     answer = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'Question No.: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
+        return f'Question No.{self.qno}: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
+
+class Question_Paper(models.Model):
+    
+    qPaperTitle = models.CharField(max_length=100) 
+    questions = models.ManyToManyField(Question_DB)
+    
+    def __str__(self):
+        return f' Queston Paper Title :- {self.qPaperTitle}\n'
