@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add/View student</title>
+    <title>Add/View Questions</title>
 </head>
 <body>
     <form method="POST">
         {% csrf_token %}
-        <input type="number" placeholder="Username" name="username">
-        <input type="text" placeholder="Password" name="password">
+        <input type="text" placeholder="Question" name="question">
+        <input type="text" placeholder="Answer" name="answer">
         <input type="submit">   
     </form>
-        <ul>
-        {% for student in student_db %}
-                <li>Username: {{ student.username }}, Password: {{ student.password }}</li>
+        <ol>
+        {% for ques in question_db %}
+                <li>Question: {{ ques.question }}, Answer: {{ ques.answer }}</li>
                 {% empty %}
-                <h4>No students in database</h4>
+                <h4>No questions in database</h4>
         {% endfor %}
-    </ul>
+    </ol>
     <a href="{% url 'prof:index' %}">Go to default site</a>
 </body>
 </html>
