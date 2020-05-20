@@ -18,7 +18,7 @@
     </form>
         <ol>
         {% for ques in question_db %}
-                <ul>Question: {{ ques.question }}
+                <ul>Question No. {{ques.qno}} : {{ ques.question }}
                     <li>A. {{ques.optionA}}</li>
                     <li>B. {{ques.optionB}}</li>
                     <li>C. {{ques.optionC}}</li>

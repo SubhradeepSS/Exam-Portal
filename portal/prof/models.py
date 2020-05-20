@@ -9,6 +9,8 @@ class Student(models.Model):
         return f'Student: Username-{self.username} Password-{self.password}'
 # Added option in question. Changes made in html and views also
 class Question_DB(models.Model):
+    #added question number for help in question paper
+    qno = models.AutoField(primary_key=True)
     question = models.CharField(max_length=100)
     optionA = models.CharField(max_length=100)
     optionB = models.CharField(max_length=100)
@@ -17,4 +19,4 @@ class Question_DB(models.Model):
     answer = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'Question: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
+        return f'Question No.: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
