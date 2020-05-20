@@ -17,4 +17,4 @@ class Question_DB(models.Model):
     answer = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'Question: {self.question} Options: \n A. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
+        return f'Question: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
