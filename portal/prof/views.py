@@ -96,6 +96,12 @@ def create_student_group(request):
     })
 
 
+def view_specific_group(request, group_id):
+    group = Special_Students.objects.get(pk=group_id)
+    return render(request, 'prof/view_specific_group.html', {
+        'group': group
+    })
+
 def view_student_in_group(request, group_id):
     group = Special_Students.objects.get(pk=group_id)
     if request.method == 'POST':
@@ -105,4 +111,17 @@ def view_student_in_group(request, group_id):
 
     return render(request, 'prof/view_special_stud.html',{
         'students': group.students.all(), 'group': group
+    })
+
+def view_question_in_group(request, group_id):
+    group = Special_Students.objects.get(pk=group_id)
+
+    if request.method == 'POST':
+        question_no = request.POST['question_no']
+        question = Question_DB.objects.get(qno=question_no)
+        group.questions.add(question)
+
+    return render(request, 'prof/view_ques_in_group.html',{
+        'group': group, 'all_questions':Question_DB.objects.all(),
+        'questions_in_group': group.questions.all()
     })

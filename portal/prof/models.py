@@ -35,6 +35,7 @@ class Question_Paper(models.Model):
 
 class Special_Students(models.Model):
     students = models.ManyToManyField(Student)
+    questions = models.ManyToManyField(Question_DB)
     category_name = models.CharField(max_length=10)
 
     def __str__(self):

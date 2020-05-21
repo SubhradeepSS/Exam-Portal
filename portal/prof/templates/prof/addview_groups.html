@@ -6,16 +6,21 @@
     <title>Add/View Groups</title>
 </head>
 <body>
+    <h2>Create Group</h2>
     <form method="POST">
         {% csrf_token %}
         <input type="text" name="category_name" placeholder="Category Name">
         <input type="submit">
     </form>
     {% if special_students_db %}
+        <h2>Groups:</h2>
         <ol>
             {% for category in special_students_db %}
-                <li><h3>{{ category.category_name }}</h3></li>
-                <a href="{% url 'prof:view_students_in_group' category.id %}">Add/View students</a>
+                <li>
+                    <h3>
+                        <a href="{% url 'prof:view_specific_group' category.id %}">{{ category.category_name }}</a>
+                    </h3>
+                </li>
             {% endfor %}
         </ol>
     {% endif %}
