@@ -6,7 +6,7 @@
     <title>Make question paper</title>
 </head>
 <body>
-    <form method="POST" action = "addquestion">
+    <form method="POST" action = "questionpaper/addquestion">
     {% csrf_token %}
         <input type="text" placeholder="Question Paper Title" name="qpaper"><br>
         {% comment %} <input type="submit"> {% endcomment %}
@@ -17,7 +17,7 @@
             <ol>
                 <li>
                     paper title :- {{pap.qPaperTitle}}
-                    <form method="POST" action="viewpaper">
+                    <form method="POST" action="questionpaper/viewpaper">
                         {% csrf_token %}
                         <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
                         <input type="submit" value = "View" >
