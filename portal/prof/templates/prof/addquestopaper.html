@@ -7,8 +7,24 @@
 </head>
 <body>
     <h1>
-        Hello
+        Paper :- {{qpaper.qPaperTitle}}
     </h1>
+    
+    <ol type="1">
+        {% for i in question_list %}
+            <li>
+                {{i.question}} 
+            <form method = "POST">
+            {% csrf_token %}
+            <input type="hidden" name="title" value="{{ i.qno }}">
+            <input type="hidden" name="papertitle" value="{{ qpaper.qPaperTitle }}">
+            <input type="submit" value = "ADD" >
+            </form>
+            </li>
+            <br>
+        {% endfor %}
+    </ol>
+
     <a href="{% url 'prof:make_paper' %}">Go Back</a>
 </body>
 </html>

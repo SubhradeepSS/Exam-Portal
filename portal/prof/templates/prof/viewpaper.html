@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Paper</title>
+</head>
+<body>
+    <h3> {{ qpaper.qPaperTitle}} </h3>
+    <ol>
+        {% for ques in question_list %}
+            <li>{{ ques.question }}
+                <ul>A. {{ques.optionA}}</ul>
+                <ul>B. {{ques.optionB}}</ul>
+                <ul>C. {{ques.optionC}}</ul>
+                <ul>D. {{ques.optionD}}</ul>
+            </li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

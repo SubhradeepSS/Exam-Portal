@@ -15,7 +15,14 @@
     <div>
         {% for pap in qpaper_db %}
             <ol>
-                paper title :- {{ pap.qPaperTitle}} 
+                <li>
+                    paper title :- {{pap.qPaperTitle}}
+                    <form method="POST" action="viewpaper">
+                        {% csrf_token %}
+                        <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
+                        <input type="submit" value = "View" >
+                    </form>
+                </li>
             </ol>
         {% endfor %}
     </div>

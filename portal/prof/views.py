@@ -37,11 +37,35 @@ def make_paper(request) :
         add_question_in_paper(request)
     return render(request, 'prof/qpaper.html',{
         'qpaper_db' : Question_Paper.objects.all()
-    } )
+    } ) 
 
 def add_question_in_paper(request) :
-    if request.method=='POST' :
+    if request.method =='POST'  and request.POST.get('qpaper', False) != False :
         paper_title =request.POST['qpaper']
         question_paper=Question_Paper(qPaperTitle=paper_title)
         question_paper.save()
-    return render(request,'prof/addquestopaper.html')
+        return render(request,'prof/addquestopaper.html' , {
+            'qpaper' : question_paper ,
+            'question_list' : Question_DB.objects.all()
+        })
+    elif request.method == 'POST' :
+        addques = request.POST['title']
+        a = Question_DB.objects.get(qno=addques)
+        title = request.POST['papertitle']
+        b = Question_Paper.objects.get(qPaperTitle=title)
+        b.questions.add(a)
+        return render(request,'prof/addquestopaper.html' , {
+            'qpaper' : b ,
+            'question_list' : Question_DB.objects.all()
+        })
+        
+    return render(request,'prof/addquestopaper.html' )
+
+def view_paper(request) :
+    if request.method == 'POST' :
+        papertitle=request.POST['title']
+        b = Question_Paper.objects.get(qPaperTitle=papertitle)
+        return render(request,'prof/viewpaper.html' , {
+            'qpaper' : b ,
+            'question_list' : b.questions.all()
+        })
