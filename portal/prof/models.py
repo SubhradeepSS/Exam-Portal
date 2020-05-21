@@ -7,6 +7,8 @@ class Student(models.Model):
 
     def __str__(self):
         return f'Student: Username-{self.username} Password-{self.password}'
+
+
 # Added option in question. Changes made in html and views also
 class Question_DB(models.Model):
     #added question number for help in question paper
@@ -21,10 +23,16 @@ class Question_DB(models.Model):
     def __str__(self):
         return f'Question No.{self.qno}: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
 
+
 class Question_Paper(models.Model):
     
     qPaperTitle = models.CharField(max_length=100) 
     questions = models.ManyToManyField(Question_DB)
     
     def __str__(self):
-        return f' Queston Paper Title :- {self.qPaperTitle}\n'
+        return f' Question Paper Title :- {self.qPaperTitle}\n'
+
+
+class Special_Students(models.Model):
+    students = models.ManyToManyField(Student)
+    category_name = models.CharField(max_length=10)

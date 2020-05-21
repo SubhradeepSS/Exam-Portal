@@ -9,5 +9,8 @@
     <a href="{% url 'prof:add_student' %}">Add Student</a><br>
     <a href="{% url 'prof:add_question' %}">Add Question</a><br>
     <a href="{% url 'prof:make_paper' %}">Make Question Paper</a><br>
+    {% if special_students_db %}
+        <a href="{% url 'prof:view_groups' %}">Create/View student groups</a><br>
+    {% endif %}
 </body>
 </html>

@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB , Question_Paper
+from .models import Student, Question_DB , Question_Paper, Special_Students
 
 # Create your views here.
 def index(request):
-    return render(request, 'prof/index.html')
+    return render(request, 'prof/index.html', {
+        'special_students_db': Special_Students.objects.all()
+    })
 
 def add_student(request):
     if request.method == 'POST':
@@ -82,3 +84,25 @@ def view_paper(request) :
             'qpaper' : b ,
             'question_list' : b.questions.all()
         })
+
+
+def create_student_group(request):
+    if request.method == 'POST':
+        category = Special_Students(category_name=request.POST['category_name'])
+        category.save()
+
+    return render(request, 'prof/addview_groups.html', {
+        'special_students_db': Special_Students.objects.all()
+    })
+
+
+def view_student_in_group(request, group_id):
+    group = Special_Students.objects.get(pk=group_id)
+    if request.method == 'POST':
+        student_username = request.POST['username']
+        student = Student.objects.get(username=student_username)
+        group.students.add(student)
+
+    return render(request, 'prof/view_special_stud.html',{
+        'students': group.students.all(), 'group': group
+    })

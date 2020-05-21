@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Students in group</title>
+</head>
+<body>
+    <h1>Group: {{group.category_name}}</h1>
+    <div>
+        <h2>Add Student to group</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <h4>Username</h4>
+            <input type="number" placeholder="Username" name="username">
+            <input type="submit">
+        </form>
+    </div>
+
+    <div>
+        <h3>Students:</h3><br>
+            <ul>
+                {% for student in students %}
+                    <li>{{student.username}}</li>
+                    {% empty %}
+                    <h4>No students in the group</h4>
+                {% endfor %}
+            </ul>
+    </div>
+    
+    <a href="{% url 'prof:view_groups' %}">View Groups</a>
+</body>
+</html>

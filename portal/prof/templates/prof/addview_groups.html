@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/View Groups</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="category_name" placeholder="Category Name">
+        <input type="submit">
+    </form>
+    {% if special_students_db %}
+        <ol>
+            {% for category in special_students_db %}
+                <li><h3>{{ category.category_name }}</h3></li>
+                <a href="{% url 'prof:view_students_in_group' category.id %}">Add/View students</a>
+            {% endfor %}
+        </ol>
+    {% endif %}
+    <a href="{% url 'prof:index' %}">Go to home</a>
+</body>
+</html>
