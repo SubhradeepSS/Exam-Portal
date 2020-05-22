@@ -15,9 +15,15 @@ def add_student(request):
         password = request.POST['password']
         student = Student(username=username, password=password)
         student.save()
+        return render(request, 'prof/view_all_students.html',{
+            'students_db': Student.objects.all()
+        })
         
-    return render(request, 'prof/add.html',{
-        'student_db': Student.objects.all()
+    return render(request, 'prof/add.html')
+
+def view_students(request):
+    return render(request, 'prof/view_all_students.html',{
+        'students_db': Student.objects.all()
     })
 
 def add_question(request):

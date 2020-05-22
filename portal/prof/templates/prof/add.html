@@ -6,19 +6,16 @@
     <title>Add/View student</title>
 </head>
 <body>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="number" placeholder="Username" name="username">
-        <input type="text" placeholder="Password" name="password">
-        <input type="submit">   
-    </form>
-        <ul>
-        {% for student in student_db %}
-                <li>Username: {{ student.username }}, Password: {{ student.password }}</li>
-                {% empty %}
-                <h4>No students in database</h4>
-        {% endfor %}
-    </ul>
+    <div>
+        <h2>Add New Student</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="number" placeholder="Username" name="username">
+                <input type="text" placeholder="Password" name="password">
+                <input type="submit">   
+            </form>
+    </div>
+    <a href="{% url 'prof:view_students' %}">View All students</a>
     <a href="{% url 'prof:index' %}">Go to default site</a>
 </body>
 </html>

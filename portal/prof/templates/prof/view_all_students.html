@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Students Database</h1>
+    <ul>
+        {% for student in students_db %}
+                <li>Username: {{ student.username }}, Password: {{ student.password }}</li>
+                {% empty %}
+                <h4>No students in database</h4>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'prof:index' %}">Go to home</a>
+</body>
+</html>
