@@ -40,8 +40,17 @@ def add_question(request):
         answer = request.POST['answer']
         ques = Question_DB(question=question, optionA=optiona ,optionB=optionb,optionC=optionc,optionD=optiond,answer=answer)
         ques.save()
+        return render(request, 'prof/view_all_questions.html',{
+        'question_db': Question_DB.objects.all()
+        })
         
     return render(request, 'prof/question.html',{
+        'question_db': Question_DB.objects.all()
+    })
+
+
+def view_all_ques(request):
+    return render(request, 'prof/view_all_questions.html',{
         'question_db': Question_DB.objects.all()
     })
 

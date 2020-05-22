@@ -13,18 +13,19 @@
         <input type="submit">
     </form>
     <div>
-        {% for pap in qpaper_db %}
-            <ol>
-                <li>
-                    paper title :- {{pap.qPaperTitle}}
-                    <form method="POST" action="questionpaper/viewpaper">
-                        {% csrf_token %}
-                        <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
-                        <input type="submit" value = "View" >
-                    </form>
-                </li>
-            </ol>
-        {% endfor %}
+        <ol>
+            {% for pap in qpaper_db %}
+                    <li>
+                        paper title :- {{pap.qPaperTitle}}
+                        <form method="POST" action="questionpaper/viewpaper">
+                            {% csrf_token %}
+                            <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
+                            <input type="submit" value = "View" >
+                        </form>
+                    </li>
+            {% endfor %}
+        </ol>
     </div>
+    <a href="{% url 'prof:index' %}">Go to default site</a>
 </body>
 </html>

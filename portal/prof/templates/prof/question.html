@@ -6,6 +6,7 @@
     <title>Add/View Questions</title>
 </head>
 <body>
+    <h2>Add Question</h2>
     <form method="POST">
         {% csrf_token %}
         <input type="text" placeholder="Question" name="question"><br>
@@ -16,19 +17,8 @@
         <input type="text" placeholder="Answer (A,B,C,D)" name="answer"><br>
         <input type="submit">   
     </form>
-    <ol>
-        {% for ques in question_db %}
-                <ul>Question No. {{ques.qno}} : {{ ques.question }}
-                    <li>A. {{ques.optionA}}</li>
-                    <li>B. {{ques.optionB}}</li>
-                    <li>C. {{ques.optionC}}</li>
-                    <li>D. {{ques.optionD}}</li>
-                </ul>
-                <ul>Answer : {{ques.answer}} </ul>
-                {% empty %}
-                <h4>No questions in database</h4>
-        {% endfor %}
-    </ol>
+
+    <a href="{% url 'prof:view_all_ques' %}">View All Questions</a><br>
     <a href="{% url 'prof:index' %}">Go to default site</a>
 </body>
 </html>

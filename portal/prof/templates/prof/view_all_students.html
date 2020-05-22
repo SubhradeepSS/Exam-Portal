@@ -14,6 +14,7 @@
                 <h4>No students in database</h4>
         {% endfor %}
     </ul>
+    <a href="{% url 'prof:add_student' %}">Add student</a><br>
     <a href="{% url 'prof:index' %}">Go to home</a>
 </body>
 </html>
