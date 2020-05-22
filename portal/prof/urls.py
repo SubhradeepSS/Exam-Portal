@@ -10,6 +10,7 @@ urlpatterns = [
     path('questionpaper', views.make_paper ,name='make_paper') ,
     path('questionpaper/addquestion',views.add_question_in_paper, name="add_question_in_paper"),
     path('questionpaper/viewpaper',views.view_paper,name='view_paper'),
+    path('questionpaper/viewpaper/<int:paper_id>', views.view_specific_paper, name='view_specific_paper'),
     path('login/viewgroups', views.create_student_group, name='view_groups'),
     path('login/viewgroups/<int:group_id>', views.view_specific_group, name='view_specific_group'),
     path('login/viewgroups/<int:group_id>/students', views.view_student_in_group, name='view_students_in_group'),

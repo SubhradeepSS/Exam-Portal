@@ -12,6 +12,7 @@
         <ol>
             {% for q_paper in all_qpapers %}
                 <li>{{q_paper}}</li>
+                <a href="{% url 'prof:view_specific_paper' q_paper.id %}">View paper</a>
                 {% empty %}
                     <h5>No question papers available</h5>
             {% endfor %}

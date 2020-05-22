@@ -91,6 +91,11 @@ def view_paper(request) :
             'question_list' : b.questions.all()
         })
 
+def view_specific_paper(request, paper_id):
+    paper = Question_Paper.objects.get(pk=paper_id)
+    return render(request, 'prof/viewpaper.html',{
+        'qpaper': paper, 'question_list': paper.questions.all()
+    })
 
 def create_student_group(request):
     if request.method == 'POST':
