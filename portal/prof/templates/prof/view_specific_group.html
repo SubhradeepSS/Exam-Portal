@@ -9,6 +9,7 @@
     <h1>Group: {{ group.category_name}}</h1>
     <a href="{% url 'prof:view_students_in_group' group.id %}">Add/View students</a><br>
     <a href="{% url 'prof:view_questions_in_group' group.id %}">Add/View questions</a><br>
+    <a href="{% url 'prof:view_questionpaper_in_group' group.id %}">Add/View question papers</a><br>
     <a href="{% url 'prof:view_groups' %}">Go back to Groups</a>
 </body>
 </html>

@@ -125,3 +125,17 @@ def view_question_in_group(request, group_id):
         'group': group, 'all_questions':Question_DB.objects.all(),
         'questions_in_group': group.questions.all()
     })
+
+
+def view_questionpaper_in_group(request, group_id):
+    group = Special_Students.objects.get(pk=group_id)
+
+    if request.method == 'POST':
+        qpaper_title = request.POST['qpaper_title']
+        qpaper = Question_Paper.objects.get(qPaperTitle = qpaper_title)
+        group.question_papers.add(qpaper)
+    
+    return render(request, 'prof/view_qpaper_in_group.html',{
+        'group':group, 'all_qpapers': Question_Paper.objects.all(),
+        'qpapers_in_group': group.question_papers.all()
+    })

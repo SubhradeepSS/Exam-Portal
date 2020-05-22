@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questions</title>
+    <title>Question Papers</title>
 </head>
 <body>
     <h1>Group: {{ group.category_name }}</h1>
     <div>
-        <h2>All Questions available</h2>
+        <h2>All Question Papers available</h2>
         <ol>
-            {% for question in all_questions %}
-                <li>{{question}}</li>
+            {% for q_paper in all_qpapers %}
+                <li>{{q_paper}}</li>
                 {% empty %}
-                    <h5>No questions available</h5>
+                    <h5>No question papers available</h5>
             {% endfor %}
         </ol>
     </div>
@@ -21,18 +21,18 @@
     <div>
         <form method="POST">
             {% csrf_token %}
-            <h3>Enter question no to be added</h3>
-            <input type="number" placeholder="Q No" name="question_no">
+            <h3>Enter title of question paper to be added</h3>
+            <input type="text" placeholder="Question Paper title" name="qpaper_title">
             <input type="submit">
         </form>
     </div>
 
     <div>
         <ol>
-            {% for ques_in_group in questions_in_group %}
-                <li>{{ques_in_group}}</li>
+            {% for qpaper_in_group in qpapers_in_group %}
+                <li>{{qpaper_in_group}}</li>
                 {% empty %}
-                    <h5>No questions added</h5>
+                    <h5>No question papers added</h5>
             {% endfor %}
         </ol>
     </div>
