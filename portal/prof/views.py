@@ -26,6 +26,10 @@ def view_students(request):
         'students_db': Student.objects.all()
     })
 
+# def delete_student_fromDB(request, student_id):
+#     Student.objects.filter(pk=student_id).delete()
+#     return render(request, 'prof/add.html')
+
 def add_question(request):
     if request.method == 'POST':
         question = request.POST['question']
@@ -149,4 +153,11 @@ def view_questionpaper_in_group(request, group_id):
     return render(request, 'prof/view_qpaper_in_group.html',{
         'group':group, 'all_qpapers': Question_Paper.objects.all(),
         'qpapers_in_group': group.question_papers.all()
+    })
+
+def delete_group(request, group_id):
+    Special_Students.objects.filter(pk=group_id).delete()
+    
+    return render(request, 'prof/addview_groups.html', {
+        'special_students_db': Special_Students.objects.all()
     })
