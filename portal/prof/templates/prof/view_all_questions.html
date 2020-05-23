@@ -10,13 +10,18 @@
     <ol>
         {% for ques in question_db %}
                 <ul>Question No. {{ques.qno}} : {{ ques.question }} 
-                <a href="{% url 'prof:edit_question' ques.qno %}">Edit</a>    
                     <li>A. {{ques.optionA}}</li>
                     <li>B. {{ques.optionB}}</li>
                     <li>C. {{ques.optionC}}</li>
                     <li>D. {{ques.optionD}}</li>
                 </ul>
                 <ul>Answer : {{ques.answer}} </ul>
+                <a href="{% url 'prof:edit_question' ques.qno %}">Edit</a>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                    <input type="hidden" value="{{ques.qno}}" name="qno">
+                </form>    
                 {% empty %} 
                 <h4>No questions in database</h4>
         {% endfor %}

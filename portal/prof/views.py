@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB , Question_Paper, Special_Students
+from .models import Student, Question_DB , Question_Paper, Special_Students , QNO
 
 # Create your views here.
 def index(request):
@@ -31,7 +31,7 @@ def view_students(request):
 #     return render(request, 'prof/add.html')
 
 def add_question(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('question', False) != False :
         question = request.POST['question']
         optiona = request.POST['optiona']
         optionb = request.POST['optionb']
@@ -39,22 +39,45 @@ def add_question(request):
         optiond = request.POST['optiond']
         answer = request.POST['answer']
         ques = Question_DB(question=question, optionA=optiona ,optionB=optionb,optionC=optionc,optionD=optiond,answer=answer)
-        ques.save()
-        return render(request, 'prof/view_all_questions.html',{
-        'question_db': Question_DB.objects.all()
-        })
         
+        a=QNO.objects.get(nid=1)
+        a.number+=1
+        a.nid=1
+        a.save()
+        ques.qno=a.number
+        ques.save()
     return render(request, 'prof/question.html',{
-        'question_db': Question_DB.objects.all()
+        'question_db': Question_DB.objects.all() ,
     })
 
 
 def view_all_ques(request):
+    if request.method=='POST' :
+        ano = request.POST['qno']
+        ano=int(ano)
+        #Question_DB.objects.get(qno=ano).delete()
+        sum=1
+        for i in Question_DB.objects.all() :
+            sum+=1
+            l=i.qno
+        c=ano
+        d=int(c)+1
+        e=[]
+        for i in range(d,sum) :
+            f=Question_DB.objects.get(qno=int(i))
+            #e.append(Question_DB.objects.get(qno=int(i)))
+            f.qno-=1
+            f.save()
+        sum-=1
+        Question_DB.objects.get(qno=l).delete()    
+        a=QNO.objects.get(nid=1)
+        a.number-=1
+        a.nid=1
+        a.save()
     return render(request, 'prof/view_all_questions.html',{
-        'question_db': Question_DB.objects.all()
+        'question_db': Question_DB.objects.all() ,
     })
 
-c=[]
 def make_paper(request) :
     if request.method=='POST' :
         add_question_in_paper(request)
