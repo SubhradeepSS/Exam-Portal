@@ -62,20 +62,20 @@ def make_paper(request) :
     return render(request, 'prof/qpaper.html',{
         'qpaper_db' : Question_Paper.objects.all()
     } ) 
-c=[]
+    
 def add_question_in_paper(request) :
-    d=[]
-    for i in Question_DB.objects.all() :
-        d.append(i)
+    
     if request.method =='POST'  and request.POST.get('qpaper', False) != False :
         paper_title =request.POST['qpaper']
         question_paper=Question_Paper(qPaperTitle=paper_title)
         question_paper.save()
-        while c != [] :
-            c.pop()
+        left_ques=[]
+        for i in Question_DB.objects.all():
+            if i not in question_paper.questions.all():
+                left_ques.append(i)
         return render(request,'prof/addquestopaper.html' , {
             'qpaper' : question_paper ,
-            'question_list' : Question_DB.objects.all()
+            'question_list' : left_ques
         })
     elif request.method == 'POST' and request.POST.get('title', False) != False : 
         addques = request.POST['title']
@@ -83,16 +83,15 @@ def add_question_in_paper(request) :
         title = request.POST['papertitle']
         b = Question_Paper.objects.get(qPaperTitle=title)
         b.questions.add(a)
-        # if a in d :
-        #     d.remove(a)
-        c.append(a)
+        b.save()
+        left_ques=[]
+        for i in Question_DB.objects.all():
+            if i not in b.questions.all():
+                left_ques.append(i)
         return render(request,'prof/addquestopaper.html' , {
             'qpaper' : b ,
-            'question_list' : d,
-            'elist' : c
+            'question_list' : left_ques
         })
-    while c != [] :
-        c.pop()
     return render(request,'prof/addquestopaper.html' )
 
 def view_paper(request) :
@@ -108,10 +107,15 @@ def edit_paper(request) :
     if request.method == 'POST' and request.POST.get('title', False) != False :
         papertitle=request.POST['title']
         b = Question_Paper.objects.get(qPaperTitle=papertitle)
+        left_ques=[]
+        for i in Question_DB.objects.all():
+            if i not in b.questions.all():
+                left_ques.append(i)
         return render(request,'prof/editpaper.html' , {
+            'ques_left' : left_ques ,
             'qpaper' : b ,
             'question_list' : b.questions.all()
-        })  
+        }) 
     elif request.method == 'POST' and request.POST.get('remove', False) != False :
         papertitle=request.POST['paper']
         no=request.POST['question']
@@ -119,10 +123,32 @@ def edit_paper(request) :
         a=Question_DB.objects.get(qno=no)
         b.questions.remove(a)
         b.save()
+        left_ques=[]
+        for i in Question_DB.objects.all():
+            if i not in b.questions.all():
+                left_ques.append(i)
         return render(request,'prof/editpaper.html' , {
+            'ques_left' : left_ques ,
             'qpaper' : b ,
             'question_list' : b.questions.all()
         })  
+    elif request.method == 'POST' and request.POST.get('qnumber', False) != False :
+        qno=request.POST['qnumber']
+        ptitle=request.POST['titlepaper']
+        b = Question_Paper.objects.get(qPaperTitle=ptitle)
+        a = Question_DB.objects.get(qno=qno)
+        b.questions.add(a)
+        b.save()
+        left_ques=[]
+        for i in Question_DB.objects.all():
+            if i not in b.questions.all():
+                left_ques.append(i)
+        return render(request,'prof/editpaper.html' , {
+            'ques_left' : left_ques ,
+            'qpaper' : b ,
+            'question_list' : b.questions.all()
+        })  
+        
 def view_specific_paper(request, paper_id):
     paper = Question_Paper.objects.get(pk=paper_id)
     return render(request, 'prof/viewpaper.html',{
