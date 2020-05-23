@@ -104,6 +104,25 @@ def view_paper(request) :
             'question_list' : b.questions.all()
         })
 
+def edit_paper(request) :
+    if request.method == 'POST' and request.POST.get('title', False) != False :
+        papertitle=request.POST['title']
+        b = Question_Paper.objects.get(qPaperTitle=papertitle)
+        return render(request,'prof/editpaper.html' , {
+            'qpaper' : b ,
+            'question_list' : b.questions.all()
+        })  
+    elif request.method == 'POST' and request.POST.get('remove', False) != False :
+        papertitle=request.POST['paper']
+        no=request.POST['question']
+        b = Question_Paper.objects.get(qPaperTitle=papertitle)
+        a=Question_DB.objects.get(qno=no)
+        b.questions.remove(a)
+        b.save()
+        return render(request,'prof/editpaper.html' , {
+            'qpaper' : b ,
+            'question_list' : b.questions.all()
+        })  
 def view_specific_paper(request, paper_id):
     paper = Question_Paper.objects.get(pk=paper_id)
     return render(request, 'prof/viewpaper.html',{

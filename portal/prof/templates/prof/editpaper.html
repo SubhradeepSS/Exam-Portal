@@ -15,9 +15,14 @@
                 <ul>C. {{ques.optionC}}</ul>
                 <ul>D. {{ques.optionD}}</ul>
             </li>
+            <form method = "POST">
+            {% csrf_token %}
+                <input type="submit" value="Remove" name="remove">
+                <input type="hidden" value="{{qpaper.qPaperTitle}}" name="paper">
+                <input type="hidden" value="{{ques.qno}}" name="question">
+            </form>
         {% endfor %}
-    </ol>
-    <a href="{% url 'prof:make_paper' %}">Go Back</a>
+        <a href="{% url 'prof:make_paper' %}">Go Back</a>
     </ol>
 </body>
 </html>

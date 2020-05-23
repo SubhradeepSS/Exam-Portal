@@ -22,6 +22,11 @@
                             <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
                             <input type="submit" value = "View" >
                         </form>
+                        <form method="POST" action="questionpaper/editpaper">
+                            {% csrf_token %}
+                            <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
+                            <input type="submit" value = "Edit" >
+                        </form>
                     </li>
             {% endfor %}
         </ol>

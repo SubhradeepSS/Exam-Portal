@@ -11,6 +11,7 @@ urlpatterns = [
     path('questionpaper', views.make_paper ,name='make_paper') ,
     path('questionpaper/addquestion',views.add_question_in_paper, name="add_question_in_paper"),
     path('questionpaper/viewpaper',views.view_paper,name='view_paper'),
+    path('questionpaper/editpaper',views.edit_paper,name='edit_paper'),
     path('questionpaper/viewpaper/<int:paper_id>', views.view_specific_paper, name='view_specific_paper'),
     path('login/viewgroups', views.create_student_group, name='view_groups'),
     path('login/viewgroups/<int:group_id>', views.view_specific_group, name='view_specific_group'),
@@ -19,5 +20,4 @@ urlpatterns = [
     path('login/viewgroups/<int:group_id>/question_papers', views.view_questionpaper_in_group, name='view_questionpaper_in_group'),
     path('login/viewgroups/<int:group_id>/delete', views.delete_group, name='delete_group'),
     path('question/view_all_ques/edit_question/<int:ques_qno>',views.edit_question,name="edit_question") 
-    #path('question/view_all_ques',views.delete_question,name="delete_question")
 ]
