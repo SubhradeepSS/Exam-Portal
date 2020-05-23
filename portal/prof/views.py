@@ -79,9 +79,12 @@ def view_all_ques(request):
     })
 
 def make_paper(request) :
-    if request.method=='POST' :
+    if request.method=='POST' and request.POST.get('presence', False) == False:
         add_question_in_paper(request)
-        
+    elif request.method=='POST' and request.POST.get('presence', False) != False:    
+        title = request.POST['title']
+        a=Question_Paper.objects.get(qPaperTitle=title)
+        a.delete()
     return render(request, 'prof/qpaper.html',{
         'qpaper_db' : Question_Paper.objects.all()
     } ) 
