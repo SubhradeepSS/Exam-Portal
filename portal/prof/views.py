@@ -170,3 +170,22 @@ def delete_group(request, group_id):
     return render(request, 'prof/addview_groups.html', {
         'special_students_db': Special_Students.objects.all()
     })
+
+def edit_question(request,ques_qno):
+    ques = Question_DB.objects.get(qno=ques_qno)
+    if request.method =="POST" :
+        t=Question_DB.objects.get(qno=ques_qno)
+        question = request.POST['question']
+        optiona = request.POST['optiona']
+        optionb = request.POST['optionb']
+        optionc = request.POST['optionc']
+        optiond = request.POST['optiond']
+        answer = request.POST['answer']
+        n=request.POST['number']
+        Question_DB.objects.get(qno=n).delete()
+        
+        t1 = Question_DB(qno=n,question=question, optionA=optiona ,optionB=optionb,optionC=optionc,optionD=optiond,answer=answer)
+        t1.save()
+    return render(request,'prof/edit_question.html',{
+        'i' : Question_DB.objects.get(qno=ques_qno)
+    })

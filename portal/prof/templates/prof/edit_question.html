@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Question</title>
+</head>
+<body>
+    <h2>Edit Question</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" value="{{i.question}}" name="question"><br>
+        <input type="text" value="{{i.optionA}}" name="optiona"><br>
+        <input type="text" value="{{i.optionB}}" name="optionb"><br>
+        <input type="text" value="{{i.optionC}}" name="optionc"><br>
+        <input type="text" value="{{i.optionD}}" name="optiond"><br>
+        <input type="text" value="{{i.answer}}" name="answer"><br>
+        <input type="hidden" value="{{i.qno}}" name="number">
+        <input type="submit">   
+    </form>
+    <a href="{% url 'prof:view_all_ques' %}">Go Back</a>
+
+</body>
+</html>
