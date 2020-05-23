@@ -12,9 +12,6 @@
     
     <ol type="1">
         {% for i in question_list %}
-            {% if i in elist %}
-            {% else %}
-            {% comment %} {% if i in exclusion_list %} {% endcomment %}
             <li>
                 {{i.question}} 
             <form method = "POST">
@@ -25,8 +22,6 @@
             </form>
             </li>
             <br>
-            {% endif %}
-            {% comment %} {% endif %} {% endcomment %}
         {% endfor %}
     </ol>
 
