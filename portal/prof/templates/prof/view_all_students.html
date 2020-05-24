@@ -9,7 +9,14 @@
     <h1>Students Database</h1>
     <ul>
         {% for student in students_db %}
-                <li>Username: {{ student.username }}, Password: {{ student.password }}</li>
+                <li>Username: {{ student.username }}, Password: {{ student.password }}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                    <input type="hidden" value="{{student.username}}" name="username">
+                </form>    
+                </li>
+
                 {% empty %}
                 <h4>No students in database</h4>
         {% endfor %}

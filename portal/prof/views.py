@@ -22,6 +22,10 @@ def add_student(request):
     return render(request, 'prof/add.html')
 
 def view_students(request):
+    if request.method=='POST' :
+        username=request.POST['username']
+        a=Student.objects.get(username=username)
+        a.delete()
     return render(request, 'prof/view_all_students.html',{
         'students_db': Student.objects.all()
     })
