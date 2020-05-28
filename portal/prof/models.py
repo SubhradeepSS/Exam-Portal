@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 
 # Create your models here.
 class Student(models.Model):
@@ -46,3 +47,18 @@ class Special_Students(models.Model):
 
     def __str__(self):
         return self.category_name
+
+
+class Exam(models.Model):
+    total_marks = models.IntegerField()
+    duration = models.IntegerField()
+    question_paper = models.ForeignKey(Question_Paper,on_delete=models.CASCADE)
+    student_group = models.ForeignKey(Special_Students,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)
+
+class ExamForm(ModelForm):
+    class Meta:
+        model = Exam
+        fields = '__all__'

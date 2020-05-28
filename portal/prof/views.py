@@ -1,13 +1,30 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB , Question_Paper, Special_Students , QNO
+from .models import Student, Question_DB , Question_Paper, Special_Students , QNO, Exam, ExamForm
 
 # Create your views here.
 def index(request):
     return render(request, 'prof/index.html', {
         'special_students_db': Special_Students.objects.all()
     })
+
+def view_exams(request):
+    if request.method == 'POST':
+        form = ExamForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'prof/view_exams.html',{
+        'exams': Exam.objects.all(), 'examform': ExamForm()
+    })
+
+def view_exam(request, exam_id):
+    exam = Exam.objects.get(pk=exam_id)
+    return render(request, 'prof/view_exam.html',{
+        'exam': exam
+    })
+
 
 def add_student(request):
     if request.method == 'POST':
