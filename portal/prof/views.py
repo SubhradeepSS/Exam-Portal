@@ -26,6 +26,28 @@ def view_exam(request, exam_id):
     })
 
 
+def edit_exam(request, exam_id):
+    exam = Exam.objects.get(pk=exam_id)
+    exm_form = ExamForm(instance=exam)
+    
+    if request.method == 'POST':
+        form = ExamForm(request.POST, instance=exam)
+        if form.is_valid():
+            form.save()
+            return render(request, 'prof/view_exam.html',{
+                'exam': exam
+            })
+    return render(request, 'prof/edit_exam.html',{
+        'form': exm_form, 'exam':exam
+    })
+
+def delete_exam(request, exam_id):
+    exam = Exam.objects.get(pk=exam_id)
+    exam.delete()
+    return render(request, 'prof/view_exams.html',{
+        'exams': Exam.objects.all(), 'examform': ExamForm()
+    })
+
 def add_student(request):
     if request.method == 'POST':
         username = request.POST['username']
