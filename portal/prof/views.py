@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB , Question_Paper, Special_Students , QNO, Exam, ExamForm
+from .models import Student, Question_DB , Question_Paper, Special_Students , QNO, Exam_Model, ExamForm
 
 # Create your views here.
 def index(request):
@@ -16,18 +16,18 @@ def view_exams(request):
             form.save()
 
     return render(request, 'prof/view_exams.html',{
-        'exams': Exam.objects.all(), 'examform': ExamForm()
+        'exams': Exam_Model.objects.all(), 'examform': ExamForm()
     })
 
 def view_exam(request, exam_id):
-    exam = Exam.objects.get(pk=exam_id)
+    exam = Exam_Model.objects.get(pk=exam_id)
     return render(request, 'prof/view_exam.html',{
         'exam': exam
     })
 
 
 def edit_exam(request, exam_id):
-    exam = Exam.objects.get(pk=exam_id)
+    exam = Exam_Model.objects.get(pk=exam_id)
     exm_form = ExamForm(instance=exam)
     
     if request.method == 'POST':
@@ -42,11 +42,9 @@ def edit_exam(request, exam_id):
     })
 
 def delete_exam(request, exam_id):
-    exam = Exam.objects.get(pk=exam_id)
+    exam = Exam_Model.objects.get(pk=exam_id)
     exam.delete()
-    return render(request, 'prof/view_exams.html',{
-        'exams': Exam.objects.all(), 'examform': ExamForm()
-    })
+    return redirect('prof:view_exams')
 
 def add_student(request):
     if request.method == 'POST':

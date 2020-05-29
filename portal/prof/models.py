@@ -49,16 +49,17 @@ class Special_Students(models.Model):
         return self.category_name
 
 
-class Exam(models.Model):
+class Exam_Model(models.Model):
+    name = models.CharField(max_length=50)
     total_marks = models.IntegerField()
     duration = models.IntegerField()
     question_paper = models.ForeignKey(Question_Paper,on_delete=models.CASCADE)
     student_group = models.ForeignKey(Special_Students,on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id)
+        return self.name
 
 class ExamForm(ModelForm):
     class Meta:
-        model = Exam
+        model = Exam_Model
         fields = '__all__'
