@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Prof Login</title>
+    <title>Student Login</title>
 </head>
 
 <body>
     <form class="form-signin" method="POST">
         {% csrf_token %}
-        <h1 class="h3 mb-3 font-weight-normal">Prof Log-In</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Student Log-In</h1>
         <label for="inputUsername" class="sr-only">Username</label>
         <input type="text" id="inputUsername" name="username" class="form-control my-3" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
