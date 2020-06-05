@@ -2,12 +2,34 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
 from .models import Student, Question_DB , Question_Paper, Special_Students , QNO, Exam_Model, ExamForm
+from django.contrib.auth import login,logout,authenticate
+# from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect("prof:loginProf")
     return render(request, 'prof/index.html', {
         'special_students_db': Special_Students.objects.all()
     })
+
+def loginProf(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return redirect("prof:index")
+        else:
+            return redirect("prof:loginProf")
+    
+    return render(request,"prof/login.html")
+
+def logoutProf(request):
+    logout(request)
+    return redirect("prof:loginProf")
 
 def view_exams(request):
     if request.method == 'POST':

@@ -7,7 +7,7 @@ class Student(models.Model):
     password = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'Student: Username-{self.username} Password-{self.password}'
+        return f'{self.username}'
 
 
 # Added option in question. Changes made in html and views also

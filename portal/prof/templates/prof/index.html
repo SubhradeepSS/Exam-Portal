@@ -12,6 +12,7 @@
     {% if special_students_db %}
         <a href="{% url 'prof:view_groups' %}">Create/View student groups</a><br>
     {% endif %}
-    <a href="{% url 'prof:view_exams' %}">View Exams</a>
+    <a href="{% url 'prof:view_exams' %}">View Exams</a><br>
+    <a href="{% url 'prof:logoutProf' %}">Logout</a>
 </body>
 </html>
