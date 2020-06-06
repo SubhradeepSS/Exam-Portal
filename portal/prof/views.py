@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB , Question_Paper, Special_Students , QNO, Exam_Model, ExamForm
+from .models import Student, Question_DB , Question_Paper, Special_Students , Exam_Model, ExamForm , StudentForm ,QForm
 from django.contrib.auth import login,logout,authenticate
 # from django.contrib.auth.models import User
 
@@ -70,15 +70,13 @@ def delete_exam(request, exam_id):
 
 def add_student(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        student = Student(username=username, password=password)
-        student.save()
-        return render(request, 'prof/view_all_students.html',{
-            'students_db': Student.objects.all()
-        })
-        
-    return render(request, 'prof/add.html')
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'prof/add.html',{
+        'form':StudentForm()
+    })
 
 def view_students(request):
     if request.method=='POST' :
@@ -94,23 +92,14 @@ def view_students(request):
 #     return render(request, 'prof/add.html')
 
 def add_question(request):
-    if request.method == 'POST' and request.POST.get('question', False) != False :
-        question = request.POST['question']
-        optiona = request.POST['optiona']
-        optionb = request.POST['optionb']
-        optionc = request.POST['optionc']
-        optiond = request.POST['optiond']
-        answer = request.POST['answer']
-        ques = Question_DB(question=question, optionA=optiona ,optionB=optionb,optionC=optionc,optionD=optiond,answer=answer)
-        
-        a=QNO.objects.get(nid=1)
-        a.number+=1
-        a.nid=1
-        a.save()
-        ques.qno=a.number
-        ques.save()
+    if request.method == 'POST':
+        form = QForm(request.POST)
+        if form.is_valid():
+            form.save()
+            
     return render(request, 'prof/question.html',{
         'question_db': Question_DB.objects.all() ,
+        'form':QForm()
     })
 
 
@@ -133,10 +122,6 @@ def view_all_ques(request):
             f.save()
         sum-=1
         Question_DB.objects.get(qno=l).delete()    
-        a=QNO.objects.get(nid=1)
-        a.number-=1
-        a.nid=1
-        a.save()
     return render(request, 'prof/view_all_questions.html',{
         'question_db': Question_DB.objects.all() ,
     })
@@ -306,20 +291,18 @@ def delete_group(request, group_id):
     })
 
 def edit_question(request,ques_qno):
+    
     ques = Question_DB.objects.get(qno=ques_qno)
+    form = QForm(instance=ques)
     if request.method =="POST" :
-        t=Question_DB.objects.get(qno=ques_qno)
-        question = request.POST['question']
-        optiona = request.POST['optiona']
-        optionb = request.POST['optionb']
-        optionc = request.POST['optionc']
-        optiond = request.POST['optiond']
-        answer = request.POST['answer']
-        n=request.POST['number']
-        Question_DB.objects.get(qno=n).delete()
-        
-        t1 = Question_DB(qno=n,question=question, optionA=optiona ,optionB=optionb,optionC=optionc,optionD=optiond,answer=answer)
-        t1.save()
+        form = QForm(request.POST, instance=ques)
+        if form.is_valid():
+            form.save()
+            return render(request,'prof/edit_question.html',{
+            'i' : Question_DB.objects.get(qno=ques_qno) ,
+            'form':form
+            })
     return render(request,'prof/edit_question.html',{
-        'i' : Question_DB.objects.get(qno=ques_qno)
+        'i' : Question_DB.objects.get(qno=ques_qno) ,
+        'form':form
     })

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add/View student</title>
 </head>
+
 <body>
     <div>
         <h2>Add New Student</h2>
-            <form method="POST">
-                {% csrf_token %}
-                <input type="number" placeholder="Username" name="username">
-                <input type="text" placeholder="Password" name="password">
-                <input type="submit">   
-            </form>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Add">
+        </form>
     </div>
     <a href="{% url 'prof:view_students' %}">View All students</a><br>
     <a href="{% url 'prof:index' %}">Go to default site</a>
 </body>
+
 </html>
