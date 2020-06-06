@@ -8,6 +8,8 @@ class Student(models.Model):
 
     def __str__(self):
         return f'{self.username}'
+
+
 class StudentForm(ModelForm):
     class Meta:
         model = Student
@@ -26,10 +28,13 @@ class Question_DB(models.Model):
 
     def __str__(self):
         return f'Question No.{self.qno}: {self.question} \t\t Options: \nA. {self.optionA} \nB.{self.optionB} \nC.{self.optionC} \nD.{self.optionD} '
+
+
 class QForm(ModelForm):
     class Meta:
         model = Question_DB
-        fields = ['question','optionA','optionB','optionC','optionD','answer']
+        fields = '__all__'
+        exclude = ['qno']
 
         
 class Question_Paper(models.Model):
