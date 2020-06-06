@@ -16,7 +16,7 @@
                     <li>D. {{ques.optionD}}</li>
                 </ul>
                 <ul>Answer : {{ques.answer}} </ul>
-                <a href="{% url 'prof:edit_question' ques.qno %}">Edit</a>
+                <a href="{% url 'prof:edit_question' prof.username ques.qno %}">Edit</a>
                 <form method="POST">
                     {% csrf_token %}
                     <input type="submit" value="Delete">
@@ -26,7 +26,7 @@
                 <h4>No questions in database</h4>
         {% endfor %}
     </ol>
-    <a href="{% url 'prof:add_question' %}">Add question</a><br>
-    <a href="{% url 'prof:index' %}">Go to default site</a>
+    <a href="{% url 'prof:add_question' prof.username %}">Add question</a><br>
+    <a href="{% url 'prof:index' prof.username %}">Go to default site</a>
 </body>
 </html>

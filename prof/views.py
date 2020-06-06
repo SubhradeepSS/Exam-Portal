@@ -1,44 +1,47 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Student, Question_DB , Question_Paper, Special_Students , Exam_Model, ExamForm , StudentForm ,QForm
+from main.models import Student, Question_DB , Question_Paper, Special_Students , Exam_Model, ExamForm , StudentForm ,QForm
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.models import User
 # from django.contrib.auth.models import User
 
 # Create your views here.
-def index(request):
-    if not request.user.is_authenticated:
-        return redirect("prof:loginProf")
-    return render(request, 'prof/index.html', {
-        'special_students_db': Special_Students.objects.all()
+def index(request,prof_username):
+    prof = User.objects.get(username=prof_username)
+    return render(request, 'prof/index.html',{
+        'prof':prof
     })
 
-def loginProf(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(username=username, password=password)
+# def loginProf(request):
+#     if request.method == "POST":
+#         username = request.POST["username"]
+#         password = request.POST["password"]
+#         user = authenticate(username=username, password=password)
         
-        if user is not None:
-            login(request, user)
-            return redirect("prof:index")
-        else:
-            return redirect("prof:loginProf")
+#         if user is not None:
+#             login(request, user)
+#             return redirect("prof:index")
+#         else:
+#             return redirect("prof:loginProf")
     
-    return render(request,"prof/login.html")
+#     return render(request,"prof/login.html")
 
-def logoutProf(request):
-    logout(request)
-    return redirect("prof:loginProf")
+# def logoutProf(request):
+#     logout(request)
+#     return redirect("prof:loginProf")
 
-def view_exams(request):
+def view_exams(request,prof_username):
+    prof = User.objects.get(username=prof_username)
     if request.method == 'POST':
         form = ExamForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.professor = prof
             form.save()
 
     return render(request, 'prof/view_exams.html',{
-        'exams': Exam_Model.objects.all(), 'examform': ExamForm()
+        'exams': Exam_Model.objects.filter(professor=prof), 'examform': ExamForm(), 'prof':prof
     })
 
 def view_exam(request, exam_id):
@@ -91,169 +94,203 @@ def view_students(request):
 #     Student.objects.filter(pk=student_id).delete()
 #     return render(request, 'prof/add.html')
 
-def add_question(request):
+def add_question(request,prof_username):
+    prof = User.objects.get(username=prof_username)
     if request.method == 'POST':
         form = QForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.professor = prof
             form.save()
+            return redirect('prof:view_all_ques', prof_username=prof_username)
             
     return render(request, 'prof/question.html',{
-        'question_db': Question_DB.objects.all() ,
-        'form':QForm()
+        'question_db': Question_DB.objects.filter(professor=prof) ,
+        'form':QForm(), 'prof':prof
     })
 
 
-def view_all_ques(request):
+def view_all_ques(request, prof_username):
+    prof = User.objects.get(username=prof_username)
     if request.method=='POST' :
         ano = request.POST['qno']
         ano=int(ano)
         #Question_DB.objects.get(qno=ano).delete()
         sum=1
-        for i in Question_DB.objects.all() :
+        for i in Question_DB.objects.filter(professor=prof) :
             sum+=1
             l=i.qno
         c=ano
         d=int(c)+1
         e=[]
         for i in range(d,sum) :
-            f=Question_DB.objects.get(qno=int(i))
+            f=Question_DB.objects.filter(professor=prof,qno=int(i)).first()
             #e.append(Question_DB.objects.get(qno=int(i)))
             f.qno-=1
             f.save()
         sum-=1
-        Question_DB.objects.get(qno=l).delete()    
+        Question_DB.objects.filter(professor=prof,qno=l).delete()    
     return render(request, 'prof/view_all_questions.html',{
-        'question_db': Question_DB.objects.all() ,
+        'question_db': Question_DB.objects.filter(professor=prof), 'prof':prof
     })
 
-def make_paper(request) :
+
+def edit_question(request,prof_username,ques_qno):
+    prof = User.objects.get(username=prof_username)
+    ques = Question_DB.objects.filter(professor=prof,qno=ques_qno).first()
+    form = QForm(instance=ques)
+    if request.method =="POST" :
+        form = QForm(request.POST, instance=ques)
+        if form.is_valid():
+            # form = form.save(commit=False)
+            # form.professor = prof
+            form.save()
+            # return render(request,'prof/edit_question.html',{
+            # 'i' : Question_DB.objects.filter(professor=prof,qno=ques_qno) ,
+            # 'form':form
+            # })
+            return redirect('prof:view_all_ques', prof_username=prof_username)
+    return render(request,'prof/edit_question.html',{
+        'i' : Question_DB.objects.filter(professor=prof,qno=ques_qno).first() ,
+        'form':form, 'prof':prof
+    })
+
+
+def make_paper(request, prof_username):
+    prof = User.objects.get(username=prof_username)
     if request.method=='POST' and request.POST.get('presence', False) == False:
-        add_question_in_paper(request)
+        add_question_in_paper(request, prof_username)
     elif request.method=='POST' and request.POST.get('presence', False) != False:    
         title = request.POST['title']
-        a=Question_Paper.objects.get(qPaperTitle=title)
+        a=Question_Paper.objects.filter(professor=prof,qPaperTitle=title).first()
         a.delete()
     return render(request, 'prof/qpaper.html',{
-        'qpaper_db' : Question_Paper.objects.all()
+        'qpaper_db' : Question_Paper.objects.filter(professor=prof), 'prof':prof
     } ) 
     
-def add_question_in_paper(request) :
-    
+def add_question_in_paper(request, prof_username) :
+    prof = User.objects.get(username=prof_username)
     if request.method =='POST'  and request.POST.get('qpaper', False) != False :
-        paper_title =request.POST['qpaper']
-        question_paper=Question_Paper(qPaperTitle=paper_title)
+        paper_title = request.POST['qpaper']
+        question_paper=Question_Paper(professor=prof,qPaperTitle=paper_title)
         question_paper.save()
         left_ques=[]
-        for i in Question_DB.objects.all():
+        for i in Question_DB.objects.filter(professor=prof):
             if i not in question_paper.questions.all():
                 left_ques.append(i)
         return render(request,'prof/addquestopaper.html' , {
             'qpaper' : question_paper ,
-            'question_list' : left_ques
+            'question_list' : left_ques, 'prof':prof
         })
     elif request.method == 'POST' and request.POST.get('title', False) != False : 
         addques = request.POST['title']
-        a = Question_DB.objects.get(qno=addques)
+        a = Question_DB.objects.filter(professor=prof,qno=addques).first()
         title = request.POST['papertitle']
-        b = Question_Paper.objects.get(qPaperTitle=title)
+        b = Question_Paper.objects.filter(professor=prof,qPaperTitle=title).first()
         b.questions.add(a)
         b.save()
         left_ques=[]
-        for i in Question_DB.objects.all():
+        for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
         return render(request,'prof/addquestopaper.html' , {
             'qpaper' : b ,
-            'question_list' : left_ques
+            'question_list' : left_ques, 'prof':prof
         })
     return render(request,'prof/addquestopaper.html' )
 
-def view_paper(request) :
+def view_paper(request, prof_username):
+    prof = User.objects.get(username=prof_username)
     if request.method == 'POST' :
         papertitle=request.POST['title']
-        b = Question_Paper.objects.get(qPaperTitle=papertitle)
+        b = Question_Paper.objects.filter(professor=prof,qPaperTitle=papertitle).first()
         return render(request,'prof/viewpaper.html' , {
             'qpaper' : b ,
-            'question_list' : b.questions.all()
+            'question_list' : b.questions.all(), 'prof':prof
         })
 
-def edit_paper(request) :
+def edit_paper(request, prof_username) :
+    prof = User.objects.get(username=prof_username)
     if request.method == 'POST' and request.POST.get('title', False) != False :
         papertitle=request.POST['title']
-        b = Question_Paper.objects.get(qPaperTitle=papertitle)
+        b = Question_Paper.objects.filter(professor=prof,qPaperTitle=papertitle).first()
         left_ques=[]
-        for i in Question_DB.objects.all():
+        for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
         return render(request,'prof/editpaper.html' , {
             'ques_left' : left_ques ,
             'qpaper' : b ,
-            'question_list' : b.questions.all()
+            'question_list' : b.questions.all(), 'prof':prof
         }) 
     elif request.method == 'POST' and request.POST.get('remove', False) != False :
-        papertitle=request.POST['paper']
-        no=request.POST['question']
-        b = Question_Paper.objects.get(qPaperTitle=papertitle)
-        a=Question_DB.objects.get(qno=no)
+        papertitle = request.POST['paper']
+        no = request.POST['question']
+        b = Question_Paper.objects.filter(professor=prof,qPaperTitle=papertitle).first()
+        a = Question_DB.objects.filter(professor=prof,qno=no).first()
         b.questions.remove(a)
         b.save()
         left_ques=[]
-        for i in Question_DB.objects.all():
+        for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
         return render(request,'prof/editpaper.html' , {
             'ques_left' : left_ques ,
             'qpaper' : b ,
-            'question_list' : b.questions.all()
+            'question_list' : b.questions.all(), 'prof':prof
         })  
     elif request.method == 'POST' and request.POST.get('qnumber', False) != False :
-        qno=request.POST['qnumber']
-        ptitle=request.POST['titlepaper']
-        b = Question_Paper.objects.get(qPaperTitle=ptitle)
-        a = Question_DB.objects.get(qno=qno)
+        qno = request.POST['qnumber']
+        ptitle = request.POST['titlepaper']
+        b = Question_Paper.objects.filter(professor=prof,qPaperTitle=ptitle).first()
+        a = Question_DB.objects.filter(professor=prof,qno=qno).first()
         b.questions.add(a)
         b.save()
         left_ques=[]
-        for i in Question_DB.objects.all():
+        for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
         return render(request,'prof/editpaper.html' , {
             'ques_left' : left_ques ,
             'qpaper' : b ,
-            'question_list' : b.questions.all()
+            'question_list' : b.questions.all(), 'prof':prof
         })  
         
-def view_specific_paper(request, paper_id):
-    paper = Question_Paper.objects.get(pk=paper_id)
+def view_specific_paper(request,prof_username, paper_id):
+    prof = User.objects.get(username=prof_username)
+    paper = Question_Paper.objects.filter(professor=prof,pk=paper_id).first()
     return render(request, 'prof/viewpaper.html',{
-        'qpaper': paper, 'question_list': paper.questions.all()
+        'qpaper': paper, 'question_list': paper.questions.all(), 'prof':prof
     })
 
-def create_student_group(request):
+def create_student_group(request, prof_username):
+    prof = User.objects.get(username=prof_username)
     if request.method == 'POST':
-        category = Special_Students(category_name=request.POST['category_name'])
+        category = Special_Students(professor=prof,category_name=request.POST['category_name'])
         category.save()
 
     return render(request, 'prof/addview_groups.html', {
-        'special_students_db': Special_Students.objects.all()
+        'special_students_db': Special_Students.objects.filter(professor=prof), 'prof':prof
     })
 
 
-def view_specific_group(request, group_id):
-    group = Special_Students.objects.get(pk=group_id)
+def view_specific_group(request,prof_username, group_id):
+    prof = User.objects.get(username=prof_username)
+    group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
     return render(request, 'prof/view_specific_group.html', {
-        'group': group
+        'group': group, 'prof':prof
     })
 
-def view_student_in_group(request, group_id):
-    group = Special_Students.objects.get(pk=group_id)
+def view_student_in_group(request,prof_username, group_id):
+    prof = User.objects.get(username=prof_username)
+    group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
     if request.method == 'POST':
         student_username = request.POST['username']
-        student = Student.objects.get(username=student_username)
+        student = User.objects.get(username=student_username)
         group.students.add(student)
 
     return render(request, 'prof/view_special_stud.html',{
-        'students': group.students.all(), 'group': group
+        'students': group.students.all(), 'group': group, 'prof':prof
     })
 
 def view_question_in_group(request, group_id):
@@ -288,21 +325,4 @@ def delete_group(request, group_id):
     
     return render(request, 'prof/addview_groups.html', {
         'special_students_db': Special_Students.objects.all()
-    })
-
-def edit_question(request,ques_qno):
-    
-    ques = Question_DB.objects.get(qno=ques_qno)
-    form = QForm(instance=ques)
-    if request.method =="POST" :
-        form = QForm(request.POST, instance=ques)
-        if form.is_valid():
-            form.save()
-            return render(request,'prof/edit_question.html',{
-            'i' : Question_DB.objects.get(qno=ques_qno) ,
-            'form':form
-            })
-    return render(request,'prof/edit_question.html',{
-        'i' : Question_DB.objects.get(qno=ques_qno) ,
-        'form':form
     })

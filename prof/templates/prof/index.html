@@ -6,13 +6,9 @@
     <title>Default website</title>
 </head>
 <body>
-    <a href="{% url 'prof:add_student' %}">Student</a><br>
-    <a href="{% url 'prof:add_question' %}">Add Question</a><br>
-    <a href="{% url 'prof:make_paper' %}">Make Question Paper</a><br>
-    {% if special_students_db %}
-        <a href="{% url 'prof:view_groups' %}">Create/View student groups</a><br>
-    {% endif %}
-    <a href="{% url 'prof:view_exams' %}">View Exams</a><br>
-    <a href="{% url 'prof:logoutProf' %}">Logout</a>
+    <h1>Professor: {{prof.username}}</h1>
+    <a href="{% url 'prof:add_question' prof.username %}">Add Question</a><br>
+    <a href="{% url 'prof:make_paper' prof.username %}">Make Question Paper</a><br>
+    <a href="{% url 'main:logoutUser' %}">Logout</a>
 </body>
 </html>

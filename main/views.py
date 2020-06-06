@@ -11,7 +11,7 @@ def index(request):
 
         if user is not None:
             login(request, user)
-            return redirect('main:home', username=username)
+            return redirect('prof:index', prof_username=username)
         else:
             return redirect('main:index')
 

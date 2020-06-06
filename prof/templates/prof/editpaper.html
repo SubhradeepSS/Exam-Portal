@@ -36,7 +36,7 @@
                 <input type="hidden" value="{{ques.qno}}" name="question">
             </form>
         {% endfor %}
-        <a href="{% url 'prof:make_paper' %}">Go Back</a>
+        <a href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
     </ol>
 </body>
 </html>

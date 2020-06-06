@@ -7,10 +7,10 @@
 </head>
 <body>
     <h1>Group: {{ group.category_name}}</h1>
-    <a href="{% url 'prof:view_students_in_group' group.id %}">Add/View students</a><br>
-    <a href="{% url 'prof:view_questions_in_group' group.id %}">Add/View questions</a><br>
-    <a href="{% url 'prof:view_questionpaper_in_group' group.id %}">Add/View question papers</a><br>
-    <a href="{% url 'prof:delete_group' group.id %}">Delete group</a><br>
-    <a href="{% url 'prof:view_groups' %}">Go back to Groups</a>
+    <a href="{% url 'prof:view_students_in_group' prof.username group.id %}">Add/View students</a><br>
+    <a href="{% url 'prof:view_questions_in_group' prof.username group.id %}">Add/View questions</a><br>
+    <a href="{% url 'prof:view_questionpaper_in_group' prof.username group.id %}">Add/View question papers</a><br>
+    <a href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+    <a href="{% url 'prof:view_groups' prof.username %}">Go back to Groups</a>
 </body>
 </html>

@@ -17,7 +17,7 @@
 
     <h1>Exams available</h1>
         {% for t in exams %}
-            <a href="{% url 'prof:view_exam' t.id %}">{{ t }}</a><br>
+            <a href="{% url 'prof:view_exam' prof.username t.id %}">{{ t }}</a><br>
             {% empty %}
             <h3>No exams</h3>
         {% endfor %}
