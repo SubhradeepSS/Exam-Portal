@@ -4,21 +4,21 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 # Create your models here.
-class Student(models.Model):
-    username = models.IntegerField()
-    password = models.CharField(max_length=500)
+# class Student(models.Model):
+#     username = models.IntegerField()
+#     password = models.CharField(max_length=500)
 
-    def __str__(self):
-        return f'{self.username}'
+#     def __str__(self):
+#         return f'{self.username}'
 
-class StudentForm(ModelForm):
-    class Meta:
-        model = Student
-        fields = '__all__'
+# class StudentForm(ModelForm):
+#     class Meta:
+#         model = Student
+#         fields = '__all__'
 
 class Question_DB(models.Model):
     #added question number for help in question paper
-    professor = models.ForeignKey(User, on_delete=models.CASCADE)
+    professor = models.ForeignKey(User,limit_choices_to={'groups__name': "Professor"}, on_delete=models.CASCADE)
     qno = models.AutoField(primary_key=True)
     question = models.CharField(max_length=100)
     optionA = models.CharField(max_length=100)
@@ -39,7 +39,7 @@ class QForm(ModelForm):
 
         
 class Question_Paper(models.Model):
-    professor = models.ForeignKey(User, on_delete=models.CASCADE)    
+    professor = models.ForeignKey(User,limit_choices_to={'groups__name': "Professor"}, on_delete=models.CASCADE)    
     qPaperTitle = models.CharField(max_length=100) 
     questions = models.ManyToManyField(Question_DB)
     
@@ -48,8 +48,8 @@ class Question_Paper(models.Model):
 
 
 class Special_Students(models.Model):
-    professor = models.ForeignKey(User, on_delete=models.CASCADE)
-    students = models.ManyToManyField(Student)
+    professor = models.ForeignKey(User,limit_choices_to={'groups__name': "Professor"}, on_delete=models.CASCADE)
+    students = models.ManyToManyField(User, limit_choices_to={'groups__name': "Student"}, related_name='students')
     questions = models.ManyToManyField(Question_DB)
     category_name = models.CharField(max_length=10)
     question_papers = models.ManyToManyField(Question_Paper)
@@ -59,7 +59,7 @@ class Special_Students(models.Model):
 
 
 class Exam_Model(models.Model):
-    professor = models.ForeignKey(User, on_delete=models.CASCADE)
+    professor = models.ForeignKey(User,limit_choices_to={'groups__name': "Professor"}, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     total_marks = models.IntegerField()
     duration = models.IntegerField()

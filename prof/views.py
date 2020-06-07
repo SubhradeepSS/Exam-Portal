@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from main.models import Student, Question_DB , Question_Paper, Special_Students , Exam_Model, ExamForm , StudentForm ,QForm
+from main.models import *
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
 # from django.contrib.auth.models import User
@@ -44,15 +44,16 @@ def view_exams(request,prof_username):
         'exams': Exam_Model.objects.filter(professor=prof), 'examform': ExamForm(), 'prof':prof
     })
 
-def view_exam(request, exam_id):
-    exam = Exam_Model.objects.get(pk=exam_id)
+def view_exam(request,prof_username, exam_id):
+    prof = User.objects.get(username=prof_username)
+    exam = Exam_Model.objects.filter(professor=prof,pk=exam_id).first()
     return render(request, 'prof/view_exam.html',{
-        'exam': exam
+        'exam': exam, 'prof':prof
     })
 
-
-def edit_exam(request, exam_id):
-    exam = Exam_Model.objects.get(pk=exam_id)
+def edit_exam(request,prof_username, exam_id):
+    prof = User.objects.get(username=prof_username)
+    exam = Exam_Model.objects.filter(professor=prof,pk=exam_id).first()
     exm_form = ExamForm(instance=exam)
     
     if request.method == 'POST':
@@ -60,35 +61,36 @@ def edit_exam(request, exam_id):
         if form.is_valid():
             form.save()
             return render(request, 'prof/view_exam.html',{
-                'exam': exam
+                'exam': exam, 'prof':prof
             })
     return render(request, 'prof/edit_exam.html',{
-        'form': exm_form, 'exam':exam
+        'form': exm_form, 'exam':exam, 'prof':prof
     })
 
-def delete_exam(request, exam_id):
-    exam = Exam_Model.objects.get(pk=exam_id)
+def delete_exam(request,prof_username, exam_id):
+    prof = User.objects.get(username=prof_username)
+    exam = Exam_Model.objects.filter(professor=prof,pk=exam_id).first()
     exam.delete()
-    return redirect('prof:view_exams')
+    return redirect('prof:view_exams', prof_username=prof_username)
 
-def add_student(request):
-    if request.method == 'POST':
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
+# def add_student(request):
+#     if request.method == 'POST':
+#         form = StudentForm(request.POST)
+#         if form.is_valid():
+#             form.save()
 
-    return render(request, 'prof/add.html',{
-        'form':StudentForm()
-    })
+#     return render(request, 'prof/add.html',{
+#         'form':StudentForm()
+#     })
 
-def view_students(request):
-    if request.method=='POST' :
-        username=request.POST['username']
-        a=Student.objects.get(username=username)
-        a.delete()
-    return render(request, 'prof/view_all_students.html',{
-        'students_db': Student.objects.all()
-    })
+# def view_students(request):
+#     if request.method=='POST' :
+#         username=request.POST['username']
+#         a=Student.objects.get(username=username)
+#         a.delete()
+#     return render(request, 'prof/view_all_students.html',{
+#         'students_db': Student.objects.all()
+#     })
 
 # def delete_student_fromDB(request, student_id):
 #     Student.objects.filter(pk=student_id).delete()
@@ -293,22 +295,24 @@ def view_student_in_group(request,prof_username, group_id):
         'students': group.students.all(), 'group': group, 'prof':prof
     })
 
-def view_question_in_group(request, group_id):
-    group = Special_Students.objects.get(pk=group_id)
+def view_question_in_group(request,prof_username, group_id):
+    prof = User.objects.get(username=prof_username)
+    group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
 
     if request.method == 'POST':
         question_no = request.POST['question_no']
-        question = Question_DB.objects.get(qno=question_no)
+        question = Question_DB.objects.filter(professor=prof,qno=question_no).first()
         group.questions.add(question)
 
     return render(request, 'prof/view_ques_in_group.html',{
-        'group': group, 'all_questions':Question_DB.objects.all(),
-        'questions_in_group': group.questions.all()
+        'group': group, 'all_questions':Question_DB.objects.filter(professor=prof),
+        'questions_in_group': group.questions.all(), 'prof':prof
     })
 
 
-def view_questionpaper_in_group(request, group_id):
-    group = Special_Students.objects.get(pk=group_id)
+def view_questionpaper_in_group(request,prof_username, group_id):
+    prof = User.objects.get(username=prof_username)
+    group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
 
     if request.method == 'POST':
         qpaper_title = request.POST['qpaper_title']
@@ -316,13 +320,14 @@ def view_questionpaper_in_group(request, group_id):
         group.question_papers.add(qpaper)
     
     return render(request, 'prof/view_qpaper_in_group.html',{
-        'group':group, 'all_qpapers': Question_Paper.objects.all(),
-        'qpapers_in_group': group.question_papers.all()
+        'group':group, 'all_qpapers': Question_Paper.objects.filter(professor=prof),
+        'qpapers_in_group': group.question_papers.all(),'prof':prof
     })
 
-def delete_group(request, group_id):
-    Special_Students.objects.filter(pk=group_id).delete()
+def delete_group(request,prof_username, group_id):
+    prof = User.objects.get(username=prof_username)
+    Special_Students.objects.filter(professor=prof,pk=group_id).delete()
     
     return render(request, 'prof/addview_groups.html', {
-        'special_students_db': Special_Students.objects.all()
+        'special_students_db': Special_Students.objects.filter(professor=prof), 'prof':prof
     })

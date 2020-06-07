@@ -12,7 +12,7 @@
         <ol>
             {% for q_paper in all_qpapers %}
                 <li>{{q_paper}}</li>
-                <a href="{% url 'prof:view_specific_paper' q_paper.id %}">View paper</a>
+                <a href="{% url 'prof:view_specific_paper' prof.username q_paper.id %}">View paper</a>
                 {% empty %}
                     <h5>No question papers available</h5>
             {% endfor %}
@@ -38,6 +38,6 @@
         </ol>
     </div>
     
-    <a href="{% url 'prof:view_specific_group' group.id %}">Go back to this group</a>
+    <a href="{% url 'prof:view_specific_group' prof.username group.id %}">Go back to this group</a>
 </body>
 </html>
