@@ -3,12 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>About Group</title>
 </head>
 <body>
-    <h1>Group: {{ group.category_name}}</h1>
-    <a href="{% url 'prof:view_students_in_group' prof.username group.id %}">Add/View students</a><br>
-    <a href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
-    <a href="{% url 'prof:view_groups' prof.username %}">Go back to Groups</a>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : Group: {{ group.category_name}}</a>
+    </nav>
+    <div class="container-fluid">
+        <h1 align="center">Group: {{ group.category_name}}</h1>
+        <div class="row mt-5">
+            <a href="{% url 'prof:view_students_in_group' group.id %}" class="btn btn-primary">Add/View students</a><br>
+            <a href="{% url 'prof:view_questions_in_group' group.id %}" class="btn btn-primary">Add/View questions</a><br>
+            <a href="{% url 'prof:view_questionpaper_in_group' group.id %}" class="btn btn-primary">Add/View question papers</a><br>
+            <a href="{% url 'prof:delete_group' group.id %}" class="btn btn-primary">Delete group</a><br>
+            <a href="{% url 'prof:view_groups' %}" class="btn btn-danger">Go back to Groups</a>
+        </div>   
+    </div>
 </body>
 </html>

@@ -3,25 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>Exams</title>
 </head>
 <body>
-    <div>
-        <h1>Create a new exam</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{ examform }}
-            <input type="submit" value="Create">
-        </form>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : Exams</a>
+    </nav>
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div>
+                <h1>Create a new exam</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ examform }}
+                    <input type="submit" value="Create">
+                </form>
+            </div>
+        
+            <h1>Exams available</h1>
+                {% for t in exams %}
+                    <a href="{% url 'prof:view_exam' t.id %}">{{ t }}</a><br>
+                    {% empty %}
+                    <h3>No exams</h3>
+                {% endfor %}
+        </div>
     </div>
+    
 
-    <h1>Exams available</h1>
-    <ul>
-        {% for t in exams %}
-            <li><a href="{% url 'prof:view_exam' prof.username t.id %}">{{ t }}</a></li>
-            {% empty %}
-            <h3>No exams</h3>
-        {% endfor %}
-    </ul>
 </body>
 </html>

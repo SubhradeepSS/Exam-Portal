@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>View Paper</title>
 </head>
 <body>
-    <h3> {{ qpaper.qPaperTitle}} </h3>
-    <ol>
-        {% for ques in question_list %}
-            <li>{{ ques.question }}
-                <ul>A. {{ques.optionA}}</ul>
-                <ul>B. {{ques.optionB}}</ul>
-                <ul>C. {{ques.optionC}}</ul>
-                <ul>D. {{ques.optionD}}</ul>
-            </li>
-        {% endfor %}
-    </ol>
-    <a href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
-    </ol>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : View Paper</a>
+    </nav>
+    <div class='container-fluid'>
+        <h3 align='center'> {{ qpaper.qPaperTitle}} </h3>
+        <div class='row mt-5'>
+            <ol>
+                {% for ques in question_list %}
+                    <li>{{ ques.question }}
+                        <ul>A. {{ques.optionA}}</ul>
+                        <ul>B. {{ques.optionB}}</ul>
+                        <ul>C. {{ques.optionC}}</ul>
+                        <ul>D. {{ques.optionD}}</ul>
+                    </li>
+                {% endfor %}
+            </ol>
+            <a href="{% url 'prof:make_paper' %}" class='btn btn-danger'>Go Back</a>
+            
+        </div>
+    </div>
+    
+    
 </body>
 </html>

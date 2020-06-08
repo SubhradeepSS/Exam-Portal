@@ -3,25 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>Document</title>
 </head>
 <body>
-    <h1>Students Database</h1>
-    <ul>
-        {% for student in students_db %}
-                <li>Username: {{ student.username }}, Password: {{ student.password }}
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Delete">
-                    <input type="hidden" value="{{student.username}}" name="username">
-                </form>    
-                </li>
-
-                {% empty %}
-                <h4>No students in database</h4>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'prof:add_student' %}">Add student</a><br>
-    <a href="{% url 'prof:index' %}">Go to home</a>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : View All Students</a>
+    </nav>
+    <div class="container-fluid">
+        <h1 align="center">Students Database</h1>
+        <div class="row mt-5">
+            <ul>
+                {% for student in students_db %}
+                        <li>Username: {{ student.username }}, Password: {{ student.password }}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete">
+                            <input type="hidden" value="{{student.username}}" name="username">
+                        </form>    
+                        </li>
+        
+                        {% empty %}
+                        <h4>No students in database</h4>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'prof:add_student' %}" class="btn btn-success">Add student</a><br>
+            <a href="{% url 'prof:index' %}" class="btn btn-danger">Go to home</a>
+        </div>
+    </div>
+    
+   
 </body>
 </html>

@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>Add/View Questions</title>
 </head>
-
 <body>
-    <h2>Add Question</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Add">
-    </form>
-
-    <a href="{% url 'prof:view_all_ques' prof.username %}">View All Questions</a><br>
-    <a href="{% url 'prof:index' prof.username %}">Go to default site</a>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : Add Question</a>
+    </nav>
+    <div class="container-fluid">
+        <h2 align="center">Add Question</h2>
+        <div class="row mt-5">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" placeholder="Question" name="question"><br>
+                <input type="text" placeholder="Option A" name="optiona"><br>
+                <input type="text" placeholder="Option B" name="optionb"><br>
+                <input type="text" placeholder="Option C" name="optionc"><br>
+                <input type="text" placeholder="Option D" name="optiond"><br>
+                <input type="text" placeholder="Answer (A,B,C,D)" name="answer"><br>
+                <input type="submit">   
+            </form>
+        
+            <a href="{% url 'prof:view_all_ques' %}" class="btn btn-success">View All Questions</a><br>
+            <a href="{% url 'prof:index' %}" class="btn btn-danger">Go to the homepage</a>
+        </div>
+    </div>
+    
+   
 </body>
-
 </html>

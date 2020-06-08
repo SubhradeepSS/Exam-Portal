@@ -3,26 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>Add/View Groups</title>
 </head>
 <body>
-    <h2>Create Group</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="category_name" placeholder="Category Name">
-        <input type="submit">
-    </form>
-    {% if special_students_db %}
-        <h2>Groups:</h2>
-        <ol>
-            {% for category in special_students_db %}
-                <li>
-                    <h3>{{ category.category_name }}</h3>
-                    <a href="{% url 'prof:view_specific_group' prof.username category.id %}">View group</a>
-                </li>
-            {% endfor %}
-        </ol>
-    {% endif %}
-    <a href="{% url 'prof:index' prof.username %}">Go to home</a>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : Add Groups</a>
+    </nav>
+    <div class="container-fluid">
+        <h2 align='center'>Create Group</h2>
+        <div class="row mt-5">
+ 
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="category_name" placeholder="Category Name">
+                <input type="submit">
+            </form>
+            {% if special_students_db %}
+                <h2>Groups:</h2>
+                <ol>
+                    {% for category in special_students_db %}
+                        <li>
+                            <h3>{{ category.category_name }}</h3>
+                            <a href="{% url 'prof:view_specific_group' category.id %}">View group</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            <a href="{% url 'prof:index' %}" class="btn btn-danger">Go to home</a>
+        </div>
+    </div>
+   
 </body>
 </html>
