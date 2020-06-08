@@ -12,8 +12,13 @@
         duration: {{exam.duration}}<br>
         question_paper: {{exam.question_paper}}
         <a href="{% url 'prof:view_specific_paper' prof.username exam.question_paper.id %}">View Paper</a><br>
-        student_group: {{exam.student_group}}
-        <a href="{% url 'prof:view_specific_group' prof.username exam.student_group.id %}">View group</a>
+        student_group: 
+        <ul>
+            {% for group in student_group %}
+                {{ group.category_name }}
+                <li><a href="{% url 'prof:view_specific_group' prof.username group.id %}">View group</a></li>
+            {% endfor %}
+        </ul>      
     </div>
     <a href="{% url 'prof:edit_exam' prof.username exam.id %}">Edit</a>
 </body>

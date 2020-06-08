@@ -6,6 +6,7 @@ app_name = 'prof'
 urlpatterns = [
                             # PROF HOME
     path('<str:prof_username>', views.index, name='index'),
+    path('<str:prof_username>/students', views.view_students, name='view_students'),
     # path('<str:prof_username>/loginProf', views.loginProf, name='loginProf'),
     # path('logoutProf', views.logoutProf, name='logoutProf'),
 

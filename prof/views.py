@@ -13,6 +13,11 @@ def index(request,prof_username):
         'prof':prof
     })
 
+def view_students(request, prof_username):
+    return render(request, 'prof/view_students.html', {
+        'students': User.objects.filter(groups__name='Student')
+    })
+
 # def loginProf(request):
 #     if request.method == "POST":
 #         username = request.POST["username"]
@@ -48,7 +53,7 @@ def view_exam(request,prof_username, exam_id):
     prof = User.objects.get(username=prof_username)
     exam = Exam_Model.objects.filter(professor=prof,pk=exam_id).first()
     return render(request, 'prof/view_exam.html',{
-        'exam': exam, 'prof':prof
+        'exam': exam, 'prof':prof, 'student_group': exam.student_group.all()
     })
 
 def edit_exam(request,prof_username, exam_id):
@@ -60,9 +65,8 @@ def edit_exam(request,prof_username, exam_id):
         form = ExamForm(request.POST, instance=exam)
         if form.is_valid():
             form.save()
-            return render(request, 'prof/view_exam.html',{
-                'exam': exam, 'prof':prof
-            })
+            return redirect('prof:view_exam', prof_username=prof_username, exam_id=exam_id)
+            
     return render(request, 'prof/edit_exam.html',{
         'form': exm_form, 'exam':exam, 'prof':prof
     })
@@ -152,6 +156,7 @@ def edit_question(request,prof_username,ques_qno):
             # 'form':form
             # })
             return redirect('prof:view_all_ques', prof_username=prof_username)
+
     return render(request,'prof/edit_question.html',{
         'i' : Question_DB.objects.filter(professor=prof,qno=ques_qno).first() ,
         'form':form, 'prof':prof
@@ -160,18 +165,22 @@ def edit_question(request,prof_username,ques_qno):
 
 def make_paper(request, prof_username):
     prof = User.objects.get(username=prof_username)
+
     if request.method=='POST' and request.POST.get('presence', False) == False:
         add_question_in_paper(request, prof_username)
+
     elif request.method=='POST' and request.POST.get('presence', False) != False:    
         title = request.POST['title']
         a=Question_Paper.objects.filter(professor=prof,qPaperTitle=title).first()
         a.delete()
+
     return render(request, 'prof/qpaper.html',{
         'qpaper_db' : Question_Paper.objects.filter(professor=prof), 'prof':prof
     } ) 
     
 def add_question_in_paper(request, prof_username) :
     prof = User.objects.get(username=prof_username)
+
     if request.method =='POST'  and request.POST.get('qpaper', False) != False :
         paper_title = request.POST['qpaper']
         question_paper=Question_Paper(professor=prof,qPaperTitle=paper_title)
@@ -184,6 +193,7 @@ def add_question_in_paper(request, prof_username) :
             'qpaper' : question_paper ,
             'question_list' : left_ques, 'prof':prof
         })
+
     elif request.method == 'POST' and request.POST.get('title', False) != False : 
         addques = request.POST['title']
         a = Question_DB.objects.filter(professor=prof,qno=addques).first()
@@ -199,6 +209,7 @@ def add_question_in_paper(request, prof_username) :
             'qpaper' : b ,
             'question_list' : left_ques, 'prof':prof
         })
+
     return render(request,'prof/addquestopaper.html' )
 
 def view_paper(request, prof_username):
@@ -225,6 +236,7 @@ def edit_paper(request, prof_username) :
             'qpaper' : b ,
             'question_list' : b.questions.all(), 'prof':prof
         }) 
+
     elif request.method == 'POST' and request.POST.get('remove', False) != False :
         papertitle = request.POST['paper']
         no = request.POST['question']
@@ -241,6 +253,7 @@ def edit_paper(request, prof_username) :
             'qpaper' : b ,
             'question_list' : b.questions.all(), 'prof':prof
         })  
+
     elif request.method == 'POST' and request.POST.get('qnumber', False) != False :
         qno = request.POST['qnumber']
         ptitle = request.POST['titlepaper']
@@ -252,6 +265,7 @@ def edit_paper(request, prof_username) :
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
+
         return render(request,'prof/editpaper.html' , {
             'ques_left' : left_ques ,
             'qpaper' : b ,
@@ -274,7 +288,6 @@ def create_student_group(request, prof_username):
     return render(request, 'prof/addview_groups.html', {
         'special_students_db': Special_Students.objects.filter(professor=prof), 'prof':prof
     })
-
 
 def view_specific_group(request,prof_username, group_id):
     prof = User.objects.get(username=prof_username)

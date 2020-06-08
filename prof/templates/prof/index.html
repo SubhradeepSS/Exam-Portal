@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Professor: {{prof.username}}</h1>
+    <a href="{% url 'prof:view_students' prof.username %}">View all students</a><br>
     <a href="{% url 'prof:add_question' prof.username %}">Add Question</a><br>
     <a href="{% url 'prof:make_paper' prof.username %}">Make Question Paper</a><br>
     <a href="{% url 'prof:view_groups' prof.username %}">Create/View student groups</a><br>

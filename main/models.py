@@ -64,7 +64,7 @@ class Exam_Model(models.Model):
     total_marks = models.IntegerField()
     duration = models.IntegerField()
     question_paper = models.ForeignKey(Question_Paper,on_delete=models.CASCADE)
-    student_group = models.ForeignKey(Special_Students,on_delete=models.CASCADE)
+    student_group = models.ManyToManyField(Special_Students)
 
     def __str__(self):
         return self.name
