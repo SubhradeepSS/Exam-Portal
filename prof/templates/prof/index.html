@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Default website</title>
+</head>
+<body>
+    <h1>Professor: {{prof.username}}</h1>
+    <a href="{% url 'prof:view_students' prof.username %}">View all students</a><br>
+    <a href="{% url 'prof:add_question' prof.username %}">Add Question</a><br>
+    <a href="{% url 'prof:make_paper' prof.username %}">Make Question Paper</a><br>
+    <a href="{% url 'prof:view_groups' prof.username %}">Create/View student groups</a><br>
+    <a href="{% url 'prof:view_exams' prof.username %}">View Exams</a><br>
+    <a href="{% url 'main:logoutUser' %}">Logout</a>
+</body>
+</html>

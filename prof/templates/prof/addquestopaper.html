@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add questions</title>
+</head>
+<body>
+    <h1>
+        Paper :- {{qpaper.qPaperTitle}}
+    </h1>
+    
+    <ol type="1">
+        {% for i in question_list %}
+            <li>
+                {{i.question}} 
+            <form method = "POST">
+            {% csrf_token %}
+            <input type="hidden" name="title" value="{{ i.qno }}">
+            <input type="hidden" name="papertitle" value="{{ qpaper.qPaperTitle }}">
+            <input type="submit" value = "ADD" >
+            </form>
+            </li>
+            <br>
+        {% endfor %}
+    </ol>
+
+    <a href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
+</body>
+</html>

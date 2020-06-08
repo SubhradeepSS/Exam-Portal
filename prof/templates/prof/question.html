@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/View Questions</title>
+</head>
+
+<body>
+    <h2>Add Question</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add">
+    </form>
+
+    <a href="{% url 'prof:view_all_ques' prof.username %}">View All Questions</a><br>
+    <a href="{% url 'prof:index' prof.username %}">Go to default site</a>
+</body>
+
+</html>

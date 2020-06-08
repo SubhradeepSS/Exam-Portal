@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exams</title>
+</head>
+<body>
+    <div>
+        <h1>Create a new exam</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ examform }}
+            <input type="submit" value="Create">
+        </form>
+    </div>
+
+    <h1>Exams available</h1>
+    <ul>
+        {% for t in exams %}
+            <li><a href="{% url 'prof:view_exam' prof.username t.id %}">{{ t }}</a></li>
+            {% empty %}
+            <h3>No exams</h3>
+        {% endfor %}
+    </ul>
+</body>
+</html>
