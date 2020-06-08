@@ -6,15 +6,22 @@
     <title>Students</title>
 </head>
 <body>
-    <h1>Students: </h1>
-    <div class="container">
-        <ul>
-            {% for s in students %}
-            <li>{{ s.username }}</li>
-            {% empty %}
-            <h2>No students available</h2>
-            {% endfor %}
-        </ul>
+     <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam Portal : View Students</a>
+    </nav>
+    <div class="container-fluid">
+        <h1 align='center'>Students: </h1>
+        <div class="row mt-5">
+            <ul>
+                {% for s in students %}
+                <li>{{ s.username }}</li>
+                {% empty %}
+                <h2>No students available</h2>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
+    
+   
 </body>
 </html>
