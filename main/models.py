@@ -50,9 +50,9 @@ class Question_Paper(models.Model):
 class Special_Students(models.Model):
     professor = models.ForeignKey(User,limit_choices_to={'groups__name': "Professor"}, on_delete=models.CASCADE)
     students = models.ManyToManyField(User, limit_choices_to={'groups__name': "Student"}, related_name='students')
-    questions = models.ManyToManyField(Question_DB)
+    # questions = models.ManyToManyField(Question_DB)
     category_name = models.CharField(max_length=10)
-    question_papers = models.ManyToManyField(Question_Paper)
+    # question_papers = models.ManyToManyField(Question_Paper)
 
     def __str__(self):
         return self.category_name

@@ -38,6 +38,9 @@ def view_students(request, prof_username):
 
 def view_exams(request,prof_username):
     prof = User.objects.get(username=prof_username)
+    new_Form = ExamForm()
+    new_Form.fields["student_group"].queryset = Special_Students.objects.filter(professor=prof)
+    new_Form.fields["question_paper"].queryset = Question_Paper.objects.filter(professor=prof)
     if request.method == 'POST':
         form = ExamForm(request.POST)
         if form.is_valid():
@@ -46,7 +49,7 @@ def view_exams(request,prof_username):
             form.save()
 
     return render(request, 'prof/view_exams.html',{
-        'exams': Exam_Model.objects.filter(professor=prof), 'examform': ExamForm(), 'prof':prof
+        'exams': Exam_Model.objects.filter(professor=prof), 'examform': new_Form, 'prof':prof
     })
 
 def view_exam(request,prof_username, exam_id):
@@ -308,34 +311,34 @@ def view_student_in_group(request,prof_username, group_id):
         'students': group.students.all(), 'group': group, 'prof':prof
     })
 
-def view_question_in_group(request,prof_username, group_id):
-    prof = User.objects.get(username=prof_username)
-    group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
+# def view_question_in_group(request,prof_username, group_id):
+#     prof = User.objects.get(username=prof_username)
+#     group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
 
-    if request.method == 'POST':
-        question_no = request.POST['question_no']
-        question = Question_DB.objects.filter(professor=prof,qno=question_no).first()
-        group.questions.add(question)
+#     if request.method == 'POST':
+#         question_no = request.POST['question_no']
+#         question = Question_DB.objects.filter(professor=prof,qno=question_no).first()
+#         group.questions.add(question)
 
-    return render(request, 'prof/view_ques_in_group.html',{
-        'group': group, 'all_questions':Question_DB.objects.filter(professor=prof),
-        'questions_in_group': group.questions.all(), 'prof':prof
-    })
+#     return render(request, 'prof/view_ques_in_group.html',{
+#         'group': group, 'all_questions':Question_DB.objects.filter(professor=prof),
+#         'questions_in_group': group.questions.all(), 'prof':prof
+#     })
 
 
-def view_questionpaper_in_group(request,prof_username, group_id):
-    prof = User.objects.get(username=prof_username)
-    group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
+# def view_questionpaper_in_group(request,prof_username, group_id):
+#     prof = User.objects.get(username=prof_username)
+#     group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
 
-    if request.method == 'POST':
-        qpaper_title = request.POST['qpaper_title']
-        qpaper = Question_Paper.objects.get(qPaperTitle = qpaper_title)
-        group.question_papers.add(qpaper)
+#     if request.method == 'POST':
+#         qpaper_title = request.POST['qpaper_title']
+#         qpaper = Question_Paper.objects.get(qPaperTitle = qpaper_title)
+#         group.question_papers.add(qpaper)
     
-    return render(request, 'prof/view_qpaper_in_group.html',{
-        'group':group, 'all_qpapers': Question_Paper.objects.filter(professor=prof),
-        'qpapers_in_group': group.question_papers.all(),'prof':prof
-    })
+#     return render(request, 'prof/view_qpaper_in_group.html',{
+#         'group':group, 'all_qpapers': Question_Paper.objects.filter(professor=prof),
+#         'qpapers_in_group': group.question_papers.all(),'prof':prof
+#     })
 
 def delete_group(request,prof_username, group_id):
     prof = User.objects.get(username=prof_username)
