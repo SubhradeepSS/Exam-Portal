@@ -6,6 +6,7 @@
     <title>Student Home</title>
 </head>
 <body>
-    <a href="{% url 'student:logoutStud' %}">Logout</a>
+    <h1>{{stud.username}}</h1>
+    <a href="{% url 'main:logoutUser' %}">Logout</a>
 </body>
 </html>

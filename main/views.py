@@ -11,7 +11,9 @@ def index(request):
 
         if user is not None:
             login(request, user)
-            return redirect('prof:index', prof_username=username)
+            if user.groups.filter(name='Professor').exists():
+                return redirect('prof:index', prof_username=username)
+            return redirect('student:index', stud_username=username)
         else:
             return redirect('main:index')
 
