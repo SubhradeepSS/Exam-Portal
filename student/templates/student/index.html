@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Home</title>
 </head>
+
 <body>
     <h1>{{stud.username}}</h1>
     <a href="{% url 'main:logoutUser' %}">Logout</a>
+    <a href="{% url 'student:exam' stud.username %}">Exam</a>
 </body>
+
 </html>

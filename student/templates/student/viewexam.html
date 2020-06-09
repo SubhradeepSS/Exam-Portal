@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Home</title>
+</head>
+
+<body>
+    <h1>{{student.username}} Exams</h1>
+
+    <ol>
+        {% for i in paper %}
+        <li>{{ i.name }}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ i.name }}" name="paper">
+                <input type="submit" value="View">
+            </form>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <a href="{% url 'student:index' student.username %}">Go back</a>
+</body>
+
+</html>
