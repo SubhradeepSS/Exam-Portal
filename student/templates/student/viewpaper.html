@@ -8,19 +8,29 @@
 </head>
 
 <body>
-    <h3> {{ qpaper.qPaperTitle}} </h3>
-    <ol>
-        {% for ques in question_list %}
-        <li>{{ ques.question }}
-            <ul>A. {{ques.optionA}}</ul>
-            <ul>B. {{ques.optionB}}</ul>
-            <ul>C. {{ques.optionC}}</ul>
-            <ul>D. {{ques.optionD}}</ul>
-        </li>
-        {% endfor %}
-    </ol>
+    <h3> {{ qpaper.qPaperTitle }} </h3>
+    <form method="POST">
+        {% csrf_token %}
+        <ol>
+            {% for ques in question_list %}
+
+            <p>{{ ques.question }}</p>
+            <input type="radio" id="optionA" name="{{ ques.question }}" value="A">
+            <label for="optionA">{{ ques.optionA }}</label><br>
+            <input type="radio" id="optionB" name="{{ ques.question }}" value="B">
+            <label for="optionB">{{ ques.optionB }}</label><br>
+            <input type="radio" id="optionA" name="{{ ques.question }}" value="C">
+            <label for="optionC">{{ ques.optionC }}</label><br>
+            <input type="radio" id="optionD" name="{{ ques.question }}" value="D">
+            <label for="optionD">{{ ques.optionD }}</label><br>
+
+            {% endfor %}
+        </ol>
+        <input type="hidden" value="{{ qpaper.qPaperTitle}}" name="papertitle">
+        <input type="hidden" value="{{ exam }}" name="paper">
+        <input type="submit" value="Submit" name="PaperSubmit">
+    </form>
     <a href="{% url 'student:exam' student.username %}">Go Back</a>
-    </ol>
 </body>
 
 </html>
