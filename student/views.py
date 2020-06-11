@@ -8,13 +8,6 @@ from .models import *
 
 def index(request, stud_username):
     student = User.objects.get(username=stud_username)
-    return render(request, 'student/index.html', {
-        'stud': student
-    })
-
-
-def exam(request, stud_username):
-    student = User.objects.get(username=stud_username)
     a = Special_Students.objects.filter(students=student)
     c = []
     if a.exists():
@@ -26,31 +19,61 @@ def exam(request, stud_username):
                         c.append(j)
                 else:
                     c.append(Exam_Model.objects.get(student_group=i))
+    if c != []:
+        for i in c:
+            abc = StuExam_DB.objects.filter(examname=i.name, student=student)
+            if abc.exists() != True:
+                d = StuExam_DB(student=student, examname=i.name,
+                               qpaper=i.question_paper, score=0, completed=0)
+                d.save()
+                e = i.question_paper
+                j = e.questions.all()
+                for ques in j:
+                    az = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
+                                      optionC=ques.optionC, optionD=ques.optionD,
+                                      answer=ques.answer, student=student)
+                    az.save()
+                    d.questions.add(az)
+                # d.save()
+    return render(request, 'student/index.html', {
+        'stud': student
+    })
+
+
+def exam(request, stud_username):
+    student = User.objects.get(username=stud_username)
+    a = Special_Students.objects.filter(students=student)
+    c = StuExam_DB.objects.filter(student=student)
     if request.method == 'POST' and request.POST.get('papertitle', False) == False:
         paper = request.POST['paper']
-        e = Exam_Model.objects.get(name=paper)
-        f = e.question_paper
-        g = f.questions.all()
-        l = Stu_Question.objects.filter(student=student)
-        l.delete()
-        for ques in g:
-            a = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
-                             optionC=ques.optionC, optionD=ques.optionD,
-                             answer=ques.answer, student=student)
-            a.save()
+        e = StuExam_DB.objects.get(examname=paper, student=student)
+        f = e.qpaper
+        #g = f.questions.all()
+        h = e.questions.all().delete()
+        j = f.questions.all()
+        for ques in j:
+            az = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
+                              optionC=ques.optionC, optionD=ques.optionD,
+                              answer=ques.answer, student=student)
+            az.save()
+            e.questions.add(az)
+            e.save()
+        e.completed = 1
+        e.save()
         return render(request, 'student/viewpaper.html', {
             'qpaper': f,
-            'question_list': Stu_Question.objects.filter(student=student),
+            'question_list': e.questions.all(),
             'student': student,
             'exam': paper
         })
     elif request.method == 'POST' and request.POST.get('papertitle', False) != False:
         paper = request.POST['paper']
         title = request.POST['papertitle']
-        e = Exam_Model.objects.get(name=paper)
-        f = e.question_paper
-        g = f.questions.all()
-        l = Stu_Question.objects.filter(student=student)
+        e = StuExam_DB.objects.get(examname=paper)
+        f = e.qpaper
+        #g = f.questions.all()
+        #h = e.questions.all().delete()
+        l = e.questions.all()
         h = 0
         for ques in l:
             ans = request.POST[ques.question]
@@ -58,6 +81,8 @@ def exam(request, stud_username):
             ques.save()
             if ans == ques.answer:
                 h = h + 1
+        e.score = h
+        e.save()
         return render(request, 'student/result.html', {
             'Title': title,
             'Score': h,
@@ -67,6 +92,26 @@ def exam(request, stud_username):
         'student': student,
         'paper': c
     })
+
+
+def results(request, stud_username):
+    student = User.objects.get(username=stud_username)
+    a = Special_Students.objects.filter(students=student)
+    c = StuExam_DB.objects.filter(student=student, completed=1)
+    if request.method == 'POST':
+        paper = request.POST['paper']
+        e = StuExam_DB.objects.get(examname=paper, student=student)
+        return render(request, 'student/individualresult.html', {
+            'exam': e,
+            'student': student,
+            'quesn': e.questions.all()
+        })
+    return render(request, 'student/results.html', {
+        'student': student,
+        'paper': c
+    })
+
+
 # def loginStud(request):
 #     if request.method == "POST":
 #         username = request.POST["username"]

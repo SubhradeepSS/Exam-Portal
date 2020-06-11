@@ -4,25 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exams</title>
+    <title>Results</title>
 </head>
 
 <body>
-    <h1>{{student.username}} Exams</h1>
+    <h1>{{student.username}} Results</h1>
 
     <ol>
         {% for i in paper %}
+        {% if  i.completed == 1 %}
         <li>{{ i.examname }}
-            {% if  i.completed == 1 %}
-            <a>Completed</a>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ i.examname }}" name="paper">
+                <input type="submit" value="Checkresults">
+            </form>
+
+
+            {% comment %}
             {% else %}
             <form method="POST">
                 {% csrf_token %}
                 <input type="hidden" value="{{ i.examname }}" name="paper">
                 <input type="submit" value="View">
             </form>
-            {% endif %}
+            {% endcomment %}
+
+
+
         </li>
+        {% endif %}
         {% endfor %}
     </ol>
 
