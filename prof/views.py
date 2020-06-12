@@ -50,9 +50,11 @@ def view_exams(request, prof_username):
     if request.method == 'POST':
         form = ExamForm(request.POST)
         if form.is_valid():
-            form = form.save(commit=False)
-            form.professor = prof
-            form.save()
+            exam = form.save(commit=False)
+            exam.professor = prof
+            exam.save()
+            form.save_m2m()
+            return redirect('prof:view_exams', prof_username=prof_username)
 
     return render(request, 'prof/view_exams.html', {
         'exams': Exam_Model.objects.filter(professor=prof), 'examform': new_Form, 'prof': prof
