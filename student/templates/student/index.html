@@ -9,9 +9,11 @@
 
 <body>
     <h1>{{stud.username}}</h1>
-    <a href="{% url 'main:logoutUser' %}">Logout</a><br>
+
     <a href="{% url 'student:exam' stud.username %}">Exam</a><br>
-    <a href="{% url 'student:results' stud.username%}">Result</a>
+    <a href="{% url 'student:results' stud.username%}">Result</a><br>
+    <a href="{% url 'main:logoutUser' %}">Logout</a><br>
+
 </body>
 
 </html>

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from main.models import *
 from django.contrib.auth.models import User
 from .models import *
+from django.utils import timezone
 # Create your views here.
 
 
@@ -45,10 +46,19 @@ def exam(request, stud_username):
     a = Special_Students.objects.filter(students=student)
     c = StuExam_DB.objects.filter(student=student)
     if request.method == 'POST' and request.POST.get('papertitle', False) == False:
+
         paper = request.POST['paper']
         e = StuExam_DB.objects.get(examname=paper, student=student)
         f = e.qpaper
         #g = f.questions.all()
+
+        # TIME COMPARISON
+        exam_start_time = f.exam.get().start_time
+        curr_time = timezone.now()
+
+        if curr_time < exam_start_time:
+            return redirect('student:exam', stud_username)
+
         h = e.questions.all().delete()
         j = f.questions.all()
         for ques in j:
@@ -90,7 +100,7 @@ def exam(request, stud_username):
         })
     return render(request, 'student/viewexam.html', {
         'student': student,
-        'paper': c
+        'paper': c,
     })
 
 

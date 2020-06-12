@@ -10,21 +10,33 @@
 <body>
     <h1>{{student.username}} Exams</h1>
 
-    <ol>
-        {% for i in paper %}
-        <li>{{ i.examname }}
+    <div id="completed_exams">
+        <h2>Tests Completed</h2>
+        <ol>
+            {% for i in paper %}
             {% if  i.completed == 1 %}
-            <a>Completed</a>
-            {% else %}
-            <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" value="{{ i.examname }}" name="paper">
-                <input type="submit" value="View">
-            </form>
+            <li>{{ i.examname }}</li>
             {% endif %}
-        </li>
-        {% endfor %}
-    </ol>
+            {% endfor %}
+        </ol>
+    </div>
+    <h2>UpComing Exams</h2>
+    <div id="upcoming_exams">
+        <ol>
+            {% for i in paper %}
+            {% if  i.completed == 0 %}
+            <li>{{ i.examname }}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ i.examname }}" name="paper">
+                    <input type="submit" value="View" >
+                </form>
+
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ol>
+    </div>
 
     <a href="{% url 'student:index' student.username %}">Go back</a>
 </body>

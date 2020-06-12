@@ -1,5 +1,5 @@
 from django.db import models
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 from django.contrib.auth.models import User
 from django.conf import settings
 
@@ -70,8 +70,9 @@ class Exam_Model(models.Model):
     total_marks = models.IntegerField()
     duration = models.IntegerField()
     question_paper = models.ForeignKey(
-        Question_Paper, on_delete=models.CASCADE)
+        Question_Paper, on_delete=models.CASCADE, related_name='exam')
     student_group = models.ManyToManyField(Special_Students)
+    start_time = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -81,4 +82,7 @@ class ExamForm(ModelForm):
     class Meta:
         model = Exam_Model
         fields = '__all__'
+        widgets = {
+            'start_time': TextInput(attrs={'placeholder': 'yr-mon-date hr:min(24 hr)'})
+        }
         exclude = ['professor']
