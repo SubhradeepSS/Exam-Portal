@@ -91,7 +91,7 @@ def exam(request, stud_username):
             ques.choice = ans
             ques.save()
             if ans == ques.answer:
-                examScore + = 1
+                examScore = examScore + 1
         stuExam.score = examScore
         stuExam.save()
         return render(request, 'student/result.html', {
