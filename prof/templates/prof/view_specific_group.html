@@ -7,8 +7,18 @@
 </head>
 <body>
     <h1>Group: {{ group.category_name}}</h1>
-    <a href="{% url 'prof:view_students_in_group' prof.username group.id %}">Add/View students</a><br>
-    <a href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+    <!-- <a href="{% url 'prof:view_students_in_group' prof.username group.id %}">Add/View students</a><br> -->
+    <div id="group_students">
+        <h2>Students in group</h2>
+        <ul>
+            {% for s in group_students %}
+                <li>{{ s.username }}</li>
+                {% empty %}
+                    <h3>No students added in group</h3>
+            {% endfor %}
+        </ul>
+    </div>
+    <a href="{% url 'prof:edit_group' prof.username group.id %}">Edit group</a><br>
     <a href="{% url 'prof:view_groups' prof.username %}">Go back to Groups</a>
 </body>
 </html>

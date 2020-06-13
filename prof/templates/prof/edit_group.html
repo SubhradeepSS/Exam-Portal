@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+    <h1>Edit group</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ group_form }}
+        <input type="submit" value="Update">
+    </form>
+    <a href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+</body>
+</html>

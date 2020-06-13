@@ -36,5 +36,7 @@ urlpatterns = [
     path('<str:prof_username>/viewgroups/<int:group_id>/students', views.view_student_in_group, name='view_students_in_group'),
     # path('<str:prof_username>/viewgroups/<int:group_id>/questions', views.view_question_in_group, name='view_questions_in_group'),
     # path('<str:prof_username>/viewgroups/<int:group_id>/question_papers', views.view_questionpaper_in_group, name='view_questionpaper_in_group'),
-    path('<str:prof_username>/viewgroups/<int:group_id>/delete', views.delete_group, name='delete_group'),
+    path('<str:prof_username>/viewgroups/<int:group_id>/edit', views.edit_group, name='edit_group'),
+    path('<str:prof_username>/viewgroups/<int:group_id>/edit/delete', views.delete_group, name='delete_group'),
+
 ]
