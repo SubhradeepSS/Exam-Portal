@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Paper</title>
+    <script type="text/javascript">
+        var submitFormOkay = false;
+        window.onbeforeunload = function () {
+            if (!submitFormOkay) {
+                //window.alert("Youll forfiet exam");
+                return "You are about to leave this order form. You will lose any information...";
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -34,9 +43,16 @@
         </ol>
         <input type="hidden" value="{{ qpaper.qPaperTitle}}" name="papertitle">
         <input type="hidden" value="{{ exam }}" name="paper">
-        <input type="submit" value="Submit" name="PaperSubmit">
+        <input type="submit" value="Submit" name="PaperSubmit" onclick="submitFormOkay = true;">
     </form>
     <script type="text/javascript">
+        var submitFormOkay = false;
+        window.onbeforeunload = function () {
+            if (!submitFormOkay) {
+                //window.alert("Youll forfiet exam");
+                return "You are about to leave this order form. You will lose any information...";
+            }
+        }
         var milisec = 0;
         var seconds = document.getElementById("secs").value;
         var minutes = document.getElementById("mins").value
