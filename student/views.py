@@ -9,33 +9,34 @@ from django.utils import timezone
 
 def index(request, stud_username):
     student = User.objects.get(username=stud_username)
-    a = Special_Students.objects.filter(students=student)
-    c = []
-    if a.exists():
-        for i in a:
+    studentGroup = Special_Students.objects.filter(students=student)
+    examsList = []
+    if studentGroup.exists():
+        for i in studentGroup:
             b = Exam_Model.objects.filter(student_group=i)
             if b.exists():
                 if b.count() > 1:
                     for j in b:
-                        c.append(j)
+                        examsList.append(j)
                 else:
-                    c.append(Exam_Model.objects.get(student_group=i))
-    if c != []:
-        for i in c:
-            abc = StuExam_DB.objects.filter(examname=i.name, student=student)
-            if abc.exists() != True:
-                d = StuExam_DB(student=student, examname=i.name,
-                               qpaper=i.question_paper, score=0, completed=0)
-                d.save()
-                e = i.question_paper
-                j = e.questions.all()
-                for ques in j:
-                    az = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
-                                      optionC=ques.optionC, optionD=ques.optionD,
-                                      answer=ques.answer, student=student)
-                    az.save()
-                    d.questions.add(az)
-                # d.save()
+                    examsList.append(Exam_Model.objects.get(student_group=i))
+    if examsList != []:
+        for i in examsList:
+            currentExamList = StuExam_DB.objects.filter(
+                examname=i.name, student=student)
+            if currentExamList.exists() != True:  # If no exam are there in then add exams
+                tempExam = StuExam_DB(student=student, examname=i.name,
+                                      qpaper=i.question_paper, score=0, completed=0)
+                tempExam.save()
+                temp1 = i.question_paper
+                temp2 = temp1.questions.all()
+                for ques in temp2:
+                    # add all the questions from the prof to student database
+                    studentQuestion = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
+                                                   optionC=ques.optionC, optionD=ques.optionD,
+                                                   answer=ques.answer, student=student)
+                    studentQuestion.save()
+                    tempExam.questions.add(studentQuestion)
     return render(request, 'student/index.html', {
         'stud': student
     })
@@ -43,56 +44,56 @@ def index(request, stud_username):
 
 def exam(request, stud_username):
     student = User.objects.get(username=stud_username)
-    a = Special_Students.objects.filter(students=student)
-    c = StuExam_DB.objects.filter(student=student)
+    studentGroup = Special_Students.objects.filter(students=student)
+    studentExamsList = StuExam_DB.objects.filter(student=student)
     if request.method == 'POST' and request.POST.get('papertitle', False) == False:
 
         paper = request.POST['paper']
-        e = StuExam_DB.objects.get(examname=paper, student=student)
-        f = e.qpaper
+        stuExam = StuExam_DB.objects.get(examname=paper, student=student)
+        qPaper = stuExam.qpaper
         #g = f.questions.all()
 
         # TIME COMPARISON
-        exam_start_time = f.exam.get().start_time
+        exam_start_time = qPaper.exam.get().start_time
         curr_time = timezone.now()
 
         if curr_time < exam_start_time:
             return redirect('student:exam', stud_username)
 
-        h = e.questions.all().delete()
-        j = f.questions.all()
-        for ques in j:
-            az = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
-                              optionC=ques.optionC, optionD=ques.optionD,
-                              answer=ques.answer, student=student)
-            az.save()
-            e.questions.add(az)
-            e.save()
-        e.completed = 1
-        e.save()
+        h = stuExam.questions.all().delete()
+        qPaperQuestionsList = qPaper.questions.all()
+        for ques in qPaperQuestionsList:
+            temp = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
+                                optionC=ques.optionC, optionD=ques.optionD,
+                                answer=ques.answer, student=student)
+            temp.save()
+            stuExam.questions.add(temp)
+            stuExam.save()
+        stuExam.completed = 1
+        stuExam.save()
         return render(request, 'student/viewpaper.html', {
-            'qpaper': f,
-            'question_list': e.questions.all(),
+            'qpaper': qPaper,
+            'question_list': stuExam.questions.all(),
             'student': student,
             'exam': paper
         })
     elif request.method == 'POST' and request.POST.get('papertitle', False) != False:
         paper = request.POST['paper']
         title = request.POST['papertitle']
-        e = StuExam_DB.objects.get(examname=paper)
-        f = e.qpaper
+        stuExam = StuExam_DB.objects.get(examname=paper, student=student)
+        qPaper = stuExam.qpaper
         #g = f.questions.all()
         #h = e.questions.all().delete()
-        l = e.questions.all()
-        h = 0
-        for ques in l:
+        examQuestionsList = stuExam.questions.all()
+        examScore = 0
+        for ques in examQuestionsList:
             ans = request.POST[ques.question]
             ques.choice = ans
             ques.save()
             if ans == ques.answer:
-                h = h + 1
-        e.score = h
-        e.save()
+                examScore + = 1
+        stuExam.score = examScore
+        stuExam.save()
         return render(request, 'student/result.html', {
             'Title': title,
             'Score': h,
@@ -100,25 +101,25 @@ def exam(request, stud_username):
         })
     return render(request, 'student/viewexam.html', {
         'student': student,
-        'paper': c,
+        'paper': studentExamsList,
     })
 
 
 def results(request, stud_username):
     student = User.objects.get(username=stud_username)
-    a = Special_Students.objects.filter(students=student)
-    c = StuExam_DB.objects.filter(student=student, completed=1)
+    studentGroup = Special_Students.objects.filter(students=student)
+    studentExamList = StuExam_DB.objects.filter(student=student, completed=1)
     if request.method == 'POST':
         paper = request.POST['paper']
-        e = StuExam_DB.objects.get(examname=paper, student=student)
+        viewExam = StuExam_DB.objects.get(examname=paper, student=student)
         return render(request, 'student/individualresult.html', {
-            'exam': e,
+            'exam': viewExam,
             'student': student,
-            'quesn': e.questions.all()
+            'quesn': viewExam.questions.all()
         })
     return render(request, 'student/results.html', {
         'student': student,
-        'paper': c
+        'paper': studentExamList
     })
 
 
