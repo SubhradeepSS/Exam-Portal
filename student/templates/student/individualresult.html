@@ -18,11 +18,15 @@
             <ul>C. {{ques.optionC}}</ul>
             <ul>D. {{ques.optionD}}</ul>
         </li><br>
-        <a>Selected Option was {{ques.choice}}</a><br>
-        <a>Correct answer was {{ques.answer}}</a><br>
 
-        {% if ques.choice == ques.answer %}
+        {% if ques.choice != 'E' %}
+        <a>Selected Option was {{ques.choice}}</a><br>
+        {% endif %}
+        <a>Correct answer was {{ques.answer}}</a><br>
+        {% if ques.choice == ques.answer and ques.choice != 'E' %}
         <a>You got this question correct</a><br>
+        {% elif ques.choice == 'E' %}
+        <a>You did not attempt this question</a><br>
         {% else %}
         <a>You got this question wrong</a><br>
         {% endif %}

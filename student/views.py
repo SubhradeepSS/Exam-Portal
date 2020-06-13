@@ -51,10 +51,11 @@ def exam(request, stud_username):
         paper = request.POST['paper']
         stuExam = StuExam_DB.objects.get(examname=paper, student=student)
         qPaper = stuExam.qpaper
+        examMain = Exam_Model.objects.get(name=paper)
         #g = f.questions.all()
 
         # TIME COMPARISON
-        exam_start_time = qPaper.exam.get().start_time
+        exam_start_time = examMain.start_time
         curr_time = timezone.now()
 
         if curr_time < exam_start_time:
@@ -71,15 +72,20 @@ def exam(request, stud_username):
             stuExam.save()
         stuExam.completed = 1
         stuExam.save()
+        mins = examMain.duration
+        secs = 0 
         return render(request, 'student/viewpaper.html', {
             'qpaper': qPaper,
             'question_list': stuExam.questions.all(),
             'student': student,
-            'exam': paper
+            'exam': paper ,
+            'min' : mins ,
+            'sec' : secs
         })
     elif request.method == 'POST' and request.POST.get('papertitle', False) != False:
         paper = request.POST['paper']
         title = request.POST['papertitle']
+        
         stuExam = StuExam_DB.objects.get(examname=paper, student=student)
         qPaper = stuExam.qpaper
         #g = f.questions.all()
@@ -87,16 +93,19 @@ def exam(request, stud_username):
         examQuestionsList = stuExam.questions.all()
         examScore = 0
         for ques in examQuestionsList:
-            ans = request.POST[ques.question]
+            ans = request.POST.get(ques.question,False)
+            if ans == False :
+                ans = "E"
             ques.choice = ans
             ques.save()
             if ans == ques.answer:
                 examScore = examScore + 1
         stuExam.score = examScore
         stuExam.save()
+        a=6000
         return render(request, 'student/result.html', {
             'Title': title,
-            'Score': h,
+            'Score': examScore,
             'student': student
         })
     return render(request, 'student/viewexam.html', {
