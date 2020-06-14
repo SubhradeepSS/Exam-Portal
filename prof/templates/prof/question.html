@@ -4,19 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Add/View Questions</title>
 </head>
 
 <body>
-    <h2>Add Question</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Add">
-    </form>
+    <div class="container-fluid">
+        <h2 align="center">Add Question</h2>
+        <div class="row mt-5">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Add">
+            </form>
 
-    <a href="{% url 'prof:view_all_ques' prof.username %}">View All Questions</a><br>
-    <a href="{% url 'prof:index' prof.username %}">Go to default site</a>
+        </div>
+        
+        <a href="{% url 'prof:view_all_ques' prof.username %}" class="btn btn-success my-3">View All Questions</a><br>
+        <a href="{% url 'prof:index' prof.username %}" class="btn btn-danger my-3">Go to the homepage</a>
+    </div>
 </body>
 
 </html>

@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Details</title>
 </head>
+
 <body>
-    <h1>{{ exam.name }}</h1>
-    <div>
-        total_marks: {{exam.total_marks}}<br>
-        duration: {{exam.duration}}<br>
-        question_paper: {{exam.question_paper}}
-        <a href="{% url 'prof:view_specific_paper' prof.username exam.question_paper.id %}">View Paper</a><br>
-        student_group: 
-        <ul>
-            {% for group in student_group %}
-                {{ group.category_name }}
-                <li><a href="{% url 'prof:view_specific_group' prof.username group.id %}">View group</a></li>
-            {% endfor %}
-        </ul>
-        start time: {{ exam.start_time }}      
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Exam : {{ exam.name }}</a>
+    </nav>
+    <div class="container-fluid">
+        <div align="center">
+            <div>
+                total_marks: {{exam.total_marks}}<br>
+                duration: {{exam.duration}}<br>
+                question_paper: {{exam.question_paper.qPaperTitle}}
+                <a href="{% url 'prof:view_specific_paper' prof.username exam.question_paper.id %}">View Paper</a><br>
+                student_group:
+                <ul>
+                    {% for group in student_group %}
+                    <li>
+                        {{ group.category_name }}
+                        <a href="{% url 'prof:view_specific_group' prof.username group.id %}">View group</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                start time: {{ exam.start_time }}
+            </div>
+
+        </div>
+        <a href="{% url 'prof:edit_exam' prof.username exam.id %}" class="btn btn-danger">Edit</a>
     </div>
-    <a href="{% url 'prof:edit_exam' prof.username exam.id %}">Edit</a>
+
 </body>
+
 </html>

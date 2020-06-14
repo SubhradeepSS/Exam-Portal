@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>View Paper</title>
 </head>
+
 <body>
-    <h3> {{ qpaper.qPaperTitle}} </h3>
-    <ol>
-        {% for ques in question_list %}
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Paper : {{ qpaper.qPaperTitle }}</a>
+    </nav>
+
+    <div class="container-fluid">
+        <ol>
+            {% for ques in question_list %}
             <li>{{ ques.question }}
                 <ul>A. {{ques.optionA}}</ul>
                 <ul>B. {{ques.optionB}}</ul>
                 <ul>C. {{ques.optionC}}</ul>
                 <ul>D. {{ques.optionD}}</ul>
             </li>
-        {% endfor %}
-    </ol>
-    <a href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
-    </ol>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <a class='btn btn-danger mx-3' href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
+
 </body>
+
 </html>

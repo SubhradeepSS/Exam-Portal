@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Make question paper</title>
 </head>
+
 <body>
-    <form method="POST" action = "{% url 'prof:add_question_in_paper' prof.username %}">
-    {% csrf_token %}
-        <input type="text" placeholder="Question Paper Title" name="qpaper"><br>
-        {% comment %} <input type="submit"> {% endcomment %}
-        <input type="submit">
-    </form>
-    <div>
-        <ol>
-            {% for pap in qpaper_db %}
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Question Paper</a>
+    </nav>
+
+    <div class="container-fluid">
+        <div align='center'>
+            <h3>Create new Question Paper</h3>
+            <form method="POST" action="{% url 'prof:add_question_in_paper' prof.username %}">
+                {% csrf_token %}
+                <input type="text" placeholder="Question Paper Title" name="qpaper"><br>
+                <input type="submit" value="Create">
+            </form>
+        </div>
+            <div>
+                <ol>
+                    {% for pap in qpaper_db %}
                     <li>
                         paper title :- {{pap.qPaperTitle}}
                         <form method="POST" action="{% url 'prof:view_paper' prof.username %}">
                             {% csrf_token %}
                             <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
-                            <input type="submit" value = "View" >
+                            <input type="submit" value="View">
                         </form>
                         <form method="POST" action="{% url 'prof:edit_paper' prof.username %}">
                             {% csrf_token %}
                             <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
-                            <input type="submit" value = "Edit" >
+                            <input type="submit" value="Edit">
                         </form>
-                        <form method="POST" >
+                        <form method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
                             <input type="hidden" name="presence" value="test">
-                            <input type="submit" value = "Delete" >
+                            <input type="submit" value="Delete">
                         </form>
                     </li>
-            {% endfor %}
-        </ol>
+                    {% endfor %}
+                </ol>
+        </div>
+        <a class="btn btn-danger" href="{% url 'prof:index' prof.username %}">Go to default site</a>
     </div>
-    <a href="{% url 'prof:index' prof.username %}">Go to default site</a>
 </body>
+
 </html>

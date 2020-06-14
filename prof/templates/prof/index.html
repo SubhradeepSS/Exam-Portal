@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
     <title>Default website</title>
 </head>
+
 <body>
-    <h1>Professor: {{prof.username}}</h1>
-    <a href="{% url 'prof:view_students' prof.username %}">View all students</a><br>
-    <a href="{% url 'prof:add_question' prof.username %}">Add Question</a><br>
-    <a href="{% url 'prof:make_paper' prof.username %}">Make Question Paper</a><br>
-    <a href="{% url 'prof:view_groups' prof.username %}">Create/View student groups</a><br>
-    <a href="{% url 'prof:view_exams' prof.username %}">View Exams</a><br>
-    <a href="{% url 'main:logoutUser' %}">Logout</a>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Welcome {{ prof.username }}</a>
+    </nav>
+    <div class="container-fluid">
+        <div align='center'>
+            <br><br><br>
+            <a href="{% url 'prof:view_students' prof.username %}" class="btn btn-primary" text-align='center'>Students</a><br><br><br>
+            <a href="{% url 'prof:view_exams' prof.username %}" class="btn btn-primary" text-align='center'>Exams</a><br><br><br>
+            <a href="{% url 'prof:add_question' prof.username %}" class="btn btn-primary" text-align='center'>Question</a><br><br><br>
+            <a href="{% url 'prof:make_paper' prof.username %}" class="btn btn-primary" text-align='center'>Question Paper</a><br><br><br>
+            <a href="{% url 'prof:view_groups' prof.username %}" class="btn btn-primary" text-align='center'>Student Groups</a><br><br><br>
+        </div>
+    </div>
+
 </body>
+
 </html>

@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Students</title>
 </head>
+
 <body>
-    <h1>Students: </h1>
-    <div class="container">
-        <ul>
-            {% for s in students %}
-            <li>{{ s.username }}</li>
-            {% empty %}
-            <h2>No students available</h2>
-            {% endfor %}
-        </ul>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Students</a>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <ul>
+                {% for s in students %}
+                <li>{{ s.username }}</li>
+                {% empty %}
+                <h2>No students available</h2>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <a href="{% url 'prof:index' prof.username %}" class="btn btn-danger">Go to home</a>
     </div>
 </body>
+
 </html>

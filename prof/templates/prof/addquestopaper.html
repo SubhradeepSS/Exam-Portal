@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Add questions</title>
 </head>
 <body>
-    <h1>
-        Paper :- {{qpaper.qPaperTitle}}
-    </h1>
-    
-    <ol type="1">
-        {% for i in question_list %}
-            <li>
-                {{i.question}} 
-            <form method = "POST">
-            {% csrf_token %}
-            <input type="hidden" name="title" value="{{ i.qno }}">
-            <input type="hidden" name="papertitle" value="{{ qpaper.qPaperTitle }}">
-            <input type="submit" value = "ADD" >
-            </form>
-            </li>
-            <br>
-        {% endfor %}
-    </ol>
-
-    <a href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Adding Questions to Existing Question Paper</a>
+    </nav>
+    <div class="container-fluid">
+        <h1 align='center'>Paper :- {{qpaper.qPaperTitle}}</h1>
+        <div class="row mt-5">
+            <ol type="1">
+                {% for i in question_list %}
+                    <li>
+                        {{i.question}} 
+                    <form method = "POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="title" value="{{ i.qno }}">
+                    <input type="hidden" name="papertitle" value="{{ qpaper.qPaperTitle }}">
+                    <input type="submit" value = "ADD" >
+                    </form>
+                    </li>
+                    <br>
+                {% endfor %}
+            </ol>
+            
+        </div>
+        <a class="btn btn-danger" href="{% url 'prof:make_paper' prof.username %}">Go Back</a>
+    </div>
 </body>
 </html>
