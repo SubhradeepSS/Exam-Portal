@@ -16,12 +16,13 @@
     </nav>
     <div class="container-fluid">
         <div align='center'>
-            <br><br><br>
+            <br>
             <a href="{% url 'prof:view_students' prof.username %}" class="btn btn-primary" text-align='center'>Students</a><br><br><br>
             <a href="{% url 'prof:view_exams' prof.username %}" class="btn btn-primary" text-align='center'>Exams</a><br><br><br>
             <a href="{% url 'prof:add_question' prof.username %}" class="btn btn-primary" text-align='center'>Question</a><br><br><br>
             <a href="{% url 'prof:make_paper' prof.username %}" class="btn btn-primary" text-align='center'>Question Paper</a><br><br><br>
             <a href="{% url 'prof:view_groups' prof.username %}" class="btn btn-primary" text-align='center'>Student Groups</a><br><br><br>
+            <a href="{% url 'main:logoutUser' %}" class="btn btn-primary" text-align='center'>Logout</a><br><br><br>
         </div>
     </div>
 
