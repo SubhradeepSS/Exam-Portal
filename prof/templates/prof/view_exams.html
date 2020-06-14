@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,13 +15,17 @@
         <a class="navbar-brand" href="#">Exams</a>
     </nav>
     <div class="container-fluid">
+        <h3 align="center">Create a new exam</h3>
         <div align='center'>
-            <h3>Create a new exam</h3>
-            <form method="POST">
+            
+            <div class="container d-flex h-100 row justify-content-center col-20">
+                <form align='center' method="POST">
                 {% csrf_token %}
-                {{ examform }}
-                <input type="submit" value="Create">
+                {{ examform|crispy }}
+                <input class="btn btn-primary" type="submit" value="Create">
             </form>
+            </div>
+            
         </div>
         <div>
             <h1>Exams available</h1>

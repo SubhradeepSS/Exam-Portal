@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,11 +17,11 @@
 
     <div class="container-fluid">
         <div align='center'>
-            <h3>Create new Question Paper</h3>
+            <h3 class="my-2">Create new Question Paper</h3>
             <form method="POST" action="{% url 'prof:add_question_in_paper' prof.username %}">
                 {% csrf_token %}
-                <input type="text" placeholder="Question Paper Title" name="qpaper"><br>
-                <input type="submit" value="Create">
+                <input class="my-3" type="text" placeholder="Question Paper Title" name="qpaper"><br>
+                <input class="btn btn-primary my-1" type="submit" value="Create">
             </form>
         </div>
             <div>

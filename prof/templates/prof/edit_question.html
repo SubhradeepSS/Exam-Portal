@@ -1,3 +1,5 @@
+{% load crispy_forms_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,23 +13,20 @@
 
 <body>
     <nav class="navbar bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Exam Portal : Edit Question</a>
+        <a class="navbar-brand" href="#">Edit Question</a>
     </nav>
-    <div align='center' class="container-fluid">
-        <h2 >Edit Question</h2>
+    <div class="container-fluid">
+        <!-- <h2>Edit Question</h2> -->
+        <div class="container d-flex h-100 row justify-content-center col-20">
             <form method="POST">
                 {% csrf_token %}
-                <input type="text" value="{{i.question}}" name="question"><br>
-                <input type="text" value="{{i.optionA}}" name="optiona"><br>
-                <input type="text" value="{{i.optionB}}" name="optionb"><br>
-                <input type="text" value="{{i.optionC}}" name="optionc"><br>
-                <input type="text" value="{{i.optionD}}" name="optiond"><br>
-                <input type="text" value="{{i.answer}}" name="answer"><br>
-                <input type="hidden" value="{{i.qno}}" name="number">
-                <input type="submit">   
+                {{ form|crispy }}
+                <input class="btn btn-info" type="submit" value="Update">
             </form>
         </div>
-<a class="btn btn-danger" href="{% url 'prof:view_all_ques' prof.username %}">Go Back</a>
+
+    </div>
+    <a class="btn btn-danger" href="{% url 'prof:view_all_ques' prof.username %}">Go Back</a>
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,17 +11,21 @@
 </head>
 
 <body>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Questions</a>
+    </nav>
     <div class="container-fluid">
-        <h2 align="center">Add Question</h2>
-        <div class="row mt-5">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Add">
-            </form>
-
+        <h2 align="center">Create a new Question</h2>
+        <div align="center">
+            <div class="container d-flex h-100 row justify-content-center col-20">
+                <form align="center" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </form>
+            </div>
         </div>
-        
+
         <a href="{% url 'prof:view_all_ques' prof.username %}" class="btn btn-success my-3">View All Questions</a><br>
         <a href="{% url 'prof:index' prof.username %}" class="btn btn-danger my-3">Go to the homepage</a>
     </div>

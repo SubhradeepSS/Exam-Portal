@@ -15,16 +15,16 @@
     </nav>
     <div class="container-fluid">
         <div align='center' id="create_group">
-            <h2 >Create Group</h2>
+            <h2 class="my-1">Create Group</h2>
             <form method="POST">
                 {% csrf_token %}
-                <input type="text" name="category_name" placeholder="Category Name">
-                <input type="submit" value="Create">
+                <input class="my-3" type="text" name="category_name" placeholder="Category Name"><br>
+                <input class="btn btn-primary" type="submit" value="Create">
             </form>
         </div>
 
         <div id="groups">
-            <h2>Groups:</h2>
+            <h2>Groups :</h2>
             <ol>
                 {% for category in special_students_db %}
                 <li>

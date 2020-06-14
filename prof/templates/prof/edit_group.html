@@ -1,17 +1,27 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Edit</title>
 </head>
 <body>
-    <h1>Edit group</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ group_form }}
-        <input type="submit" value="Update">
-    </form>
-    <a href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Edit group</a>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="container d-flex h-100 row justify-content-center col-50">
+            <form align="center" method="POST">
+                {% csrf_token %}
+                {{ group_form|crispy }}
+                <input class="btn btn-success" type="submit" value="Update">
+            </form>
+        </div>
+        <a class="btn btn-danger" href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+    </div>
 </body>
 </html>
