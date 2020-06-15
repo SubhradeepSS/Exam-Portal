@@ -58,8 +58,16 @@ def view_exams(request, prof_username):
             form.save_m2m()
             return redirect('prof:view_exams', prof_username=prof_username)
 
+    exams = Exam_Model.objects.filter(professor=prof)
+    group_dict = {}
+
+    for exam in exams:
+        group_dict[exam] = list(exam.student_group.all())
+    print(group_dict)
+
     return render(request, 'prof/view_exams.html', {
-        'exams': Exam_Model.objects.filter(professor=prof), 'examform': new_Form, 'prof': prof
+        'exams': exams, 'examform': new_Form, 'prof': prof,
+        'group_dict': group_dict
     })
 
 
@@ -84,7 +92,7 @@ def edit_exam(request, prof_username, exam_id):
         form = ExamForm(request.POST, instance=exam)
         if form.is_valid():
             form.save()
-            return redirect('prof:view_exam', prof_username=prof_username, exam_id=exam_id)
+            return redirect('prof:view_exams', prof_username=prof_username)
 
     return render(request, 'prof/edit_exam.html', {
         'form': new_Form, 'exam': exam, 'prof': prof

@@ -13,15 +13,15 @@
         <a class="navbar-brand" href="#">Edit group</a>
     </nav>
 
-    <div class="container-fluid">
+    <div align='center' class="container-fluid">
         <div class="container d-flex h-100 row justify-content-center col-50">
             <form align="center" method="POST">
                 {% csrf_token %}
                 {{ group_form|crispy }}
-                <input class="btn btn-success" type="submit" value="Update">
+                <input class="btn btn-info" type="submit" value="Update">
             </form>
         </div>
-        <a class="btn btn-danger" href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+        <a class="btn btn-danger my-3" href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
     </div>
 </body>
 </html>

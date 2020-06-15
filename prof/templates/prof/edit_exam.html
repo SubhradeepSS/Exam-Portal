@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +12,16 @@
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Edit Exam</a>
     </nav>
-    <div class="container-fluid">
-        <div class="row mt-5">
-            <form method="POST">
+    <div align='center' class="container-fluid">
+        <div class="container d-flex h-100 row justify-content-center col-50">
+            <form align="center" method="POST">
                 {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Update">
+                {{ form|crispy }}
+                <input class="btn btn-info" type="submit" value="Update">
             </form>
         </div>
-        <a href="{% url 'prof:delete_exam' prof.username exam.id %}" class="btn btn-danger">Delete Exam</a>
-    </div> 
+        <a class="btn btn-danger my-3" href="{% url 'prof:delete_exam' prof.username exam.id %}">Delete Exam</a><br>
+    </div>
+     
 </body>
 </html>

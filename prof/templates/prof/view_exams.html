@@ -1,4 +1,5 @@
 {% load crispy_forms_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,33 +14,64 @@
 <body>
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Exams</a>
+        <button type="button" class="btn btn-info mx-3" id="updateButton" onclick="smoothScroll(document.getElementById('exams'))">View all Exams</button>     
     </nav>
     <div class="container-fluid">
-        <h3 align="center">Create a new exam</h3>
+        <h3 class="alert alert-secondary" align="center">Create a new exam</h3>
         <div align='center'>
-            
+
             <div class="container d-flex h-100 row justify-content-center col-20">
                 <form align='center' method="POST">
-                {% csrf_token %}
-                {{ examform|crispy }}
-                <input class="btn btn-primary" type="submit" value="Create">
-            </form>
+                    {% csrf_token %}
+                    {{ examform|crispy }}
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </form>
             </div>
-            
+
         </div>
-        <div>
-            <h1>Exams available</h1>
-            <ul>
+        <div id='exams'>
+            <h1 class="alert alert-dark my-3" align="center">Exams available</h1>
+            <!-- <ul> -->
+            <form class="form-inline my-2 my-lg-0">
+                <input id="searchExam" class="form-control mr-sm-2" type="search" placeholder="Search Exam"
+                    aria-label="Search">
+            </form>
+            <div class="row">
                 {% for t in exams %}
-                <li><a href="{% url 'prof:view_exam' prof.username t.id %}">{{ t }}</a></li>
+                <!-- <li> -->
+                <div class="card my-3 mx-5 col-sm-3">
+                    <h3 class="card-header">{{ t.name }}</h3>
+                    <div class="card-body">
+
+                        <h6 class="card-subtitle mb-2 text-muted">{{ t.start_time }}</h6>
+                        <p class="card-text">
+                            Total Marks : {{t.total_marks}}<br>
+                            Duration : {{t.duration}}<br>
+                            Question Paper : <a href="{% url 'prof:view_specific_paper' prof.username t.question_paper.id %}">{{ t.question_paper.qPaperTitle }}</a><br>
+                            Student Group(s) : 
+                            <ul>
+                                {% for group in group_dict.t %}
+                                <li>
+                                    <a href="{% url 'prof:view_specific_group' prof.username group.id %}">{{ group.category_name }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                        <a href="{% url 'prof:edit_exam' prof.username t.id %}" class="card-link btn btn-info">Edit</a>
+                    </div>
+                </div>
+
+                <!-- <a href="{% url 'prof:view_exam' prof.username t.id %}">{{ t }}</a> -->
+                <!-- </li> -->
                 {% empty %}
                 <h3>No exams</h3>
                 {% endfor %}
-            </ul>
+            </div>
+
+            <!-- </ul> -->
         </div>
     </div>
-
-
+    <script src="{% static 'prof/exams.js' %}"></script>
 </body>
 
 </html>
