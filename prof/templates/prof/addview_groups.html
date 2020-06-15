@@ -1,3 +1,5 @@
+{% load crispy_forms_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,33 +14,59 @@
 <body>
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Groups</a>
+        <a href="{% url 'prof:index' prof.username %}" class="btn btn-secondary">Home</a>
     </nav>
     <div class="container-fluid">
+        <h3 class="alert alert-secondary my-1" align="center">Create a new group</h3>
         <div align='center' id="create_group">
-            <h2 class="my-1">Create Group</h2>
-            <form method="POST">
-                {% csrf_token %}
-                <input class="my-3" type="text" name="category_name" placeholder="Category Name"><br>
-                <input class="btn btn-primary" type="submit" value="Create">
+            <div class="container d-flex h-100 row justify-content-center col-20">
+                <form align='center' method="POST">
+                    {% csrf_token %}
+                    {{ groupForm|crispy }}
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </form>
+            </div>
+        </div>
+        <div id='groups'>
+            <h1 class="alert alert-info my-3" align="center">Groups</h1>
+            <!-- <ul> -->
+            <form class="form-inline my-2 my-lg-0">
+                <input id="searchGroup" class="form-control mr-sm-2" type="search" placeholder="Search Group"
+                    aria-label="Search">
+                    <a class="btn btn-dark" href="{% url 'prof:view_exams' prof.username %}">View Exams</a>
             </form>
-        </div>
-
-        <div id="groups">
-            <h2>Groups :</h2>
-            <ol>
-                {% for category in special_students_db %}
-                <li>
-                    <h3>{{ category.category_name }}</h3>
-                    <a href="{% url 'prof:view_specific_group' prof.username category.id %}">View group</a>
-                </li>
+            <div class="row">
+                {% for group in special_students_db %}
+                <!-- <li> -->
+                <div class="card my-3 mx-5 col-sm-3">
+                    <h3 class="card-header">{{ group.category_name }}</h3>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <h4 class="card-subtitle mb-2 text-muted">Students</h4>
+                            {% for stud in group.students.all %}
+                            {{stud.username}}
+                            {% endfor %}
+                            <br><br>
+                            <h4 class="card-subtitle mb-2 text-muted">Exams</h4>
+                            {% for exam in group.exam.all %}
+                                {{ exam.name }}
+                                {% empty %}
+                                    No exams associated
+                            {% endfor %}
+                        </p>
+                        <a href="{% url 'prof:edit_group' prof.username group.id %}"
+                            class="card-link btn btn-info">Edit</a>
+                    </div>
+                </div>
                 {% empty %}
-                <h2>No groups created</h2>
+                <h3>No groups</h3>
                 {% endfor %}
-            </ol>
-        </div>
-        <a href="{% url 'prof:index' prof.username %}" class="btn btn-danger">Go to home</a>
-    </div>
+            </div>
 
+            <!-- </ul> -->
+        </div>
+    </div>
+    <script src="{% static 'prof/groups.js' %}"></script>
 </body>
 
 </html>

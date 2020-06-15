@@ -11,6 +11,7 @@
 <body>
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Edit group</a>
+        <a class="btn btn-light" href="{% url 'prof:view_groups' prof.username %}">Cancel</a>
     </nav>
 
     <div align='center' class="container-fluid">
@@ -21,7 +22,7 @@
                 <input class="btn btn-info" type="submit" value="Update">
             </form>
         </div>
-        <a class="btn btn-danger my-3" href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
+        <a onclick="return confirm('Are you sure you want to delete this group?')" class="btn btn-danger my-3" href="{% url 'prof:delete_group' prof.username group.id %}">Delete group</a><br>
     </div>
 </body>
 </html>

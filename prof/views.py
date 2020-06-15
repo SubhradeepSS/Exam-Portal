@@ -410,7 +410,7 @@ def edit_group(request, prof_username, group_id):
         form = Group_Form(request.POST, instance=group)
         if form.is_valid():
             form.save()
-            return redirect('prof:view_specific_group', prof_username=prof_username, group_id=group_id)
+            return redirect('prof:view_groups', prof_username=prof_username)
 
     return render(request, 'prof/edit_group.html', {
         'prof':prof, 'group':group, 'group_form': group_form

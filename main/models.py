@@ -78,7 +78,7 @@ class Exam_Model(models.Model):
     duration = models.IntegerField()
     question_paper = models.ForeignKey(
         Question_Paper, on_delete=models.CASCADE, related_name='exam')
-    student_group = models.ManyToManyField(Special_Students)
+    student_group = models.ManyToManyField(Special_Students, related_name='exam')
     start_time = models.DateTimeField()
 
     def __str__(self):
