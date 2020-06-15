@@ -3,10 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+/portal/__pycache__/
 /main/__pycache__/
 /prof/__pycache__/
-/portal/__pycache__/
 /student/__pycache__/
+/main/migrations/__pycache__/
+/prof/migrations/__pycache__/
+/student/migrations/__pycache__/
 
 # C extensions
 *.so
