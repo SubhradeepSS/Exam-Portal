@@ -59,15 +59,11 @@ def view_exams(request, prof_username):
             return redirect('prof:view_exams', prof_username=prof_username)
 
     exams = Exam_Model.objects.filter(professor=prof)
-    group_dict = {}
 
-    for exam in exams:
-        group_dict[exam] = list(exam.student_group.all())
-    print(group_dict)
+    # print(group_dict)
 
     return render(request, 'prof/view_exams.html', {
         'exams': exams, 'examform': new_Form, 'prof': prof,
-        'group_dict': group_dict
     })
 
 

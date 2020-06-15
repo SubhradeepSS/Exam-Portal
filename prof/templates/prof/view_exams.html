@@ -14,7 +14,8 @@
 <body>
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Exams</a>
-        <button type="button" class="btn btn-info mx-3" id="updateButton" onclick="smoothScroll(document.getElementById('exams'))">View all Exams</button>     
+        <button type="button" class="btn btn-info mx-3" id="updateButton"
+            onclick="smoothScroll(document.getElementById('exams'))">View all Exams</button>
     </nav>
     <div class="container-fluid">
         <h3 class="alert alert-secondary" align="center">Create a new exam</h3>
@@ -47,12 +48,14 @@
                         <p class="card-text">
                             Total Marks : {{t.total_marks}}<br>
                             Duration : {{t.duration}}<br>
-                            Question Paper : <a href="{% url 'prof:view_specific_paper' prof.username t.question_paper.id %}">{{ t.question_paper.qPaperTitle }}</a><br>
-                            Student Group(s) : 
+                            Question Paper : <a
+                                href="{% url 'prof:view_specific_paper' prof.username t.question_paper.id %}">{{ t.question_paper.qPaperTitle }}</a><br>
+                            Student Group(s) :
                             <ul>
-                                {% for group in group_dict.t %}
+                                {% for group in t.student_group.all %}
                                 <li>
-                                    <a href="{% url 'prof:view_specific_group' prof.username group.id %}">{{ group.category_name }}</a>
+                                    <a
+                                        href="{% url 'prof:view_specific_group' prof.username group.id %}">{{ group.category_name }}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
