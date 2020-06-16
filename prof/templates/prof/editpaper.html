@@ -8,12 +8,80 @@
     <title>View Paper</title>
 </head>
 <body>
-    <nav class="navbar bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Edit Question Paper</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <a class="btn btn-warning my-sm-0 mx-2" href="{% url 'prof:make_paper' prof.username %}">Cancel / Done</a>
+        </div>
     </nav>
+
     <div class="container-fluid">
-        <h3 align="center"> {{ qpaper.qPaperTitle}} </h3>
-        <div class="row mt-5">
+        <h2 align="center"> {{ qpaper.qPaperTitle}} </h2>
+
+        <div class="list-group">
+            <h3 class="alert alert-success">Questions added</h3>
+            {% for ques in question_list %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start my-2">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4 class="mb-1">{{ ques.question }}</h4>
+                </div>
+                <p class="mb-1">
+                    A. {{ques.optionA}}<br>
+                    B. {{ques.optionB}}<br>
+                    C. {{ques.optionC}}<br>
+                    D. {{ques.optionD}}<br>
+                    <h5>Answer : {{ques.answer}}</h5>
+                </p>
+                <form method = "POST">
+                    {% csrf_token %}
+                        <input class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this question from the paper?')"" type="submit" value="Remove" name="remove">
+                        <input type="hidden" value="{{qpaper.qPaperTitle}}" name="paper">
+                        <input type="hidden" value="{{ques.qno}}" name="question">
+                    </form>
+            </a>
+            {% empty %}
+            <h5>No Questions added</h5>
+            {% endfor %}
+        </div>
+
+        <div class="list-group my-5">
+            <h3 class="alert alert-danger">Questions not added</h3>
+            {% for ques in ques_left %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start my-2">
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="mb-1">{{ ques.question }}</h3>
+                </div>
+                <p class="mb-1">
+                    A. {{ques.optionA}}<br>
+                    B. {{ques.optionB}}<br>
+                    C. {{ques.optionC}}<br>
+                    D. {{ques.optionD}}<br>
+                    <h5>Answer : {{ques.answer}}</h5>
+                </p>
+                <form method = "POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="qnumber" value="{{ ques.qno }}">
+                    <input type="hidden" name="titlepaper" value="{{ qpaper.qPaperTitle }}">
+                    <input class="btn btn-success" type="submit" value = "Add" >
+                    </form>
+            </a>
+            {% empty %}
+            <h5>All Questions added</h5>
+            {% endfor %}
+        </div>
+
+
+        <!-- <div class="row mt-5">
             <ol type="1">
                 {% for i in ques_left %}
                     <li>
@@ -44,8 +112,7 @@
                     </form>
                 {% endfor %}       
             </ol>
-        </div>
+        </div> -->
     </div>
-    <a href="{% url 'prof:make_paper' prof.username %}" class="btn btn-success">Go Back</a>
 </body>
 </html>

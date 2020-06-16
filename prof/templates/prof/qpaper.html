@@ -51,7 +51,7 @@
                     <form method="POST" action="{% url 'prof:view_paper' prof.username %}">
                         {% csrf_token %}
                         <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
-                        <input class="btn btn-secondary my-2" type="submit" value="View">
+                        <input class="btn btn-dark my-2" type="submit" value="View">
                     </form>
                     <form method="POST" action="{% url 'prof:edit_paper' prof.username %}">
                         {% csrf_token %}
