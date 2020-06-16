@@ -21,23 +21,41 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-                <a class="btn btn-primary my-sm-0" href="{% url 'prof:make_paper' prof.username %}">Questions</a>
-                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-            </form>
+            <a class="btn btn-info my-sm-0 mx-2" href="{% url 'prof:view_all_ques' prof.username %}" target="_blank">All
+                Questions</a>
+            <a class="btn btn-light my-sm-0" href="{% url 'prof:make_paper' prof.username %}">Question Papers</a>
         </div>
     </nav>
 
-    <!-- <nav class="navbar bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Adding Questions to Existing Question Paper</a>
-    </nav> -->
     <div class="container-fluid">
-        <h1 class="alert alert-dark" align='center'>Paper :- {{qpaper.qPaperTitle}}</h1>
-        <div class="row mt-5">
+        <h1 class="alert alert-dark my-1" align='center'>{{qpaper.qPaperTitle}}</h1>
+
+        <div class="row my-3">
+            {% for q in question_list %}
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ q.question }}</h5>
+                        <p class="card-text">
+                            A. {{q.optionA}}<br>B. {{q.optionB}}<br>C. {{q.optionC}}<br>D. {{q.optionD}}
+                        </p>
+                        <h6 class="card-text">Answer : {{q.answer}}</h6>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="title" value="{{ q.qno }}">
+                            <input type="hidden" name="papertitle" value="{{ qpaper.qPaperTitle }}">
+                            <input class="btn btn-primary" type="submit" value="Add to Paper">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- <div class="row mt-5">
             <ol type="1">
                 {% for i in question_list %}
                 <li>
@@ -53,7 +71,7 @@
                 {% endfor %}
             </ol>
 
-        </div>
+        </div> -->
         <!-- <a class="btn btn-danger" href="{% url 'prof:make_paper' prof.username %}">Go Back</a> -->
     </div>
 </body>

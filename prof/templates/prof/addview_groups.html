@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar bg-dark navbar-dark">
         <a class="navbar-brand" href="#">Groups</a>
-        <a href="{% url 'prof:index' prof.username %}" class="btn btn-secondary">Home</a>
+        <a href="{% url 'prof:index' prof.username %}" class="btn btn-light">Home</a>
     </nav>
     <div class="container-fluid">
         <h3 class="alert alert-secondary my-1" align="center">Create a new group</h3>
@@ -33,7 +33,7 @@
             <form class="form-inline my-2 my-lg-0">
                 <input id="searchGroup" class="form-control mr-sm-2" type="search" placeholder="Search Group"
                     aria-label="Search">
-                    <a class="btn btn-dark" href="{% url 'prof:view_exams' prof.username %}">View Exams</a>
+                    <a class="btn btn-dark" href="{% url 'prof:view_exams' prof.username %}" target="_blank">View Exams</a>
             </form>
             <div class="row">
                 {% for group in special_students_db %}

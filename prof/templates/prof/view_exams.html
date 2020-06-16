@@ -16,7 +16,7 @@
         <a class="navbar-brand" href="#">Exams</a>
         <button type="button" class="btn btn-info mx-3" id="updateButton"
             onclick="smoothScroll(document.getElementById('exams'))">View all Exams</button>
-        <a class="btn btn-secondary mx-3" href="{% url 'prof:index' prof.username %}">Home</a>
+        <a class="btn btn-light " href="{% url 'prof:index' prof.username %}">Home</a>
     </nav>
     <div class="container-fluid">
         <h3 class="alert alert-secondary my-1" align="center">Create a new exam</h3>
@@ -37,7 +37,7 @@
             <form class="form-inline my-2">
                 <input id="searchExam" class="form-control mr-sm-2" type="search" placeholder="Search Exam"
                     aria-label="Search">
-                <a class="btn btn-dark" href="{% url 'prof:view_groups' prof.username %}">View Groups</a>
+                <a class="btn btn-dark" href="{% url 'prof:view_groups' prof.username %}" target="_blank">View Groups</a>
             </form>
             <div class="row">
                 {% for t in exams %}
