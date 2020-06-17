@@ -53,13 +53,14 @@ class Question_Paper(models.Model):
 class Special_Students(models.Model):
     professor = models.ForeignKey(User, limit_choices_to={
                                   'groups__name': "Professor"}, on_delete=models.CASCADE)
-    
+
     # questions = models.ManyToManyField(Question_DB)
     category_name = models.CharField(max_length=10)
     # question_papers = models.ManyToManyField(Question_Paper)
-    
+
     students = models.ManyToManyField(
         User, limit_choices_to={'groups__name': "Student"}, related_name='students')
+
     def __str__(self):
         return self.category_name
 
@@ -69,6 +70,7 @@ class Group_Form(ModelForm):
         model = Special_Students
         fields = '__all__'
         exclude = ['professor']
+
 
 class Exam_Model(models.Model):
     professor = models.ForeignKey(User, limit_choices_to={
@@ -80,6 +82,7 @@ class Exam_Model(models.Model):
         Question_Paper, on_delete=models.CASCADE, related_name='exam')
     student_group = models.ManyToManyField(Special_Students, related_name='exam')
     start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -90,6 +93,7 @@ class ExamForm(ModelForm):
         model = Exam_Model
         fields = '__all__'
         widgets = {
-            'start_time': TextInput(attrs={'placeholder': 'yr-mon-date hr:min(24 hr)'})
+            'start_time': TextInput(attrs={'placeholder': 'yr-mon-date hr:min(24 hr)'}),
+            'end_time': TextInput(attrs={'placeholder': 'yr-mon-date hr:min(24 hr)'})
         }
         exclude = ['professor']

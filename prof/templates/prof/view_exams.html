@@ -59,7 +59,10 @@
                     <h3 class="card-header">{{ t.name }}</h3>
                     <div class="card-body">
 
-                        <h6 class="card-subtitle mb-2 text-muted">{{ t.start_time }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Start : {{ t.start_time }}<br>
+                            Expiry : {{ t.end_time }}
+                        </h6>
                         <p class="card-text">
                             Total Marks : {{t.total_marks}}<br>
                             Duration : {{t.duration}}<br>
