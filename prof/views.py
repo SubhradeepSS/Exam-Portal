@@ -4,10 +4,8 @@ from django.urls import reverse
 from main.models import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-# from django.contrib.auth.models import User
 
 # Create your views here.
-
 
 def index(request, prof_username):
     prof = User.objects.get(username=prof_username)
@@ -21,24 +19,6 @@ def view_students(request, prof_username):
         'students': User.objects.filter(groups__name='Student'),
         'prof': User.objects.get(username=prof_username)
     })
-
-# def loginProf(request):
-#     if request.method == "POST":
-#         username = request.POST["username"]
-#         password = request.POST["password"]
-#         user = authenticate(username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             return redirect("prof:index")
-#         else:
-#             return redirect("prof:loginProf")
-
-#     return render(request,"prof/login.html")
-
-# def logoutProf(request):
-#     logout(request)
-#     return redirect("prof:loginProf")
 
 
 def view_exams(request, prof_username):
@@ -59,8 +39,6 @@ def view_exams(request, prof_username):
             return redirect('prof:view_exams', prof_username=prof_username)
 
     exams = Exam_Model.objects.filter(professor=prof)
-
-    # print(group_dict)
 
     return render(request, 'prof/view_exams.html', {
         'exams': exams, 'examform': new_Form, 'prof': prof,
@@ -100,29 +78,6 @@ def delete_exam(request, prof_username, exam_id):
     exam = Exam_Model.objects.get(professor=prof, pk=exam_id)
     exam.delete()
     return redirect('prof:view_exams', prof_username=prof_username)
-
-# def add_student(request):
-#     if request.method == 'POST':
-#         form = StudentForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-
-#     return render(request, 'prof/add.html',{
-#         'form':StudentForm()
-#     })
-
-# def view_students(request):
-#     if request.method=='POST' :
-#         username=request.POST['username']
-#         a=Student.objects.get(username=username)
-#         a.delete()
-#     return render(request, 'prof/view_all_students.html',{
-#         'students_db': Student.objects.all()
-#     })
-
-# def delete_student_fromDB(request, student_id):
-#     Student.objects.filter(pk=student_id).delete()
-#     return render(request, 'prof/add.html')
 
 
 def add_question(request, prof_username):
@@ -327,10 +282,6 @@ def view_specific_paper(request, prof_username, paper_id):
 
 def create_student_group(request, prof_username):
     prof = User.objects.get(username=prof_username)
-    # if request.method == 'POST':
-    #     category = Special_Students(
-    #         professor=prof, category_name=request.POST['category_name'])
-    #     category.save()
 
     if request.method == "POST":
         form = Group_Form(request.POST)
@@ -372,34 +323,6 @@ def view_student_in_group(request, prof_username, group_id):
         'students': group.students.all(), 'group': group, 'prof': prof
     })
 
-# def view_question_in_group(request,prof_username, group_id):
-#     prof = User.objects.get(username=prof_username)
-#     group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
-
-#     if request.method == 'POST':
-#         question_no = request.POST['question_no']
-#         question = Question_DB.objects.filter(professor=prof,qno=question_no).first()
-#         group.questions.add(question)
-
-#     return render(request, 'prof/view_ques_in_group.html',{
-#         'group': group, 'all_questions':Question_DB.objects.filter(professor=prof),
-#         'questions_in_group': group.questions.all(), 'prof':prof
-#     })
-
-
-# def view_questionpaper_in_group(request,prof_username, group_id):
-#     prof = User.objects.get(username=prof_username)
-#     group = Special_Students.objects.filter(professor=prof,pk=group_id).first()
-
-#     if request.method == 'POST':
-#         qpaper_title = request.POST['qpaper_title']
-#         qpaper = Question_Paper.objects.get(qPaperTitle = qpaper_title)
-#         group.question_papers.add(qpaper)
-
-#     return render(request, 'prof/view_qpaper_in_group.html',{
-#         'group':group, 'all_qpapers': Question_Paper.objects.filter(professor=prof),
-#         'qpapers_in_group': group.question_papers.all(),'prof':prof
-#     })
 
 def edit_group(request, prof_username, group_id):
     prof = User.objects.get(username=prof_username)

@@ -1,21 +1,9 @@
-# from django.db import models
+from django.db import models
 # from django.forms import ModelForm
 
-# # Create your models here.
-# class Student(models.Model):
-#     username = models.IntegerField()
-#     password = models.CharField(max_length=500)
+# Create your models here.
 
-#     def __str__(self):
-#         return f'{self.username}'
-
-
-# class StudentForm(ModelForm):
-#     class Meta:
-#         model = Student
-#         fields = '__all__'
-
-# # Added option in question. Changes made in html and views also
+# Added option in question. Changes made in html and views also
 # class Question_DB(models.Model):
 #     #added question number for help in question paper
 #     qno = models.AutoField(primary_key=True)

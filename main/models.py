@@ -3,20 +3,6 @@ from django.forms import ModelForm, TextInput
 from django.contrib.auth.models import User
 from django.conf import settings
 
-# Create your models here.
-# class Student(models.Model):
-#     username = models.IntegerField()
-#     password = models.CharField(max_length=500)
-
-#     def __str__(self):
-#         return f'{self.username}'
-
-# class StudentForm(ModelForm):
-#     class Meta:
-#         model = Student
-#         fields = '__all__'
-
-
 class Question_DB(models.Model):
     # added question number for help in question paper
     professor = models.ForeignKey(User, limit_choices_to={
