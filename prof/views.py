@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 
 # Create your views here.
-
+                    # HOME
 def index(request, prof_username):
     prof = User.objects.get(username=prof_username)
     return render(request, 'prof/index.html', {
@@ -15,11 +15,12 @@ def index(request, prof_username):
 
 
 def view_students(request, prof_username):
-    return render(request, 'prof/view_students.html', {
+    return render(request, 'prof/student/view_students.html', {
         'students': User.objects.filter(groups__name='Student'),
         'prof': User.objects.get(username=prof_username)
     })
 
+                    # EXAM
 
 def view_exams(request, prof_username):
     prof = User.objects.get(username=prof_username)
@@ -40,7 +41,7 @@ def view_exams(request, prof_username):
 
     exams = Exam_Model.objects.filter(professor=prof)
 
-    return render(request, 'prof/view_exams.html', {
+    return render(request, 'prof/exam/view_exams.html', {
         'exams': exams, 'examform': new_Form, 'prof': prof,
     })
 
@@ -48,7 +49,7 @@ def view_exams(request, prof_username):
 def view_exam(request, prof_username, exam_id):
     prof = User.objects.get(username=prof_username)
     exam = Exam_Model.objects.get(professor=prof, pk=exam_id)
-    return render(request, 'prof/view_exam.html', {
+    return render(request, 'prof/exam/view_exam.html', {
         'exam': exam, 'prof': prof, 'student_group': exam.student_group.all()
     })
 
@@ -68,7 +69,7 @@ def edit_exam(request, prof_username, exam_id):
             form.save()
             return redirect('prof:view_exams', prof_username=prof_username)
 
-    return render(request, 'prof/edit_exam.html', {
+    return render(request, 'prof/exam/edit_exam.html', {
         'form': new_Form, 'exam': exam, 'prof': prof
     })
 
@@ -79,6 +80,8 @@ def delete_exam(request, prof_username, exam_id):
     exam.delete()
     return redirect('prof:view_exams', prof_username=prof_username)
 
+
+                    # QUESTION
 
 def add_question(request, prof_username):
     prof = User.objects.get(username=prof_username)
@@ -91,7 +94,7 @@ def add_question(request, prof_username):
             form.save()
             return redirect('prof:view_all_ques', prof_username=prof_username)
 
-    return render(request, 'prof/question.html', {
+    return render(request, 'prof/question/question.html', {
         'question_db': Question_DB.objects.filter(professor=prof),
         'form': QForm(), 'prof': prof
     })
@@ -120,7 +123,7 @@ def view_all_ques(request, prof_username):
 
         Question_DB.objects.filter(professor=prof, qno=l).delete()
 
-    return render(request, 'prof/view_all_questions.html', {
+    return render(request, 'prof/question/view_all_questions.html', {
         'question_db': Question_DB.objects.filter(professor=prof), 'prof': prof
     })
 
@@ -142,11 +145,13 @@ def edit_question(request, prof_username, ques_qno):
             # })
             return redirect('prof:view_all_ques', prof_username=prof_username)
 
-    return render(request, 'prof/edit_question.html', {
+    return render(request, 'prof/question/edit_question.html', {
         'i': Question_DB.objects.filter(professor=prof, qno=ques_qno).first(),
         'form': form, 'prof': prof
     })
 
+
+                        # QUESTION PAPER
 
 def make_paper(request, prof_username):
     prof = User.objects.get(username=prof_username)
@@ -160,7 +165,7 @@ def make_paper(request, prof_username):
             professor=prof, qPaperTitle=title).first()
         a.delete()
 
-    return render(request, 'prof/qpaper.html', {
+    return render(request, 'prof/question_paper/qpaper.html', {
         'qpaper_db': Question_Paper.objects.filter(professor=prof), 'prof': prof
     })
 
@@ -177,7 +182,7 @@ def add_question_in_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in question_paper.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/addquestopaper.html', {
+        return render(request, 'prof/question_paper/addquestopaper.html', {
             'qpaper': question_paper,
             'question_list': left_ques, 'prof': prof
         })
@@ -194,12 +199,12 @@ def add_question_in_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/addquestopaper.html', {
+        return render(request, 'prof/question_paper/addquestopaper.html', {
             'qpaper': b,
             'question_list': left_ques, 'prof': prof
         })
 
-    return render(request, 'prof/addquestopaper.html')
+    return render(request, 'prof/question_paper/addquestopaper.html')
 
 
 def view_paper(request, prof_username):
@@ -210,7 +215,7 @@ def view_paper(request, prof_username):
         b = Question_Paper.objects.get(
             professor=prof, qPaperTitle=papertitle)
 
-        return render(request, 'prof/viewpaper.html', {
+        return render(request, 'prof/question_paper/viewpaper.html', {
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
         })
@@ -227,7 +232,7 @@ def edit_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/editpaper.html', {
+        return render(request, 'prof/question_paper/editpaper.html', {
             'ques_left': left_ques,
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
@@ -245,7 +250,7 @@ def edit_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/editpaper.html', {
+        return render(request, 'prof/question_paper/editpaper.html', {
             'ques_left': left_ques,
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
@@ -264,7 +269,7 @@ def edit_paper(request, prof_username):
             if i not in b.questions.all():
                 left_ques.append(i)
 
-        return render(request, 'prof/editpaper.html', {
+        return render(request, 'prof/question_paper/editpaper.html', {
             'ques_left': left_ques,
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
@@ -275,10 +280,12 @@ def view_specific_paper(request, prof_username, paper_id):
     prof = User.objects.get(username=prof_username)
     paper = Question_Paper.objects.get(professor=prof, pk=paper_id)
 
-    return render(request, 'prof/viewpaper.html', {
+    return render(request, 'prof/question_paper/viewpaper.html', {
         'qpaper': paper, 'question_list': paper.questions.all(), 'prof': prof
     })
 
+
+                        # GROUP
 
 def create_student_group(request, prof_username):
     prof = User.objects.get(username=prof_username)
@@ -293,7 +300,7 @@ def create_student_group(request, prof_username):
             
             return redirect('prof:view_groups', prof_username=prof_username)
 
-    return render(request, 'prof/addview_groups.html', {
+    return render(request, 'prof/group/addview_groups.html', {
         'special_students_db': Special_Students.objects.filter(professor=prof), 'prof': prof ,
         'groupForm': Group_Form()
     })
@@ -304,7 +311,7 @@ def view_specific_group(request, prof_username, group_id):
     group = Special_Students.objects.get(
         professor=prof, pk=group_id)
 
-    return render(request, 'prof/view_specific_group.html', {
+    return render(request, 'prof/group/view_specific_group.html', {
         'group': group, 'prof': prof, 'group_students': group.students.all()
     })
 
@@ -319,7 +326,7 @@ def view_student_in_group(request, prof_username, group_id):
         student = User.objects.get(username=student_username)
         group.students.add(student)
 
-    return render(request, 'prof/view_special_stud.html', {
+    return render(request, 'prof/group/view_special_stud.html', {
         'students': group.students.all(), 'group': group, 'prof': prof
     })
 
@@ -335,7 +342,7 @@ def edit_group(request, prof_username, group_id):
             form.save()
             return redirect('prof:view_groups', prof_username=prof_username)
 
-    return render(request, 'prof/edit_group.html', {
+    return render(request, 'prof/group/edit_group.html', {
         'prof':prof, 'group':group, 'group_form': group_form
     })
 

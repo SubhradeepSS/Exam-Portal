@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Make question paper</title>
+    <title>Question Papers</title>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
             <form method="POST" action="{% url 'prof:add_question_in_paper' prof.username %}">
                 {% csrf_token %}
                 <input class="my-3" type="text" placeholder="Question Paper Title" name="qpaper"><br>
-                <input class="btn btn-primary my-1" type="submit" value="Create">
+                <input class="btn btn-success my-1" type="submit" value="Create">
             </form>
         </div>
 

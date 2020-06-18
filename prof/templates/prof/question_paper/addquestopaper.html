@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Add questions</title>
+    <title>Add Questions to Paper</title>
 </head>
 
 <body>
@@ -72,7 +72,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="title" value="{{ ques.qno }}">
                     <input type="hidden" name="papertitle" value="{{ qpaper.qPaperTitle }}">
-                    <input class="btn btn-primary" type="submit" value="Add to Paper">
+                    <input class="btn btn-success" type="submit" value="Add to Paper">
                 </form>
             </a>
             {% empty %}
