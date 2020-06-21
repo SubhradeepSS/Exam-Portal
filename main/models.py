@@ -1,5 +1,7 @@
 from django.db import models
 from django.forms import ModelForm, TextInput
+from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.models import User
 from django.conf import settings
 
@@ -79,7 +81,7 @@ class ExamForm(ModelForm):
         model = Exam_Model
         fields = '__all__'
         widgets = {
-            'start_time': TextInput(attrs={'placeholder': 'yr-mon-date hr:min(24 hr)'}),
-            'end_time': TextInput(attrs={'placeholder': 'yr-mon-date hr:min(24 hr)'})
+            'start_time': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
+            'end_time': forms.DateTimeInput(attrs={'class': 'datetime-input'})
         }
         exclude = ['professor']
