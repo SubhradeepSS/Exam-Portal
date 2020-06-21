@@ -37,3 +37,9 @@ searchExam.addEventListener('input', () => {
         }
     })
 })
+
+$( () => {
+    $('.datetime-input').datetimepicker({
+        format:'DD-MM-YYYY HH:mm'
+    });
+});
