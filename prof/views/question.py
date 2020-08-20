@@ -13,7 +13,7 @@ def add_question(request, prof_username):
             form.save()
             return redirect('prof:view_all_ques', prof_username=prof_username)
 
-    return render(request, 'prof/question/question.html', {
+    return render(request, 'question/question.html', {
         'question_db': Question_DB.objects.filter(professor=prof),
         'form': QForm(), 'prof': prof
     })
@@ -42,7 +42,7 @@ def view_all_ques(request, prof_username):
 
         Question_DB.objects.filter(professor=prof, qno=l).delete()
 
-    return render(request, 'prof/question/view_all_questions.html', {
+    return render(request, 'question/view_all_questions.html', {
         'question_db': Question_DB.objects.filter(professor=prof), 'prof': prof
     })
 
@@ -58,13 +58,13 @@ def edit_question(request, prof_username, ques_qno):
             # form = form.save(commit=False)
             # form.professor = prof
             form.save()
-            # return render(request,'prof/edit_question.html',{
+            # return render(request,'edit_question.html',{
             # 'i' : Question_DB.objects.filter(professor=prof,qno=ques_qno) ,
             # 'form':form
             # })
             return redirect('prof:view_all_ques', prof_username=prof_username)
 
-    return render(request, 'prof/question/edit_question.html', {
+    return render(request, 'question/edit_question.html', {
         'i': Question_DB.objects.filter(professor=prof, qno=ques_qno).first(),
         'form': form, 'prof': prof
     })

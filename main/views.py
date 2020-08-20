@@ -15,20 +15,14 @@ def index(request):
                 return redirect('prof:index', prof_username=username)
             return redirect('student:index', stud_username=username)
         else:
-            return render(request, 'main/login.html', {
+            return render(request, 'login.html', {
                 'wrong_cred_message': 'Error'
             })
 
-    return render(request, 'main/login.html')
-
-# def home(request, username):
-#     user = User.objects.get(username=username)
-#     return render(request, 'main/user_home.html',{
-#         'user': user
-#     })
+    return render(request, 'login.html')
 
 def logoutUser(request):
     logout(request)
-    return render(request, 'main/logout.html',{
+    return render(request, 'logout.html',{
         'logout_message': 'Logged out Successfully'
     })

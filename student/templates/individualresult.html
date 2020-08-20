@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Result</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">{{exam.examname}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <a href="{% url 'student:results' student.username %}" class="btn btn-primary">Results</a>
+            <a href="{% url 'student:index' student.username %}" class="btn btn-light mx-2">Home</a>
+        </div>
+    </nav>
+    <div class="container-fluid my-2">
+        <h3 align="center">Score : {{ exam.score }}</h3>
+        <ol class="list-group">
+            {% for ques in quesn %}
+            <li class="list-group-item list-group-item-action my-1"><h4>{{ ques.question }}</h4>
+                <ul>A. {{ques.optionA}}</ul>
+                <ul>B. {{ques.optionB}}</ul>
+                <ul>C. {{ques.optionC}}</ul>
+                <ul>D. {{ques.optionD}}</ul>
+            <br>
+
+            {% if ques.choice != 'E' %}
+            <a>Selected Option - {{ques.choice}}</a><br>
+            {% endif %}
+            <a>Correct answer - {{ques.answer}}</a><br>
+            {% if ques.choice == ques.answer and ques.choice != 'E' %}
+            <a>Status: Correct</a><br>
+            {% elif ques.choice == 'E' %}
+            <a>Status: Not attempted</a><br>
+            {% else %}
+            <a>Status: Wrong</a><br>
+            {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+    
+</body>
+
+</html>

@@ -14,7 +14,7 @@ def make_paper(request, prof_username):
             professor=prof, qPaperTitle=title).first()
         a.delete()
 
-    return render(request, 'prof/question_paper/qpaper.html', {
+    return render(request, 'question_paper/qpaper.html', {
         'qpaper_db': Question_Paper.objects.filter(professor=prof), 'prof': prof
     })
 
@@ -31,7 +31,7 @@ def add_question_in_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in question_paper.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/question_paper/addquestopaper.html', {
+        return render(request, 'question_paper/addquestopaper.html', {
             'qpaper': question_paper,
             'question_list': left_ques, 'prof': prof
         })
@@ -48,12 +48,12 @@ def add_question_in_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/question_paper/addquestopaper.html', {
+        return render(request, 'question_paper/addquestopaper.html', {
             'qpaper': b,
             'question_list': left_ques, 'prof': prof
         })
 
-    return render(request, 'prof/question_paper/addquestopaper.html')
+    return render(request, 'question_paper/addquestopaper.html')
 
 
 def view_paper(request, prof_username):
@@ -64,7 +64,7 @@ def view_paper(request, prof_username):
         b = Question_Paper.objects.get(
             professor=prof, qPaperTitle=papertitle)
 
-        return render(request, 'prof/question_paper/viewpaper.html', {
+        return render(request, 'question_paper/viewpaper.html', {
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
         })
@@ -81,7 +81,7 @@ def edit_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/question_paper/editpaper.html', {
+        return render(request, 'question_paper/editpaper.html', {
             'ques_left': left_ques,
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
@@ -99,7 +99,7 @@ def edit_paper(request, prof_username):
         for i in Question_DB.objects.filter(professor=prof):
             if i not in b.questions.all():
                 left_ques.append(i)
-        return render(request, 'prof/question_paper/editpaper.html', {
+        return render(request, 'question_paper/editpaper.html', {
             'ques_left': left_ques,
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
@@ -118,7 +118,7 @@ def edit_paper(request, prof_username):
             if i not in b.questions.all():
                 left_ques.append(i)
 
-        return render(request, 'prof/question_paper/editpaper.html', {
+        return render(request, 'question_paper/editpaper.html', {
             'ques_left': left_ques,
             'qpaper': b,
             'question_list': b.questions.all(), 'prof': prof
@@ -129,6 +129,6 @@ def view_specific_paper(request, prof_username, paper_id):
     prof = User.objects.get(username=prof_username)
     paper = Question_Paper.objects.get(professor=prof, pk=paper_id)
 
-    return render(request, 'prof/question_paper/viewpaper.html', {
+    return render(request, 'question_paper/viewpaper.html', {
         'qpaper': paper, 'question_list': paper.questions.all(), 'prof': prof
     })

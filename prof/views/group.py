@@ -15,7 +15,7 @@ def create_student_group(request, prof_username):
             
             return redirect('prof:view_groups', prof_username=prof_username)
 
-    return render(request, 'prof/group/addview_groups.html', {
+    return render(request, 'group/addview_groups.html', {
         'special_students_db': Special_Students.objects.filter(professor=prof), 'prof': prof ,
         'groupForm': Group_Form()
     })
@@ -26,7 +26,7 @@ def view_specific_group(request, prof_username, group_id):
     group = Special_Students.objects.get(
         professor=prof, pk=group_id)
 
-    return render(request, 'prof/group/view_specific_group.html', {
+    return render(request, 'group/view_specific_group.html', {
         'group': group, 'prof': prof, 'group_students': group.students.all()
     })
 
@@ -41,7 +41,7 @@ def view_student_in_group(request, prof_username, group_id):
         student = User.objects.get(username=student_username)
         group.students.add(student)
 
-    return render(request, 'prof/group/view_special_stud.html', {
+    return render(request, 'group/view_special_stud.html', {
         'students': group.students.all(), 'group': group, 'prof': prof
     })
 
@@ -57,7 +57,7 @@ def edit_group(request, prof_username, group_id):
             form.save()
             return redirect('prof:view_groups', prof_username=prof_username)
 
-    return render(request, 'prof/group/edit_group.html', {
+    return render(request, 'group/edit_group.html', {
         'prof':prof, 'group':group, 'group_form': group_form
     })
 

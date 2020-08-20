@@ -21,7 +21,7 @@ def view_exams(request, prof_username):
 
     exams = Exam_Model.objects.filter(professor=prof)
 
-    return render(request, 'prof/exam/view_exams.html', {
+    return render(request, 'exam/view_exams.html', {
         'exams': exams, 'examform': new_Form, 'prof': prof,
     })
 
@@ -29,7 +29,7 @@ def view_exams(request, prof_username):
 def view_exam(request, prof_username, exam_id):
     prof = User.objects.get(username=prof_username)
     exam = Exam_Model.objects.get(professor=prof, pk=exam_id)
-    return render(request, 'prof/exam/view_exam.html', {
+    return render(request, 'exam/view_exam.html', {
         'exam': exam, 'prof': prof, 'student_group': exam.student_group.all()
     })
 
@@ -49,7 +49,7 @@ def edit_exam(request, prof_username, exam_id):
             form.save()
             return redirect('prof:view_exams', prof_username=prof_username)
 
-    return render(request, 'prof/exam/edit_exam.html', {
+    return render(request, 'exam/edit_exam.html', {
         'form': new_Form, 'exam': exam, 'prof': prof
     })
 
