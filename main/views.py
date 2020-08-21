@@ -15,14 +15,14 @@ def index(request):
                 return redirect('prof:index', prof_username=username)
             return redirect('student:index', stud_username=username)
         else:
-            return render(request, 'login.html', {
+            return render(request, 'main/login.html', {
                 'wrong_cred_message': 'Error'
             })
 
-    return render(request, 'login.html')
+    return render(request, 'main/login.html')
 
 def logoutUser(request):
     logout(request)
-    return render(request, 'logout.html',{
+    return render(request, 'main/logout.html',{
         'logout_message': 'Logged out Successfully'
     })

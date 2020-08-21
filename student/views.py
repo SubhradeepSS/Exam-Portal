@@ -37,7 +37,7 @@ def index(request, stud_username):
                                                    answer=ques.answer, student=student)
                     studentQuestion.save()
                     tempExam.questions.add(studentQuestion)
-    return render(request, 'index.html', {
+    return render(request, 'student/index.html', {
         'stud': student
     })
 
@@ -74,7 +74,7 @@ def exam(request, stud_username):
         stuExam.save()
         mins = examMain.duration
         secs = 0 
-        return render(request, 'viewpaper.html', {
+        return render(request, 'student/viewpaper.html', {
             'qpaper': qPaper,
             'question_list': stuExam.questions.all(),
             'student': student,
@@ -103,12 +103,12 @@ def exam(request, stud_username):
         stuExam.score = examScore
         stuExam.save()
         a=6000
-        return render(request, 'result.html', {
+        return render(request, 'student/result.html', {
             'Title': title,
             'Score': examScore,
             'student': student
         })
-    return render(request, 'viewexam.html', {
+    return render(request, 'student/viewexam.html', {
         'student': student,
         'paper': studentExamsList,
     })
@@ -121,12 +121,12 @@ def results(request, stud_username):
     if request.method == 'POST':
         paper = request.POST['paper']
         viewExam = StuExam_DB.objects.get(examname=paper, student=student)
-        return render(request, 'individualresult.html', {
+        return render(request, 'student/individualresult.html', {
             'exam': viewExam,
             'student': student,
             'quesn': viewExam.questions.all()
         })
-    return render(request, 'results.html', {
+    return render(request, 'student/results.html', {
         'student': student,
         'paper': studentExamList
     })
