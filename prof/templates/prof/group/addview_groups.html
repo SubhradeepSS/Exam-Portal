@@ -29,7 +29,6 @@
         </div>
         <div id='groups'>
             <h1 class="alert alert-info my-3" align="center">Groups</h1>
-            <!-- <ul> -->
             <form class="form-inline my-2 my-lg-0">
                 <input id="searchGroup" class="form-control mr-sm-2" type="search" placeholder="Search Group"
                     aria-label="Search">
@@ -37,7 +36,6 @@
             </form>
             <div class="row">
                 {% for group in special_students_db %}
-                <!-- <li> -->
                 <div class="card my-3 mx-5 col-sm-3">
                     <h3 class="card-header">{{ group.category_name }}</h3>
                     <div class="card-body">
@@ -62,8 +60,6 @@
                 <h3>No groups</h3>
                 {% endfor %}
             </div>
-
-            <!-- </ul> -->
         </div>
     </div>
     <script src="{% static 'prof/js/groups.js' %}"></script>

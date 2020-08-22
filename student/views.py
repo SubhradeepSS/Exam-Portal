@@ -55,11 +55,11 @@ def exam(request, stud_username):
         #g = f.questions.all()
 
         # TIME COMPARISON
-        exam_start_time = examMain.start_time
-        curr_time = timezone.now()
+        # exam_start_time = examMain.start_time
+        # curr_time = timezone.now()
 
-        if curr_time < exam_start_time:
-            return redirect('student:exam', stud_username)
+        # if curr_time < exam_start_time:
+        #     return redirect('student:exam', stud_username)
 
         h = stuExam.questions.all().delete()
         qPaperQuestionsList = qPaper.questions.all()
