@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden
 
 # separate views import
 from .exam import *
@@ -10,6 +11,10 @@ from .student import *
 
 def index(request, prof_username):
     prof = User.objects.get(username=prof_username)
-    return render(request, 'prof/index.html', {
-        'prof': prof
-    })
+
+    if request.user == prof:
+        return render(request, 'prof/index.html', {
+            'prof': prof
+        })
+    else:
+        return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
