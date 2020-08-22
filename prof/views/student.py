@@ -8,7 +8,8 @@ def view_students(request, prof_username):
     prof = User.objects.get(username=prof_username)
     if request.user == prof:
         return render(request, 'prof/student/view_students.html', {
-            'students': User.objects.filter(groups__name='Student'),
+            # 'students': User.objects.filter(groups__name='Student'),
+            'students': User.objects.filter(groups__name='Stud'),
             'prof': prof
         })
     else:
