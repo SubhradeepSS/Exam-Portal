@@ -27,6 +27,13 @@
 
       <div class="container-fluid">
         <div align='center'>
+            <ul>
+              {% for exam in exams %}
+                  <li>
+                    {{exam.name}}
+                  </li>
+              {% endfor %}
+            </ul>
             
         </div>
       </div>

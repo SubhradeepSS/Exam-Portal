@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.models import User
 from django.conf import settings
+from datetime import datetime
 
 class Question_DB(models.Model):
     # added question number for help in question paper
@@ -65,8 +66,8 @@ class Exam_Model(models.Model):
     question_paper = models.ForeignKey(
         Question_Paper, on_delete=models.CASCADE, related_name='exam')
     student_group = models.ManyToManyField(Special_Students, related_name='exam')
-    # start_time = models.DateTimeField()
-    # end_time = models.DateTimeField()
+    start_time = models.DateTimeField(default=datetime.now())
+    end_time = models.DateTimeField(default=datetime.now())
 
     def __str__(self):
         return self.name
@@ -76,8 +77,4 @@ class ExamForm(ModelForm):
     class Meta:
         model = Exam_Model
         fields = '__all__'
-        # widgets = {
-        #     'start_time': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
-        #     'end_time': forms.DateTimeInput(attrs={'class': 'datetime-input'})
-        # }
         exclude = ['professor']
