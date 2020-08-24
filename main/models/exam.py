@@ -12,8 +12,8 @@ class Exam_Model(models.Model):
     total_marks = models.IntegerField()
     duration = models.IntegerField()
     question_paper = models.ForeignKey(
-        Question_Paper, on_delete=models.CASCADE, related_name='exam')
-    student_group = models.ManyToManyField(Special_Students, related_name='exam')
+        Question_Paper, on_delete=models.CASCADE, related_name='exams')
+    student_group = models.ManyToManyField(Special_Students, related_name='exams')
     start_time = models.DateTimeField(default=datetime.now())
     end_time = models.DateTimeField(default=datetime.now())
 
