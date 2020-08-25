@@ -31,12 +31,14 @@ def index(request, stud_username):
             for exam in examsList:
                 currentExamList = StuExam_DB.objects.filter(
                     examname=exam.name, student=student)
+
                 if not currentExamList.exists():  # If no exam are there in then add exams
-                    tempExam = StuExam_DB(student=student, examname=i.name,
+                    tempExam = StuExam_DB(student=student, examname=exam.name,
                                           qpaper=exam.question_paper, score=0, completed=0)
                     tempExam.save()
                     exam_question_paper = exam.question_paper
                     questions_in_paper = exam_question_paper.questions.all()
+                    
                     for ques in questions_in_paper:
                         # add all the questions from the prof to student database
                         studentQuestion = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,

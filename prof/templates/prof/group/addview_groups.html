@@ -59,7 +59,7 @@
                             {% endfor %}
                             <br><br>
                             <h4 class="card-subtitle mb-2 text-muted">Exams</h4>
-                            {% for exam in group.exam.all %}
+                            {% for exam in group.exams.all %}
                                 {{ exam.name }}
                                 {% empty %}
                                     No exams associated
