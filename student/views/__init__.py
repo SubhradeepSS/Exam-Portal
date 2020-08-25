@@ -9,6 +9,7 @@ from .result import *
 
 # Create your views here.
 
+
 def index(request, stud_username):
     student = User.objects.get(username=stud_username)
 
@@ -16,34 +17,37 @@ def index(request, stud_username):
         studentGroup = Special_Students.objects.filter(students=student)
         examsList = []
         if studentGroup.exists():
-            for i in studentGroup:
-                b = Exam_Model.objects.filter(student_group=i)
-                if b.exists():
-                    if b.count() > 1:
-                        for j in b:
-                            examsList.append(j)
+            for student_ in studentGroup:
+                stud_exams = Exam_Model.objects.filter(student_group=student_)
+                if stud_exams.exists():
+                    if stud_exams.count() > 1:
+                        for stud_exam in stud_exams:
+                            examsList.append(stud_exam)
                     else:
-                        examsList.append(Exam_Model.objects.get(student_group=i))
-        if examsList != []:
-            for i in examsList:
+                        examsList.append(Exam_Model.objects.get(
+                            student_group=student_))
+
+        if examsList:
+            for exam in examsList:
                 currentExamList = StuExam_DB.objects.filter(
-                    examname=i.name, student=student)
-                if currentExamList.exists() != True:  # If no exam are there in then add exams
+                    examname=exam.name, student=student)
+                if not currentExamList.exists():  # If no exam are there in then add exams
                     tempExam = StuExam_DB(student=student, examname=i.name,
-                                        qpaper=i.question_paper, score=0, completed=0)
+                                          qpaper=exam.question_paper, score=0, completed=0)
                     tempExam.save()
-                    temp1 = i.question_paper
-                    temp2 = temp1.questions.all()
-                    for ques in temp2:
+                    exam_question_paper = exam.question_paper
+                    questions_in_paper = exam_question_paper.questions.all()
+                    for ques in questions_in_paper:
                         # add all the questions from the prof to student database
                         studentQuestion = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
-                                                    optionC=ques.optionC, optionD=ques.optionD,
-                                                    answer=ques.answer, student=student)
+                                                       optionC=ques.optionC, optionD=ques.optionD,
+                                                       answer=ques.answer, student=student)
                         studentQuestion.save()
                         tempExam.questions.add(studentQuestion)
+
         return render(request, 'student/index.html', {
             'stud': student
         })
-    
+
     else:
         return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
