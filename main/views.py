@@ -14,7 +14,7 @@ def index(request):
             if user.groups.filter(name='Professor').exists():
                 return redirect('prof:index', prof_username=username)
             return redirect('student:index', stud_username=username)
-            # return redirect('stud:index', stud_username=username)
+            
         else:
             return render(request, 'main/login.html', {
                 'wrong_cred_message': 'Error'
