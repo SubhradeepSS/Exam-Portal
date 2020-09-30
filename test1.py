@@ -46,3 +46,8 @@ def start_game():
         print("That's cool, have a good one!")
 if __name__ == '__main__':
     start_game()
+    
+print("Hello world")
+for i in range(1000) :
+	print("I will win a hacktoberfest tshirt")
+
