@@ -32,15 +32,15 @@
     <div class="container-fluid">
         <div align='center'>
             <br>
-            <a href="{% url 'prof:view_students' prof.username %}" class="btn btn-primary"
+            <a href="{% url 'prof:view_students' %}" class="btn btn-primary"
                 text-align='center'>Students</a><br><br><br>
-            <a href="{% url 'prof:view_exams' prof.username %}" class="btn btn-primary"
+            <a href="{% url 'prof:view_exams' %}" class="btn btn-primary"
                 text-align='center'>Exams</a><br><br><br>
-            <a href="{% url 'prof:add_question' prof.username %}" class="btn btn-primary"
+            <a href="{% url 'prof:add_question' %}" class="btn btn-primary"
                 text-align='center'>Question</a><br><br><br>
-            <a href="{% url 'prof:make_paper' prof.username %}" class="btn btn-primary" text-align='center'>Question
+            <a href="{% url 'prof:make_paper' %}" class="btn btn-primary" text-align='center'>Question
                 Paper</a><br><br><br>
-            <a href="{% url 'prof:view_groups' prof.username %}" class="btn btn-primary" text-align='center'>Student
+            <a href="{% url 'prof:view_groups' %}" class="btn btn-primary" text-align='center'>Student
                 Groups</a><br><br><br>
         </div>
     </div>

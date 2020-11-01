@@ -5,9 +5,9 @@ app_name = 'student'
 
 urlpatterns = [
                                 # HOME
-    path('<str:stud_username>', views.index, name='index'),
+    path('', views.index, name='index'),
     
                                 # EXAM
-    path('<str:stud_username>/exams', views.exams, name='exams'),
-    path('<str:stud_username>/results', views.results, name='results'),
+    path('exams', views.exams, name='exams'),
+    path('results', views.results, name='results'),
 ]

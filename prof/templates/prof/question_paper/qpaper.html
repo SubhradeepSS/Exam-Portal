@@ -29,14 +29,14 @@
                 <input id='searchPaper' class="form-control mr-sm-2" type="search" placeholder="Search Question Paper"
                     aria-label="Search">
             </form>
-            <a class="btn btn-light" href="{% url 'prof:index' prof.username %}">Home</a>
+            <a class="btn btn-light" href="{% url 'prof:index' %}">Home</a>
         </div>
     </nav>
 
     <div class="container-fluid">
         <div align='center'>
             <h3 class="my-2">Create new Question Paper</h3>
-            <form method="POST" action="{% url 'prof:add_question_in_paper' prof.username %}">
+            <form method="POST" action="{% url 'prof:add_question_in_paper' %}">
                 {% csrf_token %}
                 <input class="my-3" type="text" placeholder="Question Paper Title" name="qpaper"><br>
                 <input class="btn btn-success my-1" type="submit" value="Create">
@@ -48,12 +48,12 @@
             <div class="card my-3 mx-5 col-sm-3">
                 <h3 class="card-header">{{ pap.qPaperTitle }}</h3>
                 <div align="center" class="card-body">
-                    <form method="POST" action="{% url 'prof:view_paper' prof.username %}">
+                    <form method="POST" action="{% url 'prof:view_paper' %}">
                         {% csrf_token %}
                         <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
                         <input class="btn btn-dark my-2" type="submit" value="View">
                     </form>
-                    <form method="POST" action="{% url 'prof:edit_paper' prof.username %}">
+                    <form method="POST" action="{% url 'prof:edit_paper' %}">
                         {% csrf_token %}
                         <input type="hidden" name="title" value="{{pap.qPaperTitle}}">
                         <input class="btn btn-info" type="submit" value="Edit">

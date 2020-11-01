@@ -4,70 +4,55 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 
 
-def add_question(request, prof_username):
-    prof = User.objects.get(username=prof_username)
+def add_question(request):
+    prof = request.user
 
-    if request.user == prof:
-        if request.method == 'POST':
-            form = QForm(request.POST)
-            if form.is_valid():
-                form = form.save(commit=False)
-                form.professor = prof
-                form.save()
-                return redirect('prof:view_all_ques', prof_username=prof_username)
+    if request.method == 'POST':
+        form = QForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.professor = prof
+            form.save()
+            return redirect('prof:view_all_ques')
 
-        return render(request, 'prof/question/question.html', {
-            'question_db': Question_DB.objects.filter(professor=prof),
-            'form': QForm(), 'prof': prof
-        })
+    return render(request, 'prof/question/question.html', {
+        'question_db': Question_DB.objects.filter(professor=prof), 'form': QForm(), 'prof': prof
+    })
 
-    else:
-        return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
+   
+def view_all_ques(request):
+    prof = request.user
 
+    if request.method == 'POST':
+        Q_No = int(request.POST['qno'])
+        sum_ = 1 + Question_DB.objects.filter(professor=prof).count()
 
-def view_all_ques(request, prof_username):
-    prof = User.objects.get(username=prof_username)
+        for i in range(Q_No+1, sum_):
+            ques = Question_DB.objects.filter(
+                professor=prof, qno=int(i)).first()
+            ques.qno -= 1
+            ques.save()
 
-    if request.user == prof:
-        if request.method == 'POST':
-            Q_No = int(request.POST['qno'])
-            sum_ = 1 + Question_DB.objects.filter(professor=prof).count()
+        sum_ -= 1
 
-            for i in range(Q_No+1, sum_):
-                ques = Question_DB.objects.filter(
-                    professor=prof, qno=int(i)).first()
-                ques.qno -= 1
-                ques.save()
+        Question_DB.objects.filter(professor=prof, qno=Q_No).delete()
 
-            sum_ -= 1
+    return render(request, 'prof/question/view_all_questions.html', {
+        'question_db': Question_DB.objects.filter(professor=prof), 'prof': prof
+    })
 
-            Question_DB.objects.filter(professor=prof, qno=l).delete()
+    
+def edit_question(request, ques_qno):
+    prof = request.user
+    ques = Question_DB.objects.get(professor=prof, qno=ques_qno)
+    form = QForm(instance=ques)
 
-        return render(request, 'prof/question/view_all_questions.html', {
-            'question_db': Question_DB.objects.filter(professor=prof), 'prof': prof
-        })
+    if request.method == "POST":
+        form = QForm(request.POST, instance=ques)
+        if form.is_valid():
+            form.save()
+            return redirect('prof:view_all_ques')
 
-    else:
-        return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
-
-
-def edit_question(request, prof_username, ques_qno):
-    prof = User.objects.get(username=prof_username)
-
-    if request.user == prof:
-        ques = Question_DB.objects.get(professor=prof, qno=ques_qno)
-        form = QForm(instance=ques)
-
-        if request.method == "POST":
-            form = QForm(request.POST, instance=ques)
-            if form.is_valid():
-                form.save()
-                return redirect('prof:view_all_ques', prof_username=prof_username)
-
-        return render(request, 'prof/question/edit_question.html', {
-            'i': Question_DB.objects.filter(professor=prof, qno=ques_qno).first(),
-            'form': form, 'prof': prof
-        })
-
-    else:
-        return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
+    return render(request, 'prof/question/edit_question.html', {
+        'i': Question_DB.objects.filter(professor=prof, qno=ques_qno).first(), 'form': form, 'prof': prof
+    })

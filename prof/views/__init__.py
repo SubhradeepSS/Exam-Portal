@@ -9,12 +9,6 @@ from .question import *
 from .question_paper import *
 from .student import *
 
-def index(request, prof_username):
-    prof = User.objects.get(username=prof_username)
-
-    if request.user == prof:
-        return render(request, 'prof/index.html', {
-            'prof': prof
-        })
-    else:
-        return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
+def index(request):
+    prof = request.user
+    return render(request, 'prof/index.html', {'prof': prof })

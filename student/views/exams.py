@@ -6,81 +6,69 @@ from student.models import *
 from django.utils import timezone
 
 
-def exams(request, stud_username):
-    student = User.objects.get(username=stud_username)
+def exams(request):
+    student = request.user
 
-    if request.user == student:
-        studentGroup = Special_Students.objects.filter(students=student)
-        studentExamsList = StuExam_DB.objects.filter(student=student)
+    studentGroup = Special_Students.objects.filter(students=student)
+    studentExamsList = StuExam_DB.objects.filter(student=student)
 
-        if request.method == 'POST' and not request.POST.get('papertitle', False):
-            paper = request.POST['paper']
-            stuExam = StuExam_DB.objects.get(examname=paper, student=student)
-            qPaper = stuExam.qpaper
-            examMain = Exam_Model.objects.get(name=paper)
+    if request.method == 'POST' and not request.POST.get('papertitle', False):
+        paper = request.POST['paper']
+        stuExam = StuExam_DB.objects.get(examname=paper, student=student)
+        qPaper = stuExam.qpaper
+        examMain = Exam_Model.objects.get(name=paper)
 
-            # TIME COMPARISON
-            exam_start_time = examMain.start_time
-            curr_time = timezone.now()
+        # TIME COMPARISON
+        exam_start_time = examMain.start_time
+        curr_time = timezone.now()
 
-            if curr_time < exam_start_time:
-                return redirect('student:exams', stud_username)
+        if curr_time < exam_start_time:
+            return redirect('student:exams')
 
-            stuExam.questions.all().delete()
+        stuExam.questions.all().delete()
 
-            qPaperQuestionsList = qPaper.questions.all()
-            for ques in qPaperQuestionsList:
-                student_question = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
-                                                optionC=ques.optionC, optionD=ques.optionD,
-                                                answer=ques.answer, student=student)
-                student_question.save()
-                stuExam.questions.add(student_question)
-                stuExam.save()
-
-            stuExam.completed = 1
-            stuExam.save()
-            mins = examMain.duration
-            secs = 0
-
-            return render(request, 'student/paper/viewpaper.html', {
-                'qpaper': qPaper,
-                'question_list': stuExam.questions.all(),
-                'student': student,
-                'exam': paper,
-                'min': mins,
-                'sec': secs
-            })
-
-        elif request.method == 'POST' and request.POST.get('papertitle', False):
-            paper = request.POST['paper']
-            title = request.POST['papertitle']
-            stuExam = StuExam_DB.objects.get(examname=paper, student=student)
-            qPaper = stuExam.qpaper
-
-            examQuestionsList = stuExam.questions.all()
-            examScore = 0
-            for ques in examQuestionsList:
-                ans = request.POST.get(ques.question, False)
-                if not ans:
-                    ans = "E"
-                ques.choice = ans
-                ques.save()
-                if ans == ques.answer:
-                    examScore = examScore + 1
-
-            stuExam.score = examScore
+        qPaperQuestionsList = qPaper.questions.all()
+        for ques in qPaperQuestionsList:
+            student_question = Stu_Question(question=ques.question, optionA=ques.optionA, optionB=ques.optionB,
+                                            optionC=ques.optionC, optionD=ques.optionD,
+                                            answer=ques.answer, student=student)
+            student_question.save()
+            stuExam.questions.add(student_question)
             stuExam.save()
 
-            return render(request, 'student/result/result.html', {
-                'Title': title,
-                'Score': examScore,
-                'student': student
-            })
+        stuExam.completed = 1
+        stuExam.save()
+        mins = examMain.duration
+        secs = 0
 
-        return render(request, 'student/exam/viewexam.html', {
-            'student': student,
-            'paper': studentExamsList,
+        return render(request, 'student/paper/viewpaper.html', {
+            'qpaper': qPaper, 'question_list': stuExam.questions.all(), 'student': student, 'exam': paper, 'min': mins, 'sec': secs
         })
 
-    else:
-        return HttpResponseForbidden("You are not allowed to view this page. Please change url to original values to return.")
+    elif request.method == 'POST' and request.POST.get('papertitle', False):
+        paper = request.POST['paper']
+        title = request.POST['papertitle']
+        stuExam = StuExam_DB.objects.get(examname=paper, student=student)
+        qPaper = stuExam.qpaper
+
+        examQuestionsList = stuExam.questions.all()
+        examScore = 0
+        for ques in examQuestionsList:
+            ans = request.POST.get(ques.question, False)
+            if not ans:
+                ans = "E"
+            ques.choice = ans
+            ques.save()
+            if ans == ques.answer:
+                examScore = examScore + 1
+
+        stuExam.score = examScore
+        stuExam.save()
+
+        return render(request, 'student/result/result.html', {
+            'Title': title, 'Score': examScore, 'student': student
+        })
+
+    return render(request, 'student/exam/viewexam.html', {
+        'student': student, 'paper': studentExamsList
+    })

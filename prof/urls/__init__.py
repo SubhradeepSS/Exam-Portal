@@ -11,7 +11,7 @@ from .student import urlpatterns as student_urls
 app_name = 'prof'
 
 urlpatterns = [
-    path('<str:prof_username>', views.index, name='index'),
+    path('', views.index, name='index'),
 ]
 
 urlpatterns += exam_urls

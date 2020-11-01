@@ -24,7 +24,7 @@
     </div>
     </div>
     
-    <a class="btn btn-primary mx-3 my-3" href="{% url 'prof:edit_group' prof.username group.id %}">Edit group</a><br>
-    <a class="btn btn-primary mx-3 my-3" href="{% url 'prof:view_groups' prof.username %}">Go back to Groups</a>
+    <a class="btn btn-primary mx-3 my-3" href="{% url 'prof:edit_group' group.id %}">Edit group</a><br>
+    <a class="btn btn-primary mx-3 my-3" href="{% url 'prof:view_groups' %}">Go back to Groups</a>
 </body>
 </html>

@@ -25,7 +25,7 @@
                     <a class="nav-link" href="#">Groups<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <a class="btn btn-light" href="{% url 'prof:index' prof.username %}">Home</a>
+            <a class="btn btn-light" href="{% url 'prof:index' %}">Home</a>
         </div>
     </nav>
 
@@ -45,7 +45,7 @@
             <form class="form-inline my-2 my-lg-0">
                 <input id="searchGroup" class="form-control mr-sm-2" type="search" placeholder="Search Group"
                     aria-label="Search">
-                    <a class="btn btn-dark" href="{% url 'prof:view_exams' prof.username %}" target="_blank">View Exams</a>
+                    <a class="btn btn-dark" href="{% url 'prof:view_exams' %}" target="_blank">View Exams</a>
             </form>
             <div class="row">
                 {% for group in special_students_db %}
@@ -65,7 +65,7 @@
                                     No exams associated
                             {% endfor %}
                         </p>
-                        <a href="{% url 'prof:edit_group' prof.username group.id %}"
+                        <a href="{% url 'prof:edit_group' group.id %}"
                             class="card-link btn btn-info">Edit</a>
                     </div>
                 </div>

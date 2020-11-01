@@ -11,19 +11,21 @@ def index(request):
 
         if user is not None:
             login(request, user)
-            if user.groups.filter(name='Professor').exists():
-                return redirect('prof:index', prof_username=username)
-            return redirect('student:index', stud_username=username)
             
-        else:
-            return render(request, 'main/login.html', {
-                'wrong_cred_message': 'Error'
-            })
+            if user.is_superuser or user.is_staff:
+                return redirect('/admin')
+            
+            if user.groups.filter(name='Professor').exists():
+                return redirect('prof:index')
+            
+            return redirect('student:index')
+            
+
+        return render(request, 'main/login.html', { 'wrong_cred_message': 'Error' })
 
     return render(request, 'main/login.html')
 
+
 def logoutUser(request):
     logout(request)
-    return render(request, 'main/logout.html',{
-        'logout_message': 'Logged out Successfully'
-    })
+    return render(request, 'main/logout.html',{ 'logout_message': 'Logged out Successfully' })
