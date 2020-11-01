@@ -1,30 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Edit Paper</title>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Edit Question Paper</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% extends 'prof/base/base.html' %}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <a class="btn btn-warning my-sm-0 mx-2" href="{% url 'prof:make_paper' %}">Cancel / Done</a>
-        </div>
-    </nav>
+{% block title %}Edit paper{% endblock title %}
+{% block navbar_title %}{{ prof.username }}{% endblock navbar_title %}
+{% block navitem_title %}Edit Question Paper{% endblock navitem_title %}
 
+{% block buttons %}
+    <a class="btn btn-warning my-sm-0 mx-2" href="{% url 'prof:make_paper' %}">Cancel / Done</a>
+{% endblock buttons %}
+
+{% block body %}
     <div class="container-fluid">
         <h2 align="center"> {{ qpaper.qPaperTitle}} </h2>
 
@@ -80,5 +64,4 @@
             {% endfor %}
         </div>
     </div>
-</body>
-</html>
+{% endblock body %}

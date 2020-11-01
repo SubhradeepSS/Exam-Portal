@@ -1,35 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'prof/base/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Add Questions to Paper</title>
-</head>
+{% block title %}Add questions to paper{% endblock title %}
+{% block navbar_title %}{{ prof.username }}{% endblock navbar_title %}
+{% block navitem_title %}Add Questions to Paper{% endblock navitem_title %}
 
-<body>
+{% block buttons %}
+    <a class="btn btn-info my-sm-0 mx-2" href="{% url 'prof:view_all_ques' %}" target="_blank">All Questions</a>
+    <a class="btn btn-light my-sm-0" href="{% url 'prof:make_paper' %}">Question Papers</a>
+{% endblock buttons %}
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Add Questions to Paper</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <a class="btn btn-info my-sm-0 mx-2" href="{% url 'prof:view_all_ques' %}" target="_blank">All
-                Questions</a>
-            <a class="btn btn-light my-sm-0" href="{% url 'prof:make_paper' %}">Question Papers</a>
-        </div>
-    </nav>
-
+{% block body %}
     <div class="container-fluid">
         <h1 class="alert alert-dark my-1" align='center'>{{qpaper.qPaperTitle}}</h1>
         <div class="list-group">
@@ -57,6 +37,4 @@
             {% endfor %}
         </div>
     </div>
-</body>
-
-</html>
+{% endblock body %}

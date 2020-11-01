@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'prof/base/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>About Exam</title>
-</head>
+{% block title %}Exam{% endblock title %}
+{% block navbar_title %}Exam : {{ exam.name }}{% endblock navbar_title %}
 
-<body>
-    <nav class="navbar bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Exam : {{ exam.name }}</a>
-    </nav>
+{% block body %}
     <div class="container-fluid">
         <div align="center">
             <div>
@@ -35,7 +26,4 @@
         </div>
         <a href="{% url 'prof:edit_exam' exam.id %}" class="btn btn-danger">Edit</a>
     </div>
-
-</body>
-
-</html>
+{% endblock body %}

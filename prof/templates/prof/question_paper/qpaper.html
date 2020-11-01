@@ -1,38 +1,22 @@
+{% extends 'prof/base/base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Question Papers</title>
-</head>
+{% block title %}Question papers{% endblock title %}
+{% block navbar_title %}{{ prof.username }}{% endblock navbar_title %}
+{% block navitem_title %}Question Papers{% endblock navitem_title %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">{{ prof.username }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% block buttons %}
+    <a class="btn btn-light" href="{% url 'prof:index' %}">Home</a>
+{% endblock buttons %}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Question Papers<span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input id='searchPaper' class="form-control mr-sm-2" type="search" placeholder="Search Question Paper"
-                    aria-label="Search">
-            </form>
-            <a class="btn btn-light" href="{% url 'prof:index' %}">Home</a>
-        </div>
-    </nav>
+{% block searchInput %}
+    <form class="form-inline my-2 my-lg-0">
+        <input id='searchPaper' class="form-control mr-sm-2" type="search" placeholder="Search Question Paper" aria-label="Search">
+    </form>
+{% endblock searchInput %}
 
+{% block body %}
     <div class="container-fluid">
         <div align='center'>
             <h3 class="my-2">Create new Question Paper</h3>
@@ -72,6 +56,4 @@
         </div>
     </div>
     <script src="{% static 'prof/js/qpaper.js' %}"></script>
-</body>
-
-</html>
+{% endblock body %}

@@ -1,34 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'student/base/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Student Home</title>
-</head>
+{% block title %}Home{% endblock title %}
+{% block nav_title %}{{ stud.username }}{% endblock nav_title %}
+{% block url %}{% url 'main:logoutUser' %}{% endblock url %}
+{% block action %}Logout{% endblock action %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">{{ stud.username }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a href="{% url 'main:logoutUser' %}" class="btn btn-info my-2 my-sm-0">Logout</a>
-            </form>
-        </div>
-    </nav>
-
+{% block body %}
     <div class="container-fluid">
         <div align='center'>
             <br>
@@ -36,6 +13,4 @@
             <a href="{% url 'student:results' %}" class="btn btn-primary" text-align='center'>Results</a><br><br><br>
         </div>
     </div>
-</body>
-
-</html>
+{% endblock body %}

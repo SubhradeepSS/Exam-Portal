@@ -1,34 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'prof/base/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Students</title>
-</head>
+{% block title %}Students{% endblock title %}
+{% block navbar_title %}{{ prof.username }}{% endblock navbar_title %}
+{% block navitem_title %}Students{% endblock navitem_title %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">{{prof.username }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% block buttons %}
+    <a href="{% url 'prof:index' %}" class="btn btn-light">Home</a>>
+{% endblock buttons %}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Students <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a href="{% url 'prof:index' %}" class="btn btn-light">Home</a>
-            </form>
-        </div>
-    </nav>
-
+{% block body %}
     <div class="container-fluid">
         <div align='center'>
                 <ul>
@@ -40,6 +20,4 @@
                 </ul>
         </div>
     </div>
-</body>
-
-</html>
+{% endblock body %}

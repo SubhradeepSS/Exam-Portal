@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'student/base/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Paper</title>
-    <script type="text/javascript">
-        var submitFormOkay = false;
-        window.onbeforeunload = function () {
-            if (!submitFormOkay) {
-                //window.alert("Youll forfiet exam");
-                return "You are about to leave this order form. You will lose any information...";
-            }
-        }
-    </script>
-</head>
+{% block title %}View Paper{% endblock title %}
 
-<body>
+{% block body %}
     <h3> {{ qpaper.qPaperTitle }} {{ time }}</h3>
     <input type="hidden" id="mins" value="{{ min }}">
     <input type="hidden" id="secs" value="{{ sec }}">
@@ -43,14 +29,8 @@
         <input type="hidden" value="{{ exam }}" name="paper">
         <input type="submit" value="Submit" name="PaperSubmit" onclick="submitFormOkay = true;">
     </form>
+    
     <script type="text/javascript">
-        var submitFormOkay = false;
-        window.onbeforeunload = function () {
-            if (!submitFormOkay) {
-                //window.alert("Youll forfiet exam");
-                return "You are about to leave this order form. You will lose any information...";
-            }
-        }
         var milisec = 0;
         var seconds = document.getElementById("secs").value;
         var minutes = document.getElementById("mins").value
@@ -72,6 +52,4 @@
         }
         display()
     </script>
-</body>
-
-</html>
+{% endblock body %}

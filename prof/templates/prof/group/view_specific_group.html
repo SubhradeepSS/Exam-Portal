@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>About Group</title>
-</head>
-<body>
-    <nav class="navbar bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Group: {{ group.category_name }}</a>
-    </nav>
+{% extends 'prof/base/base.html' %}
+
+{% block title %}About group{% endblock title %}
+{% block navbar_title %}Group: {{ group.category_name }}{% endblock navbar_title %}
+
+{% block buttons %}
+    <a class="btn btn-light" href="{% url 'main:logoutUser' %}">Logout</a>
+{% endblock buttons %}
+
+{% block body %}
     <div class="container-fluid">
         <div align='center' id="group_students">
         <h2>Students in group</h2>
@@ -26,5 +23,4 @@
     
     <a class="btn btn-primary mx-3 my-3" href="{% url 'prof:edit_group' group.id %}">Edit group</a><br>
     <a class="btn btn-primary mx-3 my-3" href="{% url 'prof:view_groups' %}">Go back to Groups</a>
-</body>
-</html>
+{% endblock body %}

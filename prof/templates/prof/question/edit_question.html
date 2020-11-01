@@ -1,34 +1,16 @@
+{% extends 'prof/base/base.html' %}
 {% load crispy_forms_tags %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}Edit question{% endblock title %}
+{% block navbar_title %}{{ prof.username }}{% endblock navbar_title %}
+{% block navitem_title %}Edit question{% endblock navitem_title %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Edit Question</title>
-</head>
+{% block buttons %}
+    <a class="btn btn-warning mx-2" href="{% url 'prof:view_all_ques' %}">Cancel</a><br>
+    <a class="btn btn-light" href="{% url 'prof:index' %}">Home</a>
+{% endblock buttons %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">{{ prof.username }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Edit Question<span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <a class="btn btn-warning mx-2" href="{% url 'prof:view_all_ques' %}">Cancel</a><br>
-            <a class="btn btn-light" href="{% url 'prof:index' %}">Home</a>
-        </div>
-    </nav>
+{% block body %}
     <div align='center' class="container-fluid">
         <div class="container d-flex h-100 row justify-content-center col-20">
             <form method="POST">
@@ -39,6 +21,4 @@
         </div>
 
     </div>
-</body>
-
-</html>
+{% endblock body %}

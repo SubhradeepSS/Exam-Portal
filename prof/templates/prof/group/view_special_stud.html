@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'prof/base/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Students in Group</title>
-</head>
+{% block title %}Students in group{% endblock title %}
+{% block navbar_title %}Group: {{ group.category_name}}{% endblock navbar_title %}
 
-<body>
-    <nav class="navbar bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Group: {{ group.category_name}}</a>
-    </nav>
+{% block body %}
     <div class="container-fluid">
         <div>
             <h2>Add Student to group</h2>
@@ -37,8 +28,5 @@
     </div>
 
 
-    <a class="btn btn-primary" href="{% url 'prof:view_specific_group' group.id %}">Go back to this
-        group</a>
-</body>
-
-</html>
+    <a class="btn btn-primary" href="{% url 'prof:view_specific_group' group.id %}">Go back to this group</a>
+{% endblock body %}

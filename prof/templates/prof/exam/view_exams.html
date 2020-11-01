@@ -1,37 +1,18 @@
+{% extends 'prof/base/base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css"
-        rel="stylesheet">
-    <title>Exams</title>
-</head>
+{% block title %}Exams{% endblock title %}
+{% block navbar_title %}{{ prof.username }}{% endblock navbar_title %}
+{% block navitem_title %}Exams{% endblock navitem_title %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">{{ prof.username }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% block buttons %}
+    <button type="button" class="btn btn-primary mx-3" id="updateButton"
+    onclick="smoothScroll(document.getElementById('exams'))">View all Exams</button>
+    <a class="btn btn-light " href="{% url 'prof:index' %}">Home</a>
+{% endblock buttons %}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Exams<span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <button type="button" class="btn btn-primary mx-3" id="updateButton"
-                onclick="smoothScroll(document.getElementById('exams'))">View all Exams</button>
-            <a class="btn btn-light " href="{% url 'prof:index' %}">Home</a>
-        </div>
-    </nav>
+{% block body %}
     <div class="container-fluid">
         <h3 class="alert alert-secondary my-1" align="center">Create a new exam</h3>
         <div align='center'>
@@ -87,6 +68,4 @@
     <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
     <script src="{% static 'prof/js/exams.js' %}"></script>
-</body>
-
-</html>
+{% endblock body %}
