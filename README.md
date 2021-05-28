@@ -42,6 +42,7 @@
         <li><a href="#deployment">Deployment</a></li>
       </ul>
     </li>
+    <li><a href="#to-do">TO-DO</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
@@ -52,7 +53,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-A complete Exam Portal System built using Django. Currently, the portal has login system(with authentication) for admin(the top level supervisor), professors and students with their respective homepage; MCQ questions, question papers, student groups and exams can be created/edited by professors; students can appear for exams allotted to them within the time constraints set by the professor and then view their marks and solutions after completing the exam.
+A complete Exam Portal System built using Django and Bootstrap. Currently, the portal has login system(with authentication) for admin(the top level supervisor), professors and students with their respective homepage; MCQ questions, question papers, student groups and exams can be created/edited by professors; students can appear for exams allotted to them within the time constraints set by the professor and then view their marks and solutions after completing the exam.
 
 ### Built With
 
@@ -98,10 +99,13 @@ Following software needs to be setup in the system
 For running the project, navigate to the project directory and follow the following instructions:
 
 * Type the following in the command line(inside the virtual environment):
-    * python manage.py makemigrations
-    * python manage.py migrate
-    * python manage.py createsuperuser - this will ask for username, email(optional) and password. Enter some credentials to be used later for django admin functionality.
-    * python manage.py runserver
+    ```sh
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py createsuperuser
+    # this will ask for username, email(optional) and password. Enter some credentials to be used later for django admin functionality.
+    python manage.py runserver
+  ```
 
 * Log on to [django admin site](http://127.0.0.1:8000/admin) using the superuser credentials
     * Click on **Groups** section and create 2 groups - ***Professor*** and ***Student***
@@ -121,6 +125,12 @@ View deployed site [here](https://exam-portal-v01.herokuapp.com/).
 | prof   | prof_1        | password_prof_1 |
 
 The admin can create more users(professors/students) and can add them to corresponding groups, after which they can login through the site.
+
+
+## TO-DO
+Following features/enhancements are thought to be added later:
+* [frontend](https://github.com/SubhradeepSS/Exam-Portal/projects/2#column-9414925)
+* [backend](https://github.com/SubhradeepSS/Exam-Portal/projects/1#column-9414911)
 
 
 <!-- CONTRIBUTING -->
