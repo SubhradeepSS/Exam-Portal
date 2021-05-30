@@ -44,7 +44,6 @@
     </li>
     <li><a href="#to-do">TO-DO</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
@@ -124,7 +123,7 @@ View deployed site [here](https://exam-portal-v01.herokuapp.com/).
 | student   | student_1        | password_student_1 |
 | prof   | prof_1        | password_prof_1 |
 
-The admin can create more users(professors/students) and can add them to corresponding groups, after which they can login through the site.
+The admin can create more users(professors/students) from the django admin panel and can add them to corresponding groups, after which they can login through the site.
 
 
 ## TO-DO
@@ -142,14 +141,6 @@ Any contributions made to the project are **greatly appreciated**.
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 
 
 <!-- ACKNOWLEDGEMENTS -->
